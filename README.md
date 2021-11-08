@@ -141,7 +141,7 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 
 <br>
 
-#### 2. At this point you have nothing but the README.md, now you can create the index.js 
+#### 2. At this point you have nothing but the README.md, now you can create the index.js
 
 - Create the **index.js**
 
@@ -165,22 +165,63 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 // copy and paste the following
 npm install mongoose dotenv nodemon
 // dotenv is to protect sensitive data
-// nodemon is to refresh the application, 
-// you will check the state of it inside 
+// nodemon is to refresh the application,
+// you will check the state of it inside
 // the terminal here in VS
- 
+
 ```
 
  <br>
 
-### 4. After you installed the above code
+#### 5. To test our first steps
 
--  Replace the following (inside the package.json)
+- Inside the **index.js**, type: console.log('hello)
 
- <br>
+- Now go to the console here in **VISUAL STUDIO** and type: node index.js
 
- ```javascript
- 
- ```
+```javascript
+react-mern-21-backend$ node index.js
+```
 
 <br>
+
+#### 6. But we can make things easier
+
+- Instead of typing again and again **node index.js**, we can do something better.
+
+<br>
+
+- Replace the following (inside the package.json)
+
+<br>
+
+```javascript
+// replace this
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+//   for this
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+```
+
+<br>
+
+#### 7. Now the only thing we have to do is type
+
+```javascript
+npm start
+```
+
+### the result
+
+```javascript
+[nodemon] 2.0.14
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node index.js`
+hello
+[nodemon] clean exit - waiting for changes before restart
+```
