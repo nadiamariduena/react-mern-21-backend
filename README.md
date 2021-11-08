@@ -163,7 +163,7 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 
 ```javascript
 // copy and paste the following
-npm install mongoose dotenv nodemon
+npm install mongoose express dotenv nodemon
 // dotenv is to protect sensitive data
 // nodemon is to refresh the application,
 // you will check the state of it inside
