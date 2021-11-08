@@ -108,316 +108,212 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 
 <!-- phase 2 after, default 1 -->
 
-# MONGO DB
+# ROUTES
 
-### ⚠️
+<br>
+<br>
 
-> If you are already pushing to a respository in Git, i recommend you not to push the database credentials until we have added them inside the **.env** and I also recommend you to check if the **.env** is really ignored by the **.gitignore**.
+### Routes work like the Mall Analogy the teacher used
+
+<p>
+
+> **In the shopping mall you have different stores:** <br> > **Each store** has a **unique** specialization like (books,shoes,paper) and each of them has an unique address (like floor, number etc), and this is equivalent to a PORT. Inside of a port there s always a distinct
+> service on your pc that does something very specific, for example: you have different PORTS to listen to incoming EMAILS, different ports for accepting a file
+> load etc...
+
+<br>
+
+- Each specialized store on the server has its own address, this
+  are the programms that run on the server </p>
 
 <br>
 <br>
 <br>
-
-## 1. Connect to MONGODB
-
 <br>
 
-- Require **MONGOOSE** just like we required **Express**
+# 🏭
+
+### We will be creating a REST API so we will use some 'end points'
+
+- End points like the one here below:
+
+```html
+// api is one end point, the other one is: **/api/test**
+```
+
+<br>
 
 ```javascript
-const express = require("express");
-const app = express();
-//
-//
-// Mongoose
-const mongoose = require("mongoose");
-
-//
-const port = 5000;
-
-// (()=> {})  callback function
-app.listen(() => {
-  console.log(`Started server on port ${port}`);
+app.get("/api/test", () => {
+  console.log("endpoints test is successful");
 });
 ```
 
 <br>
-<hr>
 <br>
 
-#### 2. Go to the browser to set up the account in MONGODB
+#### The way we will see if its working, is by doing some request to the port 5000(to mimic it, we will be using the browser)
 
-- I will create a different repository or branch just for that in the future
-
-<br>
-
-> **SINCE I ALREADY** have a MONGODB account and I have already installed it, i only had to create a new **organization** and then inside the organization a **new project**,
+- type **http://localhost:5000/api/test**
 
 <br>
 
-### SURPRISE BILL 🔴
-
-- Read all and always choose **FREE** because i you dont do it, it can be that you will have a surpirse **BILL**
-
-> It did happen to someone using **firebase** but my teacher told me it can also happen in MONGODB [(check the video)](https://youtu.be/Lb-Pnytoi-8)
-
-<br>
-
-# 🐒
-
-#### Create a new organization:
-
-- Choose _'mongoDB Atlas'_
-
-<br>
-
-[<img src="img/new_organization.jpg"/>]()
-
-<br>
-
-- After that click **next**
-- It will give you an option to set permissions, but since we dont have other participants, just click the button **create Organization**
-
-<br>
-
-#### Create a new project
-
-[<img src="img/new_project.jpg"/>]()
-
-<br>
-<br>
-
-#### Now build a database
-
-- Go to **Database Access** (left bar) or click in the center button **Add a New Database User**
-
-[<img src="img/build_databse.jpg"/>]()
-
-<br>
-<br>
-
-### Once there:
-
-[<img src="img/user_name_pass_for_project.jpg"/>]()
-
-<br>
-
-- Chose the name and the password carefully (even if you can change it at all times, **knowing of course** that you will have to change it as well in the **.env**). This is okay while you are learning but not in serious projects.
-
-<br>
-
-- Once you are ready with the name and the pass click **ADD USER**
-
-<br>
- <br>
-
-### Now go to Network Access (left bar)
-
-- Click in the green button : add IP address
-
-- choose the option : **0.0.0.0** (allow access from anywhere), click **confirm** and you are done.
-
- <br>
- <br>
-
-#### Now go to DATABASES and click in the center button <u>BUILD A DATABASE</u>
-
-<br>
-
-- CHOOSE FREE 👍
-
-[<img src="img/build_databse2.jpg"/>]()
-
-### SURPRISE BILL 🔴
-
-- Read all and always choose **FREE** because i you dont do it, it can be that you will have a surpirse **BILL**
-
-> It did happen to someone using **firebase** but my teacher told me it can also happen in MONGODB [(check the video)](https://youtu.be/Lb-Pnytoi-8)
-
-<br>
-
-[<img src="img/cluster_free_creation.gif"/>]()
-
-### At this point it will take some time to create the cluster
-
-- **ONCE ITS DONE:** Click on Connect, if it's not ready, it will not give you the option **connect**(just wait 5 mn)
-
- <br>
- <br>
- <br>
- <br>
-
-### Now that everything is ready
-
-- Click on **DATABASE** then click on **CONNECT**
-
-- ONCE there, grab the **credentials**
-
-[<img src="img/mongo_default_credentials.gif"/>]()
-
-<br>
-
-### Copy the long code and paste it inside the project in VS
-
-<br>
-
-- 1 There are **2 ways** of doing it: the **unsecured** way (inside the index.js), like we will do now
-
-<br>
-
-- 2 The secure way: inside the **.env**
-
-```javascript
-// this is what you grabed from your mongoDB account
-mongoose.connect(
-  "mongodb+srv://lora:<password>@cluster0.ootdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-);
-```
-
-<br>
-
-### You should make some changes according to the data you inserted in your mongoDB account:
-
-```javascript
-// instead of <password> put the  USER password you added there (In the DATABASE section )
-mongoose.connect(
-  "mongodb+srv://lora:lovely@cluster0.ootdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-);
-```
-
-### We should also change this:
-
-```javascript
-// replace this
-myFirstDatabase?retry
-// for this or whatever you like
-shopRainbow?retry
-```
-
-<br>
-<br>
-
-### Now type 'npm start'
-
-- You should be getting this:
-
-```javascript
-[nodemon] restarting due to changes...
-[nodemon] starting `node index.js`
-Started server on port 5000
-[nodemon] restarting due to changes...
-[nodemon] starting `node index.js`
-Started server on port 5000
-```
-
-<br>
-
-# 🌈
-
-### Let's handle the errors in case the connection FAILS
-
-- We will be using a **Then** and **Catch**
-
-- **Then** for success
-
-- **Catch** for errors
-
-```javascript
-mongoose
-  .connect(
-    "mongodb+srv://lora:lovely@cluster0.ootdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-  )
-  .then(() => console.log("DBConnection Successful"))
-  .catch((err) => console.log("error"));
-```
-
-<br>
-
-### RESULT
-
-```javascript
-[nodemon] restarting due to changes...
-[nodemon] starting `node index.js`
-Started server on port 5000
-DBConnection Successful
-
-```
-
-<br>
-
-## 🔴 SECURITY
-
-#### If someone see this key (with the real credentials), everybody can reach your DB and add new collections, documents or editing your docs etc
-
-<br>
-
-> **TO PREVENT THAT**, add the key inside the **.env** and **create a variable** from there that you will **use inside the index.js**
-
-```javascript
-//name it the way you want it but logically
- MONGO_URL_DB = mongodb+srv://lora:lovely@cluster0.ootdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-```
-
-<br>
-
-### REQUIRE _dotenv_
-
-```javascript
-const express = require("express");
-const app = express();
-// Mongoose
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-//
-//dotenv
-dotenv.config();
-```
-
-<br>
-<br>
-
-### NOW REMOVE THE CREDENTIAL and add the VAR from the .env file
-
-```javascript
-//dotenv
-dotenv.config();
-//
-mongoose
-  .connect(process.env.MONGO_URL_DB)
-  .then(() => console.log("DBConnection Successful"))
-  .catch((err) => console.log("error"));
-
-//
-```
+# 📦
 
 ### result
 
 ```javascript
 [nodemon] starting `node index.js`
-Started server on port 5000
+Started server on port
 DBConnection Successful
+endpoints test is successful
 
 ```
 
 <br>
 <br>
 
-### Now modify the following:
+#### Now let's move the endpoints to a _folder exclusively_ for them, as it's not a good idea to add them inside the index.js
+
+<br>
+
+- 1 Create a NEW FOLDER
+
+- 2 Name it: **routes**
+
+- 3 Inside the **routes** create a file, name it **user.js**
+
+- 4 INside the user.js, create the route for a user
+
+<br>
+<BR>
+
+# REQ AND RES
+
+#### The req or request:
+
+> is what the user is going to send to us, in the
+> form of data, such as: username, email or any input, even emptiness...
+
+<br>
+
+#### The res or response:
+
+> after the req, we are going to send a res or response to the user:
+
+- like so:
 
 ```javascript
-//BEFORE
-const port = 5000;
+res.send("user test rainbow cringe is successful");
+```
 
-//
-app.listen(() => {
-  console.log(`Started server on port ${port}`);
+# 🐒
+
+```javascript
+//  user.js
+const router = require("express").Router();
+
+router.get("/userTest", (req, res) => {
+  res.send("user test rainbow cringe is successful");
 });
+```
+
+<br>
+<br>
+
+## EXPORT THE ROUTE
+
+- **module.exports = router;**
+
+```javascript
+const router = require("express").Router();
+
+/*
+The req or request: is what the user is going to send to us, in the
+form of data, such as: username, email or any input, even emptiness...
+
+after the req, we are going to send a res or response to the user:
+
+like so: 
+
+*/
+
+router.get("/userTest", (req, res) => {
+  res.send("user test rainbow cringe is successful");
+});
+
+module.exports = router;
+```
+
+## IMPORT THE ROUTE
+
+- Go to index.js
+
+```javascript
+const userRoute = require("./routes/user");
+```
+
+#### then use it
+
+```javascript
+app.use("/api/user", userRoute);
+```
+
+<br>
+<br>
+<br>
+
+### S o what we have until now:
+
+```javascript
+// user.js
+// 1 here we require express
+const router = require("express").Router();
+
+router.get("/userTest", (req, res) => {
+  //2 here we send a response to the req of the user
+  res.send("user test rainbow cringe is successful");
+});
+//3 we export it
+module.exports = router;
+
+/*
+
+
+
+
+*/
+//index.js
+
+//4 here we require the data from user.js
+const userRoute = require("./routes/user");
 //
 //
-// AFTER
 //
-// process.env.PORT || 5000 means: if there is not port at our .env file, then ||, use this number: 500
+//dotenv
+dotenv.config();
+//
+mongoose
+  .connect(process.env.MONGO_RAINBOW_URL)
+  .then(() => console.log("DBConnection Successful"))
+  .catch((err) => console.log("error"));
+
+//5 here we use it
+app.use("/api/user", userRoute);
+
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Started server on port`);
 });
+```
+
+#### Now type this on the browser to see the answer
+
+- **http://localhost:5000/api/user/userTest**
+
+<br>
+
+### result
+
+```javascript
+user test rainbow cringe is successful
 ```
