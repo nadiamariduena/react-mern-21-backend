@@ -1,70 +1,152 @@
-# Getting Started with Create React App
+  <!-- 
+ styles badge, at the end i decided to cusrom them like in the ecommercejs project
+ where i had to create a styles.js file and add the styles there then export it as hook
+ https://stackoverflow.com/questions/55766980/custom-color-to-badge-component-not-working
+ 
+  <br>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Photographs for projects
 
-In the project directory, you can run:
 
-### `npm start`
+FOOD and objects ----------
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+https://unsplash.com/@imdauphong
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+general
+https://unsplash.com/collections/75589301/bon-apetite
 
-### `npm test`
+https://unsplash.com/@ikredenets
+https://unsplash.com/photos/Jm_SqbqZYkY
+https://unsplash.com/photos/DHaZQh7hR2U
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+https://unsplash.com/photos/xLS_W6RVx-8
 
-### `npm run build`
+https://unsplash.com/@wendish
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+https://unsplash.com/@stilclassics
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+https://unsplash.com/@charlesdeluvio
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Christmas
+https://unsplash.com/@samhoajti
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+PLACES ---------
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+https://unsplash.com/@spoelee4
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+PEOPLE ---------
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+https://unsplash.com/photos/BVJ5e-Z2zEk
+https://unsplash.com/photos/n3GxXpVcTpI
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+beautiful black women
+https://unsplash.com/@raphaellovaski
+https://unsplash.com/photos/88IOcZz53eg
+https://unsplash.com/photos/Tfbw4CFFPaY
 
-### Code Splitting
+https://unsplash.com/photos/DTdkZzXYhKI
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+https://unsplash.com/@dynamicwang
+https://unsplash.com/photos/ISrx6MJ7XXI
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+https://unsplash.com/@kirsimakov
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+https://unsplash.com/@ronmcclenny
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+https://unsplash.com/photos/WJ85c_l6JSE
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+https://unsplash.com/photos/aU_eOcelLhQ
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# 🐝
+
+# Let's Begin!
+
+## 1. Install the dependencies
+
+```javascript
+// copy and paste the following
+npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.14.1 styled-components
+
+// npm i styled-components
+```
+
+ <br>
+
+
+### Lets start by creating the pages folder
+
+- create the pages folder
+- inside of it, create the Home.jsx
+
+<br>
+
+> Here you can see how the [**emmet extension**](https://code.visualstudio.com/docs/editor/emmet) auto complete and automatically create the import on top of the file
+
+[<img src="/src/img/compo_after_install_emet.gif"/>]()
+
+<br>
+
+ 
+ 
+  
+  -->
+
+# 🐻
+
+## Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT
+
+
+
+<br>
+
+[<img src="/src/img/frontend_backend_default1.gif"/>]()
+
+<br>
+
+####  This is the continuation of the project: [react-mern-21-frontend](https://github.com/nadiamariduena/react-mern-21-frontend)
+
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+
+# Let's Begin!
+
+#### 1. Install the dependencies
+
+```javascript
+// copy and paste the following
+npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.14.1 styled-components
+
+// npm i styled-components
+```
+
+ <br>
+
+
+### Lets start by creating the pages folder
+
+- create the pages folder
+- inside of it, create the Home.jsx
+
+<br>
+
+
+
+
+ 
