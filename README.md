@@ -106,122 +106,76 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 
 # 🐻
 
-## Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT
+<!-- phase 2 after, default 1 -->
+
+# EXPRESS
+
+#### 1. Create the Express server
 
 <br>
 
-[<img src="/src/img/frontend_backend_default1.gif"/>]()
+```javascript
+// 1 here we are importing express
+const express = require("express");
+// 2 here we use express
+const app = express();
+```
 
 <br>
 
-#### This is the continuation of the project: [react-mern-21-frontend](https://github.com/nadiamariduena/react-mern-21-frontend)
+- But to run the **app**, we should LISTEN our server(it can be any number: port 5000 or port 3000)
+
+```javascript
+const express = require("express");
+const app = express();
+
+//
+const port = 5000;
+
+// (()=> {})  callback function
+app.listen(() => {
+  console.log(`Started server on port ${port}`);
+});
+```
 
 <br>
+
+> **If you are using another terminal, it can cause problems** when using the same **PORT number**, you can kill it with the following: (you will add it first in the **package.json**)
+
+```javascript
+  "scripts": {
+    "killnode": "lsof -ti :5000 | xargs kill "
+  },
+```
+
 <br>
+
+# 🌈
+
+# To Kill a process
+
+<br>
+
+- **If you are using a port for example : port 5000**, no other program can use this port,even if you try to open it in another Terminal it will continue to cause trouble
+
+<br>
+
+#### And you will use it like so:
+
+```javascript
+lsof -ti :5000 //_1_
+
+kill 11801 //_2_
+
+// SHORT WAY
+
+lsof -ti :5000 | xargs kill
+// this is the command to do all in 1 line
+// ADD THIS in the json for reference
+//  "killnode": "lsof -ti :5000 | xargs kill "
+
+```
+
 <br>
 <hr>
 <br>
-
-# Let's Begin!
-
-#### 1. If you started like me (adding the frontend folder with all the project, don't do that), if you already did, remove the whole folder and just created a index.js
-
-<br>
-
-- The reason for that is because we need to make the set up to **MONGO_DB**, test the connection, set up the default routes and the server, **BEFORE** we bring the whole **frontend** in.
-
-<br>
-
-#### Remove (keep it somewhere else untill we add it again) the following:
-
-1. package.json
-2. package-lock.json
-3. public
-4. src
-
-<br>
-
-#### 2. At this point you have nothing but the README.md, now you can create the index.js
-
-- Create the **index.js**
-
-<br>
-
-# 🍌
-
-#### 3. Now type 'npm init -y'
-
-<br>
-
-- It will give you the **package.json**
-
-- If you dont add the **-y**, you will have to press enter until it finishes to give you options.
-
-<br>
-
-#### 4. Install the dependencies
-
-```javascript
-// copy and paste the following
-npm install mongoose dotenv nodemon
-// dotenv is to protect sensitive data
-// nodemon is to refresh the application,
-// you will check the state of it inside
-// the terminal here in VS
-
-```
-
- <br>
-
-#### 5. To test our first steps
-
-- Inside the **index.js**, type: console.log('hello)
-
-- Now go to the console here in **VISUAL STUDIO** and type: node index.js
-
-```javascript
-react-mern-21-backend$ node index.js
-```
-
-<br>
-
-#### 6. But we can make things easier
-
-- Instead of typing again and again **node index.js**, we can do something better.
-
-<br>
-
-- Replace the following (inside the package.json)
-
-<br>
-
-```javascript
-// replace this
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-//   for this
-  "scripts": {
-    "start": "nodemon index.js"
-  },
-```
-
-<br>
-
-#### 7. Now the only thing we have to do is type
-
-```javascript
-npm start
-```
-
-### the result
-
-```javascript
-[nodemon] 2.0.14
-[nodemon] to restart at any time, enter `rs`
-[nodemon] watching path(s): *.*
-[nodemon] watching extensions: js,mjs,json
-[nodemon] starting `node index.js`
-hello
-[nodemon] clean exit - waiting for changes before restart
-```
