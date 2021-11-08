@@ -108,16 +108,13 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 
 ## Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT
 
-
-
 <br>
 
 [<img src="/src/img/frontend_backend_default1.gif"/>]()
 
 <br>
 
-####  This is the continuation of the project: [react-mern-21-frontend](https://github.com/nadiamariduena/react-mern-21-frontend)
-
+#### This is the continuation of the project: [react-mern-21-frontend](https://github.com/nadiamariduena/react-mern-21-frontend)
 
 <br>
 <br>
@@ -127,26 +124,63 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 
 # Let's Begin!
 
-#### 1. Install the dependencies
+#### 1. If you started like me (adding the frontend folder with all the project, don't do that), if you already did, remove the whole folder and just created a index.js
+
+<br>
+
+- The reason for that is because we need to make the set up to **MONGO_DB**, test the connection, set up the default routes and the server, **BEFORE** we bring the whole **frontend** in.
+
+<br>
+
+#### Remove (keep it somewhere else untill we add it again) the following:
+
+1. package.json
+2. package-lock.json
+3. public
+4. src
+
+<br>
+
+#### 2. At this point you have nothing but the README.md, now you can create the index.js 
+
+- Create the **index.js**
+
+<br>
+
+# 🍌
+
+#### 3. Now type 'npm init -y'
+
+<br>
+
+- It will give you the **package.json**
+
+- If you dont add the **-y**, you will have to press enter until it finishes to give you options.
+
+<br>
+
+#### 4. Install the dependencies
 
 ```javascript
 // copy and paste the following
-npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.14.1 styled-components
-
-// npm i styled-components
+npm install mongoose dotenv nodemon
+// dotenv is to protect sensitive data
+// nodemon is to refresh the application, 
+// you will check the state of it inside 
+// the terminal here in VS
+ 
 ```
 
  <br>
 
+### 4. After you installed the above code
 
-### Lets start by creating the pages folder
+-  Replace the following (inside the package.json)
 
-- create the pages folder
-- inside of it, create the Home.jsx
+ <br>
+
+ ```javascript
+ 
+ ```
 
 <br>
-
-
-
-
- 
