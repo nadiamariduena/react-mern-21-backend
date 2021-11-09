@@ -369,3 +369,194 @@ router.post("/userPostTest", (req, res) => {
 //
 module.exports = router;
 ```
+
+<br>
+
+### Since we dont have any input in the BROWSER we can mimic that by using [POSTMAN](https://linuxize.com/post/how-to-install-postman-on-ubuntu-20-04/)
+
+- Install it on ubuntu like so
+
+```javascript
+sudo snap install postman
+```
+
+### Once its installed
+
+- open the app in your computer and login, it will launch a page in the browser
+
+<br>
+
+### A last thing before a test:
+
+- Modify this insid ethe index.js
+
+<br>
+
+- Change **/api/user** for **/api/users**
+
+```javascript
+//END POINTS
+//if you are using a REST API this will be plural: instead of user , users
+app.use("/api/users", userRoute);
+// app.get("/api/test", () => {
+//   console.log("endpoints test is successful");
+// });
+```
+
+<br>
+
+[<img src="img/postman_test1.gif"/>]()
+
+<br>
+<br>
+
+#### But before we can actually get something , we have to set up the JSON part in our application, as right now it s not designed to 'take json objects {}, for that reason if we clicked 'send' nothing will happen.
+
+<br>
+
+# 🍊
+
+# BODY PARSER
+
+> **What does body parser do in Express?** <br> > **Body-parser extract** the entire body portion of an incoming request
+> stream and exposes it on req. body . <br><br> **The middleware** was a part of Express.js earlier but now you have to install it separately. <br><br> This body-parser module parses the JSON, buffer, string and URL encoded data submitted using HTTP POST request.
+
+### Lets set it up
+
+- ADD THIS inside the **index.js**
+
+```javascript
+//
+//---------------------
+//   BODY PARSER
+//---------------------
+// ALWAYS add the BODY PARSER before the routes
+//
+app.use(express.json());
+//
+//
+```
+
+### Check that you have the code in such way:
+
+```javascript
+//                          user.js
+//
+const router = require("express").Router();
+
+/*
+The req or request: is what the user is going to send to us, in the
+form of data, such as: username, email or any input, even emptiness...
+
+after the req, we are going to send a res or response to the user:
+
+like so: 
+
+*/
+
+//api/user/userPostTest
+//
+//   GET
+//
+router.get("/usertest", (req, res) => {
+  res.send("user test rainbow cringe is successful");
+});
+//
+//   POST
+//
+router.post("/userposttest", (req, res) => {
+  //everytime the user is going to add any input, you
+  //should pass   'body'
+  const username = req.body.username;
+  console.log(username);
+});
+//
+//
+//
+module.exports = router;
+/*
+
+
+                        index.js
+
+
+*/
+//
+//
+const express = require("express");
+const app = express();
+// Mongoose
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+//
+
+//
+//dotenv
+dotenv.config();
+//
+mongoose
+  .connect(process.env.MONGO_RAINBOW_URL)
+  .then(() => console.log("DBConnection Successful"))
+  .catch((err) => console.log("error"));
+/*
+
+
+
+
+*/
+
+//
+//---------------------
+//   BODY PARSER
+//---------------------
+// ALWAYS add the BODY PARSER before the routes
+//
+app.use(express.json());
+//
+//
+const userRoute = require("./routes/user");
+//
+//
+//
+//
+//if you are using a REST API this will be plural: instead of user , users
+app.use("/api/users", userRoute);
+// app.get("/api/test", () => {
+//   console.log("endpoints test is successful");
+// });
+
+// (()=> {})  callback function
+// process.env.PORT || 5000 means: if there is not port at our .env file, then ||, use this number: 500
+app.listen(process.env.PORT || 5000, () => {
+  console.log("Backend server is running!");
+});
+```
+
+<br>
+
+### Now Open the POSTMAN app not the browser app, because that one didnt work for me!
+
+<br>
+
+- As you can see the first test didn't work for me, Then i tested it in the App and it went SMOOTHLY
+
+<br>
+
+- **http://localhost:5000/api/users/userposttest**
+
+- choose **POST**
+
+- select **body**
+
+- select **JSON**
+
+- While in JSON , add the object:
+
+```javascript
+{
+"username": "loüüra"
+}
+
+```
+
+[<img src="img/postman-issue-related-to-postman-browser__.gif"/>]()
