@@ -11,9 +11,22 @@ like so:
 */
 
 //api/user/userTest
-
+//
+//   GET
+//
 router.get("/userTest", (req, res) => {
   res.send("user test rainbow cringe is successful");
 });
-
+//
+//   POST
+//
+router.post("/userPostTest", (req, res) => {
+    //everytime the user is going to add any input, you
+    //should pass   'body'
+   const username = req.body.username
+   console.log(username);
+  });
+//
+//   
+//
 module.exports = router;

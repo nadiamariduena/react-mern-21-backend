@@ -317,3 +317,55 @@ app.listen(process.env.PORT || 5000, () => {
 ```javascript
 user test rainbow cringe is successful
 ```
+
+<br>
+<br>
+<hr>
+<br>
+
+### [Using HTTP Methods for RESTful Services ](https://www.restapitutorial.com/lessons/httpmethods.html)
+
+> The **HTTP** verbs comprise a major portion of our “uniform interface” constraint and provide us the action counterpart to the noun-based resource. **The primary or most-commonly-used HTTP verbs (or methods, as they are properly called)** are <u>POST, GET, PUT, PATCH, and DELETE. 👍 </u>These correspond to create, read, update, and delete (or **CRUD (create, read, update, delete)** ) operations, respectively. There are a number of other verbs, too, but are utilized less frequently. Of those less-frequent methods, OPTIONS and HEAD are used more often than others.
+
+<br>
+
+- Below is a table summarizing recommended return values of the primary HTTP methods in combination with the resource URIs:
+
+<br>
+
+- **click** on the img to read more:
+
+[<img src="img/CRUD-post-get-put-delete.jpg"/>](https://www.restapitutorial.com/lessons/httpmethods.html)
+
+<br>
+<br>
+<hr>
+<br>
+
+## Now Lets Continue
+
+<br>
+
+- Create a **POST** Request
+
+- Go to the **user.js** and add a **POST** method
+
+<br>
+
+> Every time the user is going to add any input, you should pass 'body'
+
+```javascript
+//
+//   POST
+//
+router.post("/userPostTest", (req, res) => {
+  //every time the user is going to add any input, you
+  //should pass   'body'
+  const username = req.body.username;
+  console.log(username);
+});
+//
+//
+//
+module.exports = router;
+```
