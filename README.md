@@ -158,6 +158,14 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 
 - Schemas are then "compiled" into models using the mongoose.model() method. Once you have a model you can use it to find, create, update, and delete objects of the given type.
 
+<br>
+
+### 🔴 Important to read: [Schema Basics](http://learnmongodbthehardway.com/schema/schemabasics/)
+
+- [Many to Many relation in mongoDB](https://www.youtube.com/watch?v=L3Pltb46n-M)
+
+<br>
+
 [<img src="img/shema1.png"/>](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose)
 
 <br>
@@ -287,20 +295,6 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-      trim: true,
-      min: 3,
-      max: 20,
-    },
-    lastName: {
-      type: String,
-      required: true,
-      trim: true,
-      min: 3,
-      max: 20,
-    },
     userName: {
       type: String,
       required: true,
@@ -327,13 +321,15 @@ module.exports = mongoose.model("User", UserSchema);
 <br>
 <br>
 
+# 🍊
+
 #### Now that we are done with the USER model, lets create another one.
 
 - COPY the Schema from the **USER**, and paste it inside the **Product.js**
 
 <br>
 
-#### Replace the following:
+#### Replace it with the following:
 
 <br>
 
@@ -355,3 +351,113 @@ const ProductSchema = new mongoose.Schema(
 
 module.exports = mongoose.model("Product", ProductSchema);
 ```
+
+<br>
+<br>
+<br>
+
+# 🥥
+
+#### Now that we are done with the Cart model, lets create another one.
+
+- COPY the Schema from the **Cart**, and paste it inside the **Order.js**
+
+<br>
+
+<br>
+
+#### Replace it with the following:
+
+```javascript
+const mongoose = require("mongoose");
+
+const CartSchema = new mongoose.Schema(
+  {
+    userId: { type: String, required: true },
+    products: [
+      {
+        productId: {
+          type: String,
+        },
+        quantity: {
+          type: Number,
+          default: 1, //the logic here is that when you add a product, you add it
+          //one at the time, not 2 or 3 every time you click
+        },
+      },
+    ],
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Cart", CartSchema);
+```
+
+<br>
+<br>
+<br>
+
+# 🍍
+
+#### Now that we are done with the Product model, lets create another one.
+
+- COPY the Schema from the **Product**, and paste it inside the **Cart.js**
+
+<br>
+
+- [Many to Many relation in mongoDB](https://www.youtube.com/watch?v=L3Pltb46n-M)
+
+<br>
+
+#### Replace it with the following:
+
+```javascript
+const mongoose = require("mongoose");
+
+const OrderSchema = new mongoose.Schema(
+  // This will be used after purchasing the Items
+  {
+    userId: { type: String, required: true },
+    products: [
+      {
+        productId: {
+          type: String,
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
+    amount: { type: Number, required: true },
+    //BELOW:its not going to be type:String because at that point
+    // We will be using STRIPE, and its going to give us an object with
+    // different lines/fields, similar to what i had here.
+    // CHECK the Readme:for schemas
+    address: { type: Object, required: true }, //after purchasing we will need user address
+    status: { type: String, default: "pending" },
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Order", OrderSchema);
+```
+
+<br>
+
+### BELOW:
+
+```javascript
+ address: { type: Object, required: true }, //after purchasing we will need user address
+```
+
+its not going to be type:String, because at that point we will be using **STRIPE**, and its going to give us an object with different lines/fields, similar to what i had here.[countries = Object.entries(shippingCountries)](https://github.com/nadiamariduena/e-commerce-react-stripe/blob/master/src/components/CheckoutForm/AddressForm.jsx)
+
+<br>
+
+- [Object.keys()](https://github.com/nadiamariduena/e-commerce-react-stripe/tree/token-shipping-Countries)
+
+
+<br>
+
+#### After the Models/Schemas we will continue with the Routes of these
