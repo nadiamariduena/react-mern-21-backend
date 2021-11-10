@@ -311,7 +311,7 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isAdmin: {
-      type: boolean, //because its going to be: TRUE or FALSE
+      type: Boolean, //because its going to be: TRUE or FALSE
       default: false, // since its false, this user is NOT going to be an Admin
     },
   },
@@ -329,14 +329,29 @@ module.exports = mongoose.model("User", UserSchema);
 
 #### Now that we are done with the USER model, lets create another one.
 
-- COPY the Schema fron the USER and paste it inside the Product.js
+- COPY the Schema from the **USER**, and paste it inside the **Product.js**
 
 <br>
 
-#### Replace certain things:
+#### Replace the following:
 
 <br>
 
 ```javascript
+const mongoose = require("mongoose");
 
+const ProductSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true, unique: true },
+    desc: { type: String, required: true },
+    img: { type: String, required: true },
+    categories: { type: Array }, //because it can have more than 1 category
+    size: { type: String },
+    color: { type: String },
+    price: { type: Number, required: true },
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Product", ProductSchema);
 ```

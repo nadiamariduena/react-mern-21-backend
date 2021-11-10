@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isAdmin: {
-      type: boolean, //because its going to be: TRUE or FALSE
+      type: Boolean, //because its going to be: TRUE or FALSE
       default: false, // since its false, this user is NOT going to be an Admin
     },
   },
