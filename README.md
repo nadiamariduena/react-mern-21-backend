@@ -189,7 +189,95 @@ module.exports = router;
 <br>
 <br>
 
-
 # 🤺
 
 ### Now that we are ready, lets create the first USER
+
+#### 🔴 Authentication inside the 'user route', is not a good practice, thats why I will create another route.
+
+<br>
+
+- this new route will be called **auth.js**
+
+<br>
+
+- INside the auth.js add the following:
+
+```javascript
+const router = require("express").Router();
+const User = require("../models/User");
+
+//REGISTER
+//post, because the user is going to send username, password and other information
+router.post("/register", (req, res) => {
+  const newUser = User({
+    username: req.body.username, //Here we are grabing the data from
+    // the schema inside the models/User.js
+  });
+});
+//
+//
+module.exports = router;
+```
+
+<br>
+
+#### Here we are taking the _data_ from the _schema_ inside the models/User.js
+
+```javascript
+ username: req.body.username, //Here we are grabing the data from
+  // the schema inside the models/User.js
+```
+
+<br>
+<br>
+
+### Recapitulating
+
+- this data is requesting information to data in block b
+
+#### block a
+
+```javascript
+const router = require("express").Router();
+const User = require("../models/User");
+
+//REGISTER
+//post, because the user is going to send username, password and other information
+router.post("/register", (req, res) => {
+  const newUser = User({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+  });
+});
+//
+//
+module.exports = router;
+```
+
+#### block b
+
+```javascript
+const mongoose = require("mongoose");
+
+const UserSchema = new mongoose.Schema(
+  {
+    userName: {
+      type: String,
+      required: true,
+      unique: true, //unique:we cannot create another username with the same username
+      lowercase: true,
+    },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    isAdmin: {
+      type: Boolean, //because its going to be: TRUE or FALSE
+      default: false, // since its false, this user is NOT going to be an Admin
+    },
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("User", UserSchema);
+```

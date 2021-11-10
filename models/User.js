@@ -5,7 +5,6 @@ const UserSchema = new mongoose.Schema(
     userName: {
       type: String,
       required: true,
-      trim: true,
       unique: true, //unique:we cannot create another username with the same username
       lowercase: true,
     },
