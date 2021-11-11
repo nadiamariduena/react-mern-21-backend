@@ -281,3 +281,65 @@ const UserSchema = new mongoose.Schema(
 
 module.exports = mongoose.model("User", UserSchema);
 ```
+
+ <br>
+ <br>
+ <br>
+
+## Now lets save a User everytime we click 'send' inside of postman, just like we did with the test name to see if postman was actually working:
+
+<br>
+
+- Create an object like the one below **(if you notice we are using the schema structure from block a and b, to add data )**:
+
+<br>
+
+#### Dont click send after you create the object, as we still need to do a last thing.
+
+<br>
+
+```javascript
+{
+  "username": "lora",
+  "email": "lora@gmail.com",
+  "password": "1234"
+}
+```
+
+<br>
+
+### OPEN postman
+
+- WE ARE GOING TO SIGN the .body of data but it doesnt mean that we are creating the **user** in our **DB**, its just a model object, we should send this to our DB
+
+<br>
+
+##### SO HOW ARE WE GOING TO DO THIS?
+
+- We are going to use the **save** method
+
+[possible errors | .save() is not a Function Mongoose](https://www.py4u.net/discuss/1472322)
+
+```javascript
+newUser.save();
+```
+
+<br>
+
+### But if we do it in that way we are going to have issues 🍌
+
+> The reason for that is that **Save()** is a method on a Mongoose document. The save() method is asynchronous, so it returns a promise that you can await on.
+
+<br>
+
+## > So what is Save() doing here?
+
+<br>
+
+- Since **Save()** it s an ASYNCHRONOUS function, everytime we save any document, UPDATE, DELETE etc in our **DB**, basically it takes a **couple of miliseconds** it depends on the server, mongo db server etc, so there s not chance to know if something will take time or go wrong.
+
+- So lets say if i write the following:
+
+```javascript
+
+```

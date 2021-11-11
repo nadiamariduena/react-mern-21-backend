@@ -10,6 +10,7 @@ router.post("/register", (req, res) => {
     password: req.body.password,
   });
 });
+
 //
 //
 module.exports = router;
