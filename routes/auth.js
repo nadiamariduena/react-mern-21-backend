@@ -11,14 +11,18 @@ router.post("/register", async (req, res) => {
   });
   //
 
-  
+  // error handling
   try {
     const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
+    //console.log(savedUser);
+    res.status(200).json(savedUser);
+    //200 is successfully
+    // 201 is successfully add
   } catch (err) {
+    // console.log(err);
     res.status(500).json(err);
   }
+  //
 });
-//
 //
 module.exports = router;

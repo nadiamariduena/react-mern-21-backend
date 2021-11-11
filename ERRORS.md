@@ -153,3 +153,12 @@ keyPattern: {
 #### I deleted all again, then i repeated the 'steps' from above
 
 - Now i am 100% the **error** came from there
+
+### So after i deleted all a third time, i concluded that the variable you add in the .env (collection related)is the parent collection, and shouldn't be touched, this collection will be parent of all the other you will create in postman
+
+- so when you go to postman when you just added this variable, add the specific name that is inside the **.env**, repeat the steps, and after you send the first data to **MONGO** and that all went well, after that you can add whatever child you want.
+
+<br>
+<br>
+
+[<img src="img/saving_collection_to_mongo_after-error-related-to-.env.gif"/>]()
