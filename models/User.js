@@ -2,17 +2,12 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
-    userName: {
-      type: String,
-      required: true,
-      unique: true, //unique:we cannot create another username with the same username
-      lowercase: true,
-    },
+    username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isAdmin: {
-      type: Boolean, //because its going to be: TRUE or FALSE
-      default: false, // since its false, this user is NOT going to be an Admin
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
