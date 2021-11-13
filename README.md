@@ -774,3 +774,291 @@ password: CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SECRETO).toSt
 
 <br>
 <br>
+
+# LOGIN
+
+##### check this just to compare [ecommerce](https://github.com/nadiamariduena/ecommerce2/blob/master/src/docs/ADMIN_USER-AUTH.md)
+
+<br>
+<br>
+
+### Start by creating the async function
+
+- Then go to postman and delete **all** the collections that are connected to the parent collection, the parent if you remember is the one inside the **.env**
+
+<br>
+
+- At this point you just have the parent collection(dont forget also to delete them in mongo), still in **postman**, click in the collection (left side), then **go to** the button save and **click the arrow** and select **save as**, a window will open, inside of it paste the **http://localhost:5000/api/auth/register** and choose the collection, then save.
+
+<br>
+
+- click again in the collection (left side), replace the **http://localhost:5000/api/auth/register** for just REGISTER.
+
+<br>
+
+- If you notice, we are setting up a request for each, first we had the **REGISTER**, now we will create the **LOGIN** request.
+
+<br>
+
+- Click in the collection and add a new request, paste the **http://localhost:5000/api/auth/register** but instead of register add **\*login**, like so: **http://localhost:5000/api/auth/login**
+
+<br>
+
+#### REPEAT the steps:
+
+**http://localhost:5000/api/auth/login**
+
+- body
+- raw
+- JSON
+
+##### Here you will have to do it differently
+
+```javascript
+// this is for registering
+{
+"username": "carag hol",
+"email": "rajopd@gmail.com",
+"password": "vvvdorejj"
+ }
+//
+//
+// Now in the login we will need only the username and the password
+{
+"username": "carag hol",
+"password": "vvvdorejj"
+ }
+```
+
+<br>
+
+[<img src="img/login_1.gif"/>]()
+
+#### Lets create the function to make it work
+
+```javascript
+//
+//
+//  LOGIN
+
+router.post("/login", async (req, res) => {
+  try {
+    //User: makes reference to the User model inside the models folder
+
+    // The findOne() method returns the first
+    // occurrence in the selection.
+
+    const user = await User.findOne({
+      username: req.body.username,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//
+
+module.exports = router;
+```
+
+### What is findOne in Javascript?
+
+> The findOne() method returns the first
+> occurrence in the selection. The first
+> parameter of the findOne() method is a
+> query object. In this example we use
+> an empty query object, which selects
+> all documents in a collection (but returns only the first document).
+
+### Here we are asking to give us the user,if of course the password is correct
+
+```javascript
+const user = await User.findOne({
+  username: req.body.username,
+});
+```
+
+### But how are we going to get the password??
+
+- we will paste the following:
+
+```javascript
+var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
+```
+
+### And replace the arguments
+
+```javascript
+//  LOGIN  *-----------------------*
+// 1 create the async function
+router.post("/login", async (req, res) => {
+  // 2. create the try and catch for errors or success
+  try {
+    //User: makes reference to the User model inside the models folder
+
+    // The findOne() method returns the first
+    // occurrence in the selection.
+
+    // 3. find the user inside the User model
+    const user = await User.findOne({
+      username: req.body.username,
+    });
+
+    //
+    //4 grab the password variable from the .env file and hashed it
+    const hashedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.process.env.PASS_SECRET
+    );
+    //5 grab the hashed password and convert it to string to send to DB,
+    // add special chars with (CryptoJS.enc.Utf8)
+    const password = hashedPassword.toString(CryptoJS.enc.Utf8);
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+```
+
+#### lets clean it a bit
+
+```javascript
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      username: req.body.username,
+    });
+
+    const hashedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.process.env.PASS_SECRET
+    );
+
+    const password = hashedPassword.toString(CryptoJS.enc.Utf8);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+```
+
+### Now we will ad a condition
+
+- This will handle the case of "admin already registered", but here in the login it will be different, we will add something like, **if there s is no user, then show a 401 status..wrong credentials**
+
+```javascript
+//6
+!user && res.status(401).json("wrong credentials");
+//
+```
+
+#### we will use the same logic for password
+
+- if password is not equal to **req.body.password** send an error
+
+```javascript
+//
+//7
+password !== req.body.password && res.status(401).json("wrong password");
+//
+```
+
+### ggg
+
+```javascript
+const router = require("express").Router();
+const User = require("../models/User");
+const CryptoJS = require("crypto-js");
+
+//REGISTER
+//post, because the user is going to send username, password and other information
+router.post("/register", async (req, res) => {
+  const newUser = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_SECRET
+    ).toString(),
+  });
+  //
+
+  // error handling
+  try {
+    const savedUser = await newUser.save();
+    //console.log(savedUser);
+    res.status(200).json(savedUser);
+    //200 is successfully
+    // 201 is successfully add
+  } catch (err) {
+    // console.log(err);
+    res.status(500).json(err);
+  }
+  //
+});
+//
+//
+//
+//
+//  LOGIN  *-----------------------*
+// 1 create the async function
+router.post("/login", async (req, res) => {
+  // 2. create the try and catch for errors or success
+  try {
+    //User: makes reference to the User model inside the models folder
+
+    //
+    //
+    //
+    // The findOne() method returns the first
+    // occurrence in the selection.
+
+    // 3. find the user inside the User model
+    const user = await User.findOne({
+      username: req.body.username,
+    });
+    //
+    //6
+    !user && res.status(401).json("wrong username");
+    //
+    //
+    //4 grab the password variable from the .env file and hashed it
+    const hashedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.process.env.PASS_SECRET
+    );
+    //5 grab the hashed password and convert it to string to send to DB,
+    // add special chars with (CryptoJS.enc.Utf8)
+    const password = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+    //
+    //
+    //7
+    password !== req.body.password && res.status(401).json("wrong password");
+    //
+    //8 IF Everything is OK, show status 200 (success)
+    res.status(200).json(user); //the user from step 3 here in LOGIN
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//
+
+module.exports = router;
+```
+
+## result
+
+```javascript
+    "_id": "618f634f1ebcd15d8fce582a",
+    "username": "nssojhol",
+    "email": "rad@gmail.com",
+    "password": "U2FsdGVkX1/ 7fMnNF64na1ErSlme2EtuLEso7kNMohQ=", //hashed
+    "isAdmin": false,
+    "createdAt": "2021-11-13T07:03:43.371Z",
+    "updatedAt": "2021-11-13T07:03:43.371Z",
+    "__v": 0
+}
+```
