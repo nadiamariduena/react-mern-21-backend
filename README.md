@@ -101,6 +101,12 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
  
  
   [<img src="img/postman-issue-related-to-postman-browser__.gif"/>]()
+  
+
+
+  
+  https://code.visualstudio.com/docs/editor/workspace-trust
+  
   -->
 
 # 🍯
@@ -544,4 +550,227 @@ app.use("/api/users", userRoute);
 
 ### Now lets finally go to the POSTMAN
 
+- If at this point you have an error, check the solution in the folder of errors []()
+
 [<img src="img/saving_collection_to_mongo.gif"/>]()
+
+#### As you can see the creation of the de Collection is working
+
+<br>
+
+- Now we have to correct the password, as if you notice at the end of the GIF image, we didnt add any protection for it.
+
+### 🔴
+
+> Since its **dangerous to set passwords in such way**, (as if someone has access to any of my DB, they can reach any password and mess with it) so to prevent that, we will have to implement some **password encryption**
+
+## So lets go back to auth.js and see what we have there
+
+<br>
+
+```javascript
+router.post("/register", async (req, res) => {
+  const newUser = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password, //here we are grabing the password DIRECTLY
+  });
+```
+
+<br>
+
+- As you can see here, we are getting the password directly: **password: req.body.password**, lets encrypt that.
+
+<br>
+
+<hr>
+
+### There are many options to Encrypt out there, but in this example we are going to use [CRYPTOJS](https://cryptojs.gitbook.io/docs/)
+
+<br>
+
+# 👮‍♂️
+
+### Ciphers
+
+#### The Cipher Algorithms
+
+### AES
+
+> The Advanced Encryption Standard (AES) is a U.S. Federal Information Processing Standard (FIPS). It was selected after a 5-year process where 15 competing designs were evaluated.
+
+```javascript
+var encrypted = CryptoJS.AES.encrypt("Message", "Secret Passphrase");
+​
+var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
+```
+
+- CryptoJS supports AES-128, AES-192, and AES-256. **It will pick the variant by the size of the key you pass in. If you use a passphrase, then it will generate a 256-bit key**.
+
+<br>
+
+##### DES, Triple DES
+
+- ES is a previously dominant **algorithm for encryption**, and was published as an official Federal Information Processing Standard (FIPS). DES is now considered to be insecure due to the small key size.
+
+<br>
+
+### Here is another option:
+
+## BCRYPT 🍌
+
+#### General Hash Function Background
+
+> In general, a hash algorithm or function takes data (i.e., the password) and maps to "fixed-size values," or creates a "digital fingerprint," or hash, of it. This hash is not exactly the same as the Ruby class, but they are similar. A hashing algorithm is like a key-value pair of passwords and their encryptions, but you wouldn't want to store or save them like that! The process is never truly "reversible," in the sense that if I hashed a list of passwords, and all you had was a list of unique crypts, the only way you could "hack" my passwords would be through something like brute force search. But you could never take a hashed value and return it to its original form!
+
+#### [ecommerce2](https://github.com/nadiamariduena/ecommerce2/blob/master/src/docs/USER_AUTH.md)
+
+<hr>
+
+<br>
+
+### Lets add Cryptojs to the project
+
+- open another terminal inside your project and add this:
+
+```javascript
+// https://www.npmjs.com/package/crypto-js
+npm i crypto-js
+```
+
+#### Now import it:
+
+```javascript
+const CryptoJS = require("crypto-js");
+```
+
+#### Copy this from the website
+
+```javascript
+CryptoJS.AES.encrypt("Message", "Secret Passphrase");
+```
+
+#### Add it to our password
+
+```javascript
+    password: CryptoJS.AES.encrypt("Message", "Secret Passphrase"),
+```
+
+<br>
+
+# 🐖
+
+#### REPLACE the first argument with: <u>req.body.password </u>
+
+```javascript
+// BEFORE
+    password: req.body.password,
+
+
+//
+// AFTER
+    password: CryptoJS.AES.encrypt(req.body.password, "Secret Passphrase")
+```
+
+<br>
+
+### For the second argument we have to go to the .env and create a variable.
+
+<br>
+
+- under the MongoDB credential create this new variable:
+
+```javascript
+PASS_SECRETO = *My*l0v3ly*pig
+```
+
+<br>
+
+#### AFTER that go back to the auth.js and add the new variable there like so:
+
+```javascript
+password: CryptoJS.AES.encrypt(req.body.password, process.env.PASS_SECRETO).toString(),
+```
+
+<br>
+
+## .toString()
+
+> #### How does String help security?
+
+> For example, **database usernames and passwords are passed as String to get the database connection**, in-socket programming host, and port details passed as String. Since String is immutable(unchangeable ), it's value can't be changed. Otherwise, any hacker could change the referenced value to cause security issues in the application."
+
+### ⚠️ but
+
+> Any one who has access to memory dump can find the password in clear text and that’s another reason to use encrypted password than plain text. So Storing password in character array clearly mitigates security risk of stealing password.
+
+##### read more [Why to use char[] array over a string for storing passwords in Java?](https://www.geeksforgeeks.org/use-char-array-string-storing-passwords-java/)
+
+<br>
+
+## NOW LETS TEST IT
+
+#### Go back to the MOngoDB and delete the users inside the collections but not the collection!
+
+- ONCE its empty, go back to the postman and repeat the same procedure
+
+<br>
+
+#### If you already have a collection do the following:
+
+- check you have the URL: **http://localhost:5000/api/auth/register**
+
+- body
+- raw
+- JSON
+
+```javascript
+
+{
+"username": "carag hol",
+"email": "rajopd@gmail.com",
+"password": "vvvdorejj"
+ }
+```
+
+#### then check that you are connected
+
+- while being **succesfully** connected to the **PORT 3000** (inside my index.js)
+  <br>
+
+- You can press **SEND**
+
+<br>
+
+> **Like so:**
+
+[<img src="img/saving_collection_to_mongo.gif"/>]()
+
+### NOW CHECK in MongoDB if the password is HASHED
+
+```javascript
+    _id
+    :618f2836f43fe8b5c355f4ec
+    username
+    :"novo hol"
+    email
+    :"zarakaijopd@gmail.com"
+    password
+    :"U2FsdGVkX1+HmazASsY3VJoVNg/1PG2+2FUP7zJpE50=" //the hashed password
+    isAdmin
+    :false
+    createdAt
+    :2021-11-13T02:51:34.273+00:00
+    updatedAt
+    :2021-11-13T02:51:34.273+00:00
+    __v
+    :0
+```
+
+<br>
+<br>
+
+<hr>
+
+<br>
+<br>

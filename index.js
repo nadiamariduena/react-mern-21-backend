@@ -30,6 +30,10 @@ app.use(express.json());
 //
 app.use(express.urlencoded({ extended: false }));
 
+//
+// ROUTES
+//
+//
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 
@@ -41,7 +45,7 @@ app.use("/api/auth", authRoute);
 //if you are using a REST API this will be plural: instead of user , users
 app.use("/api/users", userRoute);
 
-//  
+//
 // process.env.PORT || 5000 means: if there is not port at our .env file, then ||, use this number: 500
 app.listen(process.env.PORT || 5000, () => {
   console.log("Backend server is running!");

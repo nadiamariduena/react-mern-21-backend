@@ -62,6 +62,10 @@ Emitted 'error' event on Server instance at:
 <br>
 <br>
 <br>
+<hr>
+<br>
+<br>
+<br>
 
 # 🔴 error no.2
 
@@ -162,3 +166,23 @@ keyPattern: {
 <br>
 
 [<img src="img/saving_collection_to_mongo_after-error-related-to-.env.gif"/>]()
+
+## Links related:
+
+##### [MongoError: E11000 duplicate key error collection: test.users index: email1_1 dup key: { email1: null } [duplicate]](https://stackoverflow.com/questions/59911175/mongoerror-e11000-duplicate-key-error-collection-test-users-index-email1-1-du)
+
+<br>
+
+##### [MongoError code: 11000 - Internal Server Error when adding a new document using mongoose .save()](https://stackoverflow.com/questions/63916280/mongoerror-code-11000-internal-server-error-when-adding-a-new-document-using)
+
+<br>
+
+##### [MongoError: E11000 duplicate key error collection: users index: mobile_1 dup key: { mobile: null }](https://stackoverflow.com/questions/62169061/mongoerror-e11000-duplicate-key-error-collection-users-index-mobile-1-dup-key)
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<br>
