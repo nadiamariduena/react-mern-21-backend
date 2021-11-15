@@ -225,3 +225,140 @@ Using various social engineering attack methods, an attacker can trick Bob into 
 ## How to prevent it in our React Application
 
 #### [React CSRF Protection Guide: Examples and How to Enable It](https://www.stackhawk.com/blog/react-csrf-protection-guide-examples-and-how-to-enable-it/)
+
+<br>
+<hr>
+<br>
+
+# Let's Continue!!
+
+```javascript
+// auth.js
+//
+//He we are destructuring the password + other information
+// we do that in a way to diversify the password that we see
+// inside the mongoDB
+const { password, ...others } = user;
+//
+//
+```
+
+#### AT this point I will get an error
+
+```javascript
+
+SyntaxError: Identifier 'password' has already been declared
+
+[nodemon] app crashed - waiting for file changes before starting...
+```
+
+### So lets change the password variable we have above the line of code we just created, it should look like this now:
+
+```javascript
+// change password here for Originalpassword
+const Originalpassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+// change password here for Originalpassword
+Originalpassword !== req.body.password &&
+  res.status(401).json("wrong password");
+//
+//
+const { password, ...others } = user;
+```
+
+<br>
+<br>
+
+#### So this is what we have:
+
+```javascript
+const router = require("express").Router();
+const User = require("../models/User");
+const CryptoJS = require("crypto-js");
+
+//REGISTER
+//post, because the user is going to send username, password and other information
+router.post("/register", async (req, res) => {
+  const newUser = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_SECRETO
+    ).toString(),
+  });
+  //
+
+  // error handling
+  try {
+    const savedUser = await newUser.save();
+    //console.log(savedUser);
+    res.status(200).json(savedUser);
+    //200 is successfully
+    // 201 is successfully add
+  } catch (err) {
+    // console.log(err);
+    res.status(500).json(err);
+  }
+  //
+});
+//
+//
+//
+//
+//  LOGIN  *-----------------------*
+
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      username: req.body.username,
+    });
+
+    //
+    !user && res.status(401).json("wrong username");
+    //
+
+    //
+
+    const hashedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.PASS_SECRETO
+    );
+    //
+    //
+    //
+    const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+    //1 if the password isnt equal to the request the user is sending
+    // then, show a 401 error
+    OriginalPassword !== req.body.password &&
+      res.status(401).json("wrong password");
+    //
+    //He we are destructuring the password + other information
+    // we do that in a way to diversify the password that we see
+    // inside the mongoDB
+    const { password, ...others } = user;
+    //
+    //2 if its good, show success
+    res.status(200).json(user);
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//
+
+module.exports = router;
+```
+
+<br>
+<br>
+
+### After changing the variable, everything is fine again but...
+
+- In Postman we will get another issue(in my case it didn't happen, but i will document it anyway)
+
+- his outcome
+
+[<img src="img/_doc_by-mongo.jpg"/>]()
