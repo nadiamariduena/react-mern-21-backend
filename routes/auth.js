@@ -53,8 +53,11 @@ router.post("/login", async (req, res) => {
 
     const password = hashedPassword.toString(CryptoJS.enc.Utf8);
 
+    //1 if the password isnt equal to the request the user is sending
+    // then, show a 401 error
     password !== req.body.password && res.status(401).json("wrong password");
-
+    //
+    //2 if its good, show success
     res.status(200).json(user);
 
     //
