@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
-
+const jwt = require("jsonwebtoken");
 //REGISTER
 //post, because the user is going to send username, password and other information
 router.post("/register", async (req, res) => {
@@ -32,7 +32,11 @@ router.post("/register", async (req, res) => {
 //
 //
 //
-//  LOGIN  *-----------------------*
+// -------------------------------------------
+//
+//        SIGN IN/LOGIN
+//
+// -------------------------------------------
 
 router.post("/login", async (req, res) => {
   try {
@@ -40,7 +44,7 @@ router.post("/login", async (req, res) => {
       username: req.body.username,
     });
 
-    //
+    //If it snot user send error
     !user && res.status(401).json("wrong username");
     //
 
@@ -61,12 +65,13 @@ router.post("/login", async (req, res) => {
     //He we are destructuring the password + other information
     // we do that in a way to diversify the password that we see
     // inside the mongoDB
-    const { password, ...others } = user;
+    // 3
+    const { password, ...others } = user._doc;
     //
     //
     //
     //2 if its good, show success
-    res.status(200).json(user);
+    res.status(200).json(others);
 
     //
   } catch (err) {

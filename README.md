@@ -230,7 +230,32 @@ Using various social engineering attack methods, an attacker can trick Bob into 
 <hr>
 <br>
 
-# Let's Continue!!
+# Let's Start!!
+
+### Before start with the token ,lets take care of the following sensitive data.
+
+<br>
+
+### 🔴 HIDE THE PASSWORD
+
+- the reason for that is because right now the 'password' is still exposed 'even' if we have it hashed.
+
+[<img src="img/password_reveal_miam_stalker.jpg"/>]()
+<br>
+
+### Even if no one knows our secret key for our Cryptojs
+
+```javascript
+const password = hashedPassword.toString(CryptoJS.enc.Utf8);
+```
+
+🔴
+
+- **you should never** ever reveal the password anywhere
+
+- So to prevent the **password** from showing we will create an array with the password and **...others**, which mean the email and other information,then...
+
+- We will add the **...others** inside the:**res.status(200).json(user);**
 
 ```javascript
 // auth.js
@@ -238,10 +263,20 @@ Using various social engineering attack methods, an attacker can trick Bob into 
 //He we are destructuring the password + other information
 // we do that in a way to diversify the password that we see
 // inside the mongoDB
+//3
 const { password, ...others } = user;
 //
 //
+//2 if its good, show success
+res.status(200).json(others);
+//res.status(200).json(user);
 ```
+
+# 🌈
+
+### <u>res.status(200).json(user);</u>
+
+- The **(user)** will give all the info including data(and we dont want that), that s why we grabbed the **...others** from the object **{ password, ...others }**, to leave the 'password' protected and out of the equation.
 
 #### AT this point I will get an error
 
@@ -362,3 +397,59 @@ module.exports = router;
 - his outcome
 
 [<img src="img/_doc_by-mongo.jpg"/>]()
+
+<br>
+
+#### The reason for what you see in the image, is that mongoDB store our documents in the <u>'\_doc':</u> but we are passing <u>directly</u>
+
+<br>
+
+## 🌞
+
+#### To prevent that we should pass: user.\_doc
+
+- like so:
+
+```javascript
+const { password, ...others } = user._doc;
+```
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+<br>
+
+# 🔴 _JWT (tokens)_
+
+<br>
+
+## Next thing will be to UPDATE and DELETE the 'users'
+
+#### Lets make our app even more secure!!
+
+#### Documentation: [Install JWT](https://www.npmjs.com/package/jsonwebtoken)
+
+```javascript
+
+npm i jsonwebtoken
+```
+
+- With the **JWT** we are going to verify our **users**, we are going **to provide them a json web token** for the login process, so whenever they try to make any request updating or deleting any user or product or cards, **we are going to verify if the user card or order belongs to client or not**
+
+<br>
+<br>
+
+# 🍨
+
+## Require JWT
+
+```javascript
+const jwt = require("jsonwebtoken");
+```
+
+### Now lets use it!
+
+#### After the login process 'if everything is okay', we will create a JsonWebToken.
