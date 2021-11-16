@@ -16,6 +16,9 @@ const jwt = require("jsonwebtoken");
 // 2 how are we going to verify the JWT?
 const verifyToken = (req, res, next) => {
   //
+  //option from old project
+  // const token = req.headers.authorization.split(" ")[1];
+  // [1] is going to grab the token from the words "Bearer token"
   //3
   const authHeader = req.headers.token;
   //
@@ -72,7 +75,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
       next();
     } else {
       // If its not :
-      res.status(403).json("You are not alowed to do that!");
+      res.status(403).json("You are not allowed to do that!");
     }
   });
 };
