@@ -322,11 +322,82 @@ req.user = user;
       //
       //
     });
+//
+//
+//EXPORT
+// Since its a function, you will export it like so: { verifyToken }
+module.exports = { verifyToken };
 ```
 
 [<img src="img/relay_game_next-analogy.jpg"/>]()
 
 #### 🔴 the above image is the next() function containing the middleware (this middlewarw is the stick hold by the red ) being send to the user.js (the blue)to be used as the 2 argument.
+
+<br>
+
+<br>
+
+### This is what we have until now
+
+```javascript
+//1 Here you will import the JWT(json web token)
+const jwt = require("jsonwebtoken");
+
+//
+//
+//
+//
+// -------------------------------------------
+//
+//           VERIFY A TOKEN
+//             middleware
+//
+// -------------------------------------------
+//
+//
+// 2 how are we going to verify the JWT?
+const verifyToken = (req, res, next) => {
+  //
+  //3
+  const authHeader = req.headers.token;
+  //
+  //if there is no 'authHeader', we are going to return 'what is inside the else'
+  //   4
+  if (authHeader) {
+    //   successful
+
+    // So if we have a token, we should verify it:
+    //it will verify the token and the JWT_SECRET_KEY, after that
+    // if the token, process.env.JWT_SECRET_KEY are incorrect it will send either an error  (err) or (the data of the user, in case of success)
+    //6
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
+      //
+      //7 this is for the token, so if there is an error such as:
+      //   token expire or wrong token, it will launch the err message
+      if (err) res.status(403).json("token is not valid");
+      //8. the success case is the user data
+      //So if everything is good, we are going to assign the user data to our req
+      req.user = user;
+      //9 after we assign the user data to the req.user
+      //   we conclude it with next(), next is like the
+      next();
+      //
+      //
+    });
+    //
+  } else {
+    //   Unsuccessful
+    //   401 which is 'not authenticated
+    // 5
+    return res.status(401).json("Authorization Required");
+  }
+
+  //
+  //
+};
+
+module.exports = { verifyToken };
+```
 
 <br>
 <br>
@@ -335,6 +406,81 @@ req.user = user;
 
 ### Back to the user.js
 
-```javascript
+##### import the verifyToken.js
 
+```javascript
+// import
+const { verifyToken } = require("./verifyToken");
+
+const router = require("express").Router();
+// 2 arguments
+router.put("/:id", verifyToken);
+
+module.exports = router;
 ```
+
+#### now we can use (req, res)=>{}
+
+- This **verifyToken, (req, res)** is the second argument
+- From this 2 argument we will grab the
+
+```javascript
+const { verifyToken } = require("./verifyToken");
+
+const router = require("express").Router();
+// 2 arguments
+router.put("/:id", verifyToken, (req, res) => {
+  // If this req. made by the user.id  is equal === to this /:id
+  // it means its the same user and he/she is allowed to make updates
+  //   to this user information
+  // : stand for params
+  // i will also check if its an Admin:  || req.user.isAdmin)
+  if (req.user.id === req.params.id || req.user.isAdmin) {
+    //   in this case we can update our user, but if
+    // we write it like so we will repeat ourself
+    // So we will create another function inside the
+    // verifyToken.js
+  }
+});
+
+module.exports = router;
+```
+
+<br>
+<br>
+
+### To prevent of writing this function again and gain we will implement it in one place and then grab the data we need from it every time we need it, a bit like a HOOK
+
+- Go to the verifyToken.js and add the following function:
+
+```javascript
+//
+// -------------------------------------------
+//                  2
+//           VERIFY A TOKEN
+//             Authorization
+//
+// -------------------------------------------
+//
+
+const verifyTokenAndAuthorization = (req, res, next) => {
+  //1
+  verifyToken(req, res, () => {
+    // this is the same function we were creating inside the user.js
+    if (req.user.id === req.params.id || req.user.isAdmin) {
+      // if the user is an params.id user or if he is an admin, we can continue and make updates
+      next();
+    } else {
+      // If its not :
+      res.status(403).json("You are not alowed to do that!");
+    }
+  });
+};
+
+//
+// EXPORT the 2 functions
+module.exports = { verifyToken, verifyTokenAndAuthorization };
+```
+
+<br>
+<br>

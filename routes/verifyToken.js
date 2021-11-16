@@ -5,6 +5,14 @@ const jwt = require("jsonwebtoken");
 //
 //
 //
+// -------------------------------------------
+//                 1
+//           VERIFY A TOKEN
+//             middleware
+//
+// -------------------------------------------
+//
+//
 // 2 how are we going to verify the JWT?
 const verifyToken = (req, res, next) => {
   //
@@ -45,3 +53,28 @@ const verifyToken = (req, res, next) => {
   //
   //
 };
+
+//
+// -------------------------------------------
+//                  2
+//           VERIFY A TOKEN
+//             Authorization
+//
+// -------------------------------------------
+//
+
+const verifyTokenAndAuthorization = (req, res, next) => {
+  //1
+  verifyToken(req, res, () => {
+    // this is the same function we were creating inside the user.js
+    if (req.user.id === req.params.id || req.user.isAdmin) {
+      // if the user is an params.id user or if he is an admin, we can continue and make updates
+      next();
+    } else {
+      // If its not :
+      res.status(403).json("You are not alowed to do that!");
+    }
+  });
+};
+
+module.exports = { verifyToken, verifyTokenAndAuthorization };
