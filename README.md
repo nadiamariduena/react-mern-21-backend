@@ -118,17 +118,135 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 <br>
 <br>
 
-### Now that we have the JWT and THE SECRET KEY, we can finally continue the user.js
+#### Now that we have the JWT and <u>the secret key</u> , we can finally continue with the user.js, in this section you will understand better why we are using the JWT
 
-- But before, read about the MongoDb connection issue in the **errors file**
+> 🔴 But before: **read** about the MongoDb connection issue in the **errors file**
 
 <br>
 <br>
 
-# :chipmunk:
+# 🍨
 
 ## Go to the routes/user.js
 
 - The first thing that we will set up is the .**put** request, to update the data of the user.
 
-> **The PUT method** requests that the enclosed entity be stored under the supplied URI. If the URI refers to an already existing resource, it is modified and if the URI does not point to an existing resource, then the server can create the resource with that URI.
+> **The PUT method:** PUT is most-often utilized for **update** capabilities, PUT-ing to a known resource URI with the request body containing the newly-updated representation of the original resource.<br><br>
+> However, PUT can also be used to create a resource in the case where the resource ID is chosen by the client instead of by the server. In other words, if the PUT is to a URI that contains the value of a non-existent resource ID. Again, the request body contains a resource representation. **Many feel this is convoluted and confusing. Consequently, this method of creation should be used sparingly, if at all.**
+
+##### [READ MORE | Using HTTP Methods for RESTful Services](https://www.restapitutorial.com/lessons/httpmethods.html)
+
+##### [READ MORE | intro-Mongo3](https://github.com/nadiamariduena/database-lessons/tree/master/intro-Mongo3)
+
+<br>
+<br>
+
+#### So lets add the PUT method inside the router
+
+<br>
+
+- We will create a function router with **2 arguments**, one will be the **user:id** , the other will be the middleware, **this middleware will verify our JWT.**
+  <br>
+
+- the Middleware is going to be created in another file as **verifyToken.js**
+
+```javascript
+const router = require("express").Router();
+
+///the first argument will be the (:id, ) ,it is a specific user id
+// the second argument(1, second argument)  will be middleware
+//  to verify our JWT
+router.put("/:id");
+
+module.exports = router;
+```
+
+<br>
+<br>
+
+### Create a new file inside the routes, it will be called 'verifyToken.js'
+
+```javascript
+//1 Here you will import the JWT(json web token)
+
+const jwt = require("jsonwebtoken");
+
+// 2 how are we going to verify the JWT?
+// We will set up a middleware then once its ready, we will bring the middleware to the user.js, and we will use this middleware as
+// a second argument.
+const verifyToken = (req, res, next) => {};
+```
+
+<br>
+
+# 🍦
+
+### But why do we need a Middleware?
+
+#### What is a MIDDLEWARE
+
+<u>The middleware has access to the request and response
+objects and they can modify the request and response
+for things like adding authentication, request headers</u>,
+parsing request bodies, handling errors and a whole lot
+of other useful & essential functionality to your Node.js
+applications.
+
+##### example:
+
+> Otis tries to log in to his bank app to view his profile
+> and know how much he’s been paid by Maeve after giving out advice<u>{The client sends a request} before the server sends out his bank profile{response}</u> he is required to be authenticated{middleware function}. **The authentication, in this case, is a middleware function** that must be executed before a response is sent out! \*\*If the middleware function that is being executed doesn’t end the request-response cycle it must call next () to allow the other middleware functions on the queue get executed!\*\*
+
+##### READ MORE : [Understanding Express Middleware{A beginners guide} ](https://dev.to/ghvstcode/understanding-express-middleware-a-beginners-guide-g73)
+
+<br>
+
+##### the page example(not ours)
+
+```javascript
+// MIDDLEWARE
+app.use((req, res, next) => {
+  console.log(req.method, re.path);
+
+  next();
+});
+```
+
+- From the snippet above **we can note that the middleware is executed every time the application receives a request. This is because we didn't define a specific route the middleware function should run on!** <u>(IN OUR APP its different,as we are already setting it up inside the user.js)</u> to do that, we simply **pass the middleware only in the route we want it to get executed in as the second argument right after defining the route path**!Middlewares can be declared to allow for reusability and to follow the DRY principle in cases where we would be carrying out the same function repeatedly!
+
+<br>
+<br>
+
+### _NEXT_ FUNCTION 🌞
+
+The next function is a function in the Express router
+which, when invoked, executes the middleware succeeding
+the current middleware.
+
+<br>
+
+### _HEADERS_ 🌞
+
+> **1.** HTTP Headers are an important part of the API request and ..response as they represent the meta-data associated with the API request and response. ... Headers carry information for: Request and Response Body. Request Authorization.
+
+##### [Request header](https://developer.mozilla.org/en-US/docs/Glossary/Request_header)
+
+> **2.** The Http2ServerRequest.headers is an inbuilt application programming interface of class Http2ServerRequest within the http2 module which is used to get the request/response headers object..
+
+##### [Node.js Http2ServerRequest.headers Method](https://www.geeksforgeeks.org/node-js-http2serverrequest-headers-method/)
+
+<br>
+<br>
+<br>
+
+## Now lets Continue
+
+```javascript
+//1 Here you will import the JWT(json web token)
+
+const jwt = require("jsonwebtoken");
+
+// 2 how are we going to verify the JWT?
+
+const verifyToken = (req, res, next) => {};
+```

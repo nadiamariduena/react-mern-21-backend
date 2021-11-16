@@ -225,6 +225,37 @@ error
 [nodemon app crashed - waiting for file changes before starting](https://stackoverflow.com/questions/37486631/nodemon-app-crashed-waiting-for-file-changes-before-starting)
 
 <br>
+
+#### After you npm start, you should have this again, only difference is that instead of error, you have 'DBConnection Successful'
+
+```javascript
+//
+//        BEFORE
+//
+[nodemon] 2.0.14
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node index.js`
+Backend server is running!
+error
+
+
+
+
+//
+//        AFTER
+//
+[nodemon] 2.0.14
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node index.js`
+Backend server is running!
+DBConnection Successful
+```
+
+<br>
 <br>
 <br>
 <hr>
