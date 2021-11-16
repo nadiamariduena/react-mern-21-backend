@@ -426,11 +426,13 @@ const { password, ...others } = user._doc;
 
 <br>
 
-## Next thing will be to UPDATE and DELETE the 'users'
+#### Next thing will be to UPDATE and DELETE the 'users' but before that we need to set up the JWT
 
-#### Lets make our app even more secure!!
+<br>
 
-#### Documentation: [Install JWT](https://www.npmjs.com/package/jsonwebtoken)
+##### Lets make our app even more secure!!
+
+##### Documentation: [Install JWT](https://www.npmjs.com/package/jsonwebtoken)
 
 ```javascript
 
@@ -616,6 +618,8 @@ res.status(200).json({ ...others, accessToken }); //pass the accessToken from 4.
 <br>
 <br>
 
+# 🌞
+
 ### NOW lets test it in our project
 
 - I WILL DELETE THE USER and all the data related after showing this example as it can be dangerous.
@@ -659,6 +663,8 @@ res.status(200).json({ ...others, accessToken }); //pass the accessToken from 4.
 <br>
 <br>
 
+# 🍨
+
 #### Now lets compare the before JWT integration
 
 ```javascript
@@ -666,7 +672,15 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-//REGISTER
+//
+//
+// -------------------------------------------
+//
+//                  REGISTER
+//
+// -------------------------------------------
+
+//
 //post, because the user is going to send username, password and other information
 router.post("/register", async (req, res) => {
   const newUser = new User({
@@ -857,3 +871,8 @@ router.post("/login", async (req, res) => {
 
 module.exports = router;
 ```
+
+<br>
+<br>
+
+### Now we can continue with the UPDATE and DELETE
