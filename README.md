@@ -241,12 +241,100 @@ the current middleware.
 
 ## Now lets Continue
 
+#### 1 Here you will import the JWT(json web token)
+
 ```javascript
-//1 Here you will import the JWT(json web token)
-
+// 1
 const jwt = require("jsonwebtoken");
+```
 
-// 2 how are we going to verify the JWT?
+#### 2 how are we going to verify the JWT?
 
+```javascript
+// the middleware function
+// 2
 const verifyToken = (req, res, next) => {};
+```
+
+### we will use a Header to get the requests
+
+```javascript
+// this is the header with the token that we will be adding in the postman
+//3
+const authHeader = req.headers.token;
+```
+
+#### 'if this exists and its not undefined:'
+
+```javascript
+//if there is no 'authHeader', we are going to return 'what is inside the else'
+//   4
+if (authHeader) {
+}
+```
+
+<br>
+
+#### "Authorization Required"
+
+```javascript
+  } else {
+    //   Unsuccessful
+    //   401 which is 'not authenticated
+    // 5
+    return res.status(401).json("Authorization Required");
+  }
+```
+
+#### So if we have a token, we should verify it:
+
+```javascript
+ //6
+    //it will verify the token and the JWT_SECRET_KEY, after that
+    // if the token, process.env.JWT_SECRET_KEY are incorrect it will send either an error  (err) or (the data of the user, in case of success)
+
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) =>{}
+```
+
+#### this is for the token, so if there is an error such as: 'token expire or wrong token', it will launch the err message
+
+```javascript
+// 7
+if (err) res.status(403).json("token is not valid");
+```
+
+#### the success case is the user data
+
+```javascript
+//8. the success case is the user data
+//So if everything is good, we are going to assign the user data to our req
+req.user = user;
+```
+
+<br>
+
+#### after we assign the user data to the req.user
+
+```javascript
+      //9 after we assign the user data to the req.user
+      //   we conclude it with next(), next is like the
+      next();
+      //
+      //
+    });
+```
+
+[<img src="img/relay_game_next-analogy.jpg"/>]()
+
+#### 🔴 the above image is the next() function containing the middleware (this middlewarw is the stick hold by the red ) being send to the user.js (the blue)to be used as the 2 argument.
+
+<br>
+<br>
+<br>
+<br>
+
+### Back to the user.js
+
+```javascript
+
 ```
