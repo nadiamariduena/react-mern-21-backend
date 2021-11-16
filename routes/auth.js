@@ -2,15 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-//
-//
-// -------------------------------------------
-//
-//                  REGISTER
-//
-// -------------------------------------------
-
-//
+//REGISTER
 //post, because the user is going to send username, password and other information
 router.post("/register", async (req, res) => {
   const newUser = new User({
@@ -70,6 +62,19 @@ router.post("/login", async (req, res) => {
     OriginalPassword !== req.body.password &&
       res.status(401).json("wrong password");
     //
+    // 4. init token
+    //
+    const accessToken = jwt.sign(
+      {
+        id: user._id,
+        isAdmin: user.isAdmin, //if the user is admin he can delete or make
+        // CRUD operation  (create, read, update, delete)
+      }, //PRIVATE KEY
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "3d" } //when is the token  going to expire
+    );
+    //
+    //
     //He we are destructuring the password + other information
     // we do that in a way to diversify the password that we see
     // inside the mongoDB
@@ -79,7 +84,7 @@ router.post("/login", async (req, res) => {
     //
     //
     //2 if its good, show success
-    res.status(200).json(others);
+    res.status(200).json({ ...others, accessToken }); //pass the accessToken from 4.
 
     //
   } catch (err) {

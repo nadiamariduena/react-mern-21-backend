@@ -57,7 +57,7 @@ Emitted 'error' event on Server instance at:
 
 ##### 2.
 
-- killall node (this one worked for me)
+- killall (this one worked for me)
 
 <br>
 <br>
@@ -178,6 +178,51 @@ keyPattern: {
 <br>
 
 ##### [MongoError: E11000 duplicate key error collection: users index: mobile_1 dup key: { mobile: null }](https://stackoverflow.com/questions/62169061/mongoerror-e11000-duplicate-key-error-collection-users-index-mobile-1-dup-key)
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<br>
+
+# 🔴 error no.3
+
+### 'MongoDB changing Ip', because of this i couldnt connect to mongo and test the "register and login"
+
+#### It started like a normal error, I purposely mistype credentials to see what type of error i get
+
+- This is one of them, most of time i can solve it by correcting the mistyping but sometimes the server is just too busy after the changes, so i have to kill it with this: **killall** or **pkill -f node**, or **killall -9 node** , there are **other options:** [nodemon app crashed - waiting for file changes before starting](https://stackoverflow.com/questions/37486631/nodemon-app-crashed-waiting-for-file-changes-before-starting)
+
+```javascript
+[nodemon] 2.0.14
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node index.js`
+Backend server is running!
+error
+
+```
+
+### 🔴 Unfortunately today it wasn't that easy
+
+- I spend few hours looking for misspellings or errors in the schemas or index.js (just to be sure ), I watched the tutorial once again and i even returned 1 previous step (before the login) to figure it out but unsuccessful, then i concentrated in all the ways to kill the servers but nothing!
+
+[nodemon app crashed - waiting for file changes before starting](https://stackoverflow.com/questions/37486631/nodemon-app-crashed-waiting-for-file-changes-before-starting)
+
+### The reason
+
+- then someone wrote something about the **IP in MONGO**, i didnt even think about that because i specifically added it to something familiar, but when i when to verify any possible change, i realized that **strangely i had another/new ip???** , so after i changed it back to what i had before, it worked again :)
+
+<br>
+ 
+##### This is what the person wrote:
+
+> I haven't used MongoDB for more than a month. So it automatically paused the MongoDB cluster in the MongoDB cloud (atlas). I resumed the cluster and restart the application (along with a recheck of the mongo connection URL which was saved in default.json).
+
+[nodemon app crashed - waiting for file changes before starting](https://stackoverflow.com/questions/37486631/nodemon-app-crashed-waiting-for-file-changes-before-starting)
 
 <br>
 <br>

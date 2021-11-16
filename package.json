@@ -4,6 +4,7 @@
   "description": "<!--   styles badge, at the end i decided to cusrom them like in the ecommercejs project  where i had to create a styles.js file and add the styles there then export it as hook  https://stackoverflow.com/questions/55766980/custom-color-to-badge-component-not-working",
   "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
   "repository": {

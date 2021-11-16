@@ -118,4 +118,17 @@ npm install @material-ui/core @material-ui/icons   react-router-dom node-sass@4.
 <br>
 <br>
 
-### Now that we have the JWT and THE SECRET KEY
+### Now that we have the JWT and THE SECRET KEY, we can finally continue the user.js
+
+- But before, read about the MongoDb connection issue in the **errors file**
+
+<br>
+<br>
+
+# :chipmunk:
+
+## Go to the routes/user.js
+
+- The first thing that we will set up is the .**put** request, to update the data of the user.
+
+> **The PUT method** requests that the enclosed entity be stored under the supplied URI. If the URI refers to an already existing resource, it is modified and if the URI does not point to an existing resource, then the server can create the resource with that URI.
