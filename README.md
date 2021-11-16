@@ -446,6 +446,8 @@ npm i jsonwebtoken
 
 ## Require JWT
 
+[old examples](https://github.com/nadiamariduena/ecommerce2/blob/master/src/docs/USER_AUTH.md)
+
 ```javascript
 const jwt = require("jsonwebtoken");
 ```
@@ -453,3 +455,405 @@ const jwt = require("jsonwebtoken");
 ### Now lets use it!
 
 #### After the login process 'if everything is okay', we will create a JsonWebToken.
+
+<br>
+
+- The following code will one again make alusion to the User schema and the data we have there
+
+##### auth
+
+```javascript
+//auth.js
+//
+// 4. init token
+//
+const accessToken = jwt.sign({
+  id: user._id,
+  isAdmin: user.isAdmin, //if the user is admin he can delete or make any CRUD operation  (create, read, update, delete)
+});
+//
+```
+
+##### The User schema
+
+```javascript
+//User.js
+const UserSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
+```
+
+[<img src="img/jsontoken1_id.gif" />]()
+
+<br>
+<br>
+
+### CREATE THE VIRTUAL/SECRET KEY 🔑
+
+<br>
+
+### 🔴
+
+> **JWT is created with a secret key and that secret key is private to you which means you will never reveal that** to the public or inject inside the JWT token. When you receive a JWT from the client, you can verify that JWT with this that secret key stored on the server.
+
+#### [So what the heck is JWT or JSON Web Token?](https://medium.com/jspoint/so-what-the-heck-is-jwt-or-json-web-token-dca8bcb719a6#:~:text=JWT%20is%20created%20with%20a,key%20stored%20on%20the%20server.)
+
+<br>
+
+#### [JWT Private / Public Key Confusion](https://stackoverflow.com/questions/60538047/jwt-private-public-key-confusion)
+
+#### With JWT, the possession and the use of the key materials is exactly the same as any other contexts where cypher operations occur.
+
+<br>
+
+##### For signing:
+
+- The private key is owned by the issuer.
+- The public key can be shared with all parties that need to verify the signature.
+
+##### For encryption:
+
+- The private key is owned by the recipient
+- The public key can be shared to any party that want to send sensitive data to the recipient.
+
+<br>
+<br>
+
+The encryption is rarely used with JWT. Most of the time the HTTPS layer is sufficient and the token itself only contain a few information that are not sensitive (datatime, IDs...). The issuer of the token (the authentication server) has a private key to generate signed tokens (JWS). These tokens are sent to the clients (an API server, a web/native application...). The clients can verify the token with the public key.
+
+> **If you have sensitive data that shall not be disclosed to a third party (phone numbers, personnal address...), then the encrypted tokens (JWE) is highly recommended**. In this case, each client (i.e. recipient of a token) shall have a private key and the issuer of the token must encrypt the token using the public key of each recipient. This means that the issuer of the token can select the appropriate key for a given client.
+
+<br>
+<br>
+
+### Add the key inside the .env🔑
+
+- Create the variable there and then add the variable in the auth.js
+
+```javascript
+// 4. init token
+//
+const accessToken = jwt.sign(
+  {
+    id: user._id,
+    isAdmin: user.isAdmin, //if the user is admin he can delete or make
+    // CRUD operation  (create, read, update, delete)
+  }, //PRIVATE KEY
+  process.env.JWT_SECRET_KEY,
+  { expiresIn: "1d" } //when is the token  going to expire
+);
+//
+//
+```
+
+[<img src="img/jwt-secret-key.gif" />]()
+
+```javascript
+// 4. init token
+//
+const accessToken = jwt.sign(
+  {
+    id: user._id,
+    isAdmin: user.isAdmin, //if the user is admin he can delete or make
+    // CRUD operation  (create, read, update, delete)
+  }, //PRIVATE KEY
+  process.env.JWT_SECRET_KEY,
+  { expiresIn: "1d" } //when is the token  going to expire
+);
+//
+//
+//He we are destructuring the password + other information
+// we do that in a way to diversify the password that we see
+// inside the mongoDB
+// 3
+const { password, ...others } = user._doc;
+//
+//
+//
+//2 if its good, show success
+res.status(200).json(others, accessToken); //pass the accessToken from 4.
+```
+
+<br>
+
+##### 🔴
+
+### At this point its going to give you an error
+
+- You have to wrap the 2 variables **(others, accessToken)** in curly brackets
+
+```javascript
+//2 if its good, show success
+res.status(200).json(others, accessToken); //pass the accessToken from 4.
+//
+//
+//
+//After
+//2 if its good, show success
+res.status(200).json({ others, accessToken }); //pass the accessToken from 4.
+```
+
+<br>
+
+### Replace the following too
+
+```javascript
+//2 if its good, show success
+res.status(200).json({ ...others, accessToken }); //pass the accessToken from 4.
+
+//
+```
+
+<br>
+<br>
+
+### NOW lets test it in our project
+
+- I WILL DELETE THE USER and all the data related after showing this example as it can be dangerous.
+
+```javascript
+//http://localhost:5000/api/auth/login
+// {
+// "username": "luna",
+// "password": "mp4war"
+//  }
+//
+// BEFORE THE TOKEN
+{
+    "_id": "6192c2539fca3911d5a763bc",
+    "username": "luna",
+    "email": "lunamagic@gmail.com",
+    "isAdmin": false,
+    "createdAt": "2021-11-15T20:25:55.207Z",
+    "updatedAt": "2021-11-15T20:25:55.207Z",
+    "__v": 0
+}
+//
+
+
+//
+//      AFTER THE TOKEN
+//
+{
+    "_id": "6192c2539fca3911d5a763bc",
+    "username": "luna",
+    "email": "lunamagic@gmail.com",
+    "isAdmin": false,
+    "createdAt": "2021-11-15T20:25:55.207Z",
+    "updatedAt": "2021-11-15T20:25:55.207Z",
+    "__v": 0,
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOTJjMjUzOWZjYTM5MTFkNWE3NjNiYyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MzcwMjQyNDcsImV4cCI6MTYzNzExMDY0N30.QOJ4j-qKGqYnIt5pmqMGwBn5RiFGgeSm66-zNNU3nHE"
+}
+```
+
+<br>
+<br>
+<br>
+
+#### Now lets compare the before JWT integration
+
+```javascript
+const router = require("express").Router();
+const User = require("../models/User");
+const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
+//REGISTER
+//post, because the user is going to send username, password and other information
+router.post("/register", async (req, res) => {
+  const newUser = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_SECRETO
+    ).toString(),
+  });
+  //
+
+  // error handling
+  try {
+    const savedUser = await newUser.save();
+    //console.log(savedUser);
+    res.status(200).json(savedUser);
+    //200 is successfully
+    // 201 is successfully add
+  } catch (err) {
+    // console.log(err);
+    res.status(500).json(err);
+  }
+  //
+});
+//
+//
+//
+//
+// -------------------------------------------
+//
+//        SIGN IN/LOGIN
+//
+// -------------------------------------------
+
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      username: req.body.username,
+    });
+
+    //If it snot user send error
+    !user && res.status(401).json("wrong username");
+    //
+
+    //
+
+    const hashedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.PASS_SECRETO
+    );
+
+    const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+    //1 if the password isnt equal to the request the user is sending
+    // then, show a 401 error
+    OriginalPassword !== req.body.password &&
+      res.status(401).json("wrong password");
+    //
+    //He we are destructuring the password + other information
+    // we do that in a way to diversify the password that we see
+    // inside the mongoDB
+    // 3
+    const { password, ...others } = user._doc;
+    //
+    //
+    //
+    //2 if its good, show success
+    res.status(200).json(others);
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//
+
+module.exports = router;
+
+/*
+
+
+
+
+
+
+*/
+//                  -----------------
+//                        AFTER
+//                  -----------------
+//
+const router = require("express").Router();
+const User = require("../models/User");
+const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
+//REGISTER
+//post, because the user is going to send username, password and other information
+router.post("/register", async (req, res) => {
+  const newUser = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_SECRETO
+    ).toString(),
+  });
+  //
+
+  // error handling
+  try {
+    const savedUser = await newUser.save();
+    //console.log(savedUser);
+    res.status(200).json(savedUser);
+    //200 is successfully
+    // 201 is successfully add
+  } catch (err) {
+    // console.log(err);
+    res.status(500).json(err);
+  }
+  //
+});
+//
+//
+//
+//
+// -------------------------------------------
+//
+//        SIGN IN/LOGIN
+//
+// -------------------------------------------
+
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      username: req.body.username,
+    });
+
+    //If it snot user send error
+    !user && res.status(401).json("wrong username");
+    //
+
+    //
+
+    const hashedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.PASS_SECRETO
+    );
+
+    const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+    //1 if the password isnt equal to the request the user is sending
+    // then, show a 401 error
+    OriginalPassword !== req.body.password &&
+      res.status(401).json("wrong password");
+    //
+    // 4. init token
+    //
+    const accessToken = jwt.sign(
+      {
+        id: user._id,
+        isAdmin: user.isAdmin, //if the user is admin he can delete or make
+        // CRUD operation  (create, read, update, delete)
+      }, //PRIVATE KEY
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "1d" } //when is the token  going to expire
+    );
+    //
+    //
+    //He we are destructuring the password + other information
+    // we do that in a way to diversify the password that we see
+    // inside the mongoDB
+    // 3
+    const { password, ...others } = user._doc;
+    //
+    //
+    //
+    //2 if its good, show success
+    res.status(200).json({ ...others, accessToken }); //pass the accessToken from 4.
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//
+
+module.exports = router;
+```
