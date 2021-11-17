@@ -56,4 +56,29 @@ const verifyTokenAndAuthorization = (req, res, next) => {
   });
 };
 
-module.exports = { verifyToken, verifyTokenAndAuthorization };
+//
+//
+// -------------------------------------------
+//                  3
+//              VERIFY ADMIN
+//    Only the admin can create products
+//
+// -------------------------------------------
+//
+const verifyTokenAndAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    //1 if the user is admin
+    if (req.user.isAdmin) {
+      // 2 we are going to continue the function
+      next();
+    } else {
+      res.status(403).json("Only Admin is allowed add a product");
+    }
+  });
+};
+
+module.exports = {
+  verifyToken,
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+};
