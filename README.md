@@ -888,6 +888,10 @@ const token = authHeader.split(" ")[1];
 
 - So when you 'write' Bearer make 1 space(space bar) and then paste the code, check that the url is correct
 
+<br>
+
+[<img src="img/UPDATE_token_bearer3:solved-issue.gif"/>]()
+
 ```javascript
 // this is the user code:61946be245b0cef659dbe1bb
 // you get that code after you register a new user but only when you LOG IN (check the image below)
