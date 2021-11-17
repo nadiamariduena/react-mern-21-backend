@@ -23,6 +23,10 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
       {
         $set: req.body,
       },
+      //
+      //
+      // admin, all to see if we have
+      // the right credentials to proceed with an update.
       { new: true }
     );
     res.status(200).json(updatedUser);

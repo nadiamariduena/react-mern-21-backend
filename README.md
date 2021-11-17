@@ -724,7 +724,7 @@ const verifyToken = (req, res, next) => {
   //
   //option from old project
   // const token = req.headers.authorization.split(" ")[1];
-  // [1] is going to grab the token from the words "Bearer token"
+  // [1] is going to grab the token element from the 2 elements here: "Bearer and  token"
   //3
   const authHeader = req.headers.token;
   //
@@ -880,7 +880,7 @@ module.exports = router;
 const token = authHeader.split(" ")[1];
 ```
 
-### ⚠️ be aware that when you refresh here changes may cause postman to behave so for precaution:
+### ⚠️ be aware that when you refresh in VS, changes may cause postman to behave, so for precaution:
 
 - Every time you save in VS code while you are testing in postman, log in your user (in postman) so to **obtain a new token**
 
@@ -900,8 +900,12 @@ const token = authHeader.split(" ")[1];
  http://localhost:2000/api/users/paste the user code here
 ```
 
-- Dont reuse PUT requests in postman, its better to create a new request so that there is no issues
+- Dont **re use** PUT requests in postman, its better to create a new request so that there is no issues
 
-- avoid saving or making requests in postman when you are in the readme file, to me it causes issues 'sometimes'
+<br>
 
-- careful when adding the token as sometimes you can confuse the authorization and the headers (as they look similar), and by mistake you add the token inside the "Authorization" instead of the "Headers"
+- Avoid saving or making requests in postman when you are in the readme file, to me it causes issues 'sometimes'
+
+<br>
+
+- **careful** when adding the token as sometimes you can confuse the authorization and the headers (as they look similar), and by mistake you add the token inside the "Authorization" instead of the "Headers"

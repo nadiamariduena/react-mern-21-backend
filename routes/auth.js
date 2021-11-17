@@ -80,7 +80,7 @@ router.post("/login", async (req, res) => {
     //
 
     const { password, ...others } = user._doc;
-    //
+    //._doc; will grab the user data from the object in mongoDb
     //
     //
     //2 if its good, show success

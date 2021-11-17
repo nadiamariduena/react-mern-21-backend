@@ -262,3 +262,78 @@ DBConnection Successful
 <br>
 <br>
 <br>
+
+# 🔴 error no.4
+
+### Errors when testing the UPDATING user
+
+- After setting up the token and the hashing of the password, i continued with the user.js, there i created the **update** router but to complete it I had to create a middleware inside a file called **verifyToken.js**.
+
+<br>
+
+- In there I had to create a first function, this function will be handling the middleware that is going to be used inside the user.js, this middleware contains the authentication header, with the bearer of the token.
+
+- Then a second function that will handle the checking of the user or the admin, all to see if we have the right credentials to proceed with an update.
+
+#### the error
+
+- I had placed a line of code wrongly but then i realize that the problem wasnt just that, but a combination of things.
+
+<br>
+
+> So found One error, due to this I didnt get the data from the user, instead I got a **"token is not valid"**, so I started checking everything and all was fine but the following line of code.
+
+```javascript
+  const token = authHeader.split("")[1];
+  if (authHeader) {
+    //   successful
+
+// replace for this
+
+  //   4
+  if (authHeader) {
+    //   successful
+    const token = authHeader.split(" ")[1];
+```
+
+<br>
+
+### Follow this steps so that you dont waste time in postman:
+
+<br>
+
+#### Also, check that you have a space between the quotation marks as it represent the space between the bearer and the token code (in postman)
+
+```javascript
+const token = authHeader.split(" ")[1];
+```
+
+#### ⚠️ Be aware that when you refresh in Visual Studio, changes may cause postman to behave, so for precaution:
+
+- Every time you save in VS code while you are testing in postman, log in your user (in postman) so to **obtain a new token**
+
+- this new token will be used again inside the header there like in the picture below:
+
+- So when you 'write' Bearer make 1 space(space bar) and then paste the code, check that the url is correct
+
+<br>
+
+[<img src="img/UPDATE_token_bearer3:solved-issue.gif"/>]()
+
+```javascript
+// this is the user code:61946be245b0cef659dbe1bb
+// you get that code after you register a new user but only when you LOG IN (check the image below)
+//
+// URL
+ http://localhost:2000/api/users/paste the user code here
+```
+
+- Dont **re use** PUT requests in postman, its better to create a new request so that there is no issues
+
+<br>
+
+- Avoid saving or making requests in postman when you are in the readme file, to me it causes issues 'sometimes'
+
+<br>
+
+- **careful** when adding the token as sometimes you can confuse the authorization and the headers (as they look similar), and by mistake you add the token inside the "Authorization" instead of the "Headers"
