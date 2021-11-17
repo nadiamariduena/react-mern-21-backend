@@ -128,6 +128,11 @@ The req. body object allows you to access data in a string or JSON object from t
 ## 2. DELETE router
 
 <br>
+<hr>
+<br>
+
+## ADMIN function
+
 <br>
 
 - Since only admin can add any products, we have to create a function that allows **the admin only** to create products.
@@ -161,3 +166,16 @@ module.exports = {
   verifyTokenAndAdmin,
 };
 ```
+
+<br>
+<hr>
+<br>
+
+# 🍨
+
+# DELETE /router
+
+<br>
+<br>
+
+#### Go to the user.js and create the 'delete router'

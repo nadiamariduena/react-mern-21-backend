@@ -1,5 +1,9 @@
 const User = require("../models/User");
-const { verifyToken, verifyTokenAndAuthorization } = require("./verifyToken");
+const {
+  verifyToken,
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
 
 const router = require("express").Router();
 //
@@ -36,4 +40,27 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //
+
+//
+//
+//
+//---------------------------------
+//            DELETE
+//---------------------------------
+//
+//
+//
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+  //
+  // Here we will find and delete
+  //  that specific User/ and all the
+  // schema data that this User contains
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json("User has been deleted");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
