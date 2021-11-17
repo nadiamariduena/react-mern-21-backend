@@ -63,4 +63,29 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
+//
+//
+//
+//---------------------------------
+//           GET user
+//  only the Admin get the user
+//---------------------------------
+//
+router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+  //
+
+  try {
+    // Find it throught the Id
+    const user = await User.findById(req.params.id);
+
+    const { password, ...others } = user._doc;
+    //._doc; will grab the user data from the object in mongoDb
+    //
+    res.status(200).json({ others });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+//
+//
 module.exports = router;

@@ -47,7 +47,7 @@ app.use("/api/users", userRoute);
 
 //
 // process.env.PORT || 5000 means: if there is not port at our .env file, then ||, use this number: 500
-app.listen(process.env.PORT || 2000, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log("Backend server is running!");
 });
 

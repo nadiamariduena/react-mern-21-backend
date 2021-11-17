@@ -131,7 +131,7 @@ The req. body object allows you to access data in a string or JSON object from t
 <hr>
 <br>
 
-## ADMIN function
+# ADMIN ✋
 
 <br>
 
@@ -171,11 +171,97 @@ module.exports = {
 <hr>
 <br>
 
-# 🍨
-
-# DELETE /router
+# DELETE ✋
 
 <br>
+
+### Now create the Delete router
+
 <br>
 
 #### Go to the user.js and create the 'delete router'
+
+```javascript
+// user.js
+//---------------------------------
+//            DELETE
+//---------------------------------
+//
+//
+//
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+  //
+  // Here we will find and delete
+  //  that specific User/ and all the
+  // schema data that this User contains
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json("User has been deleted");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+module.exports = router;
+```
+
+<br>
+<hr>
+<br>
+
+# GET 🖐️
+
+### Now create the GET router
+
+- but before lets go back to the **auth.js** and COPY the following line 'as its showing all the information of the user', and we dont want that for what we are going to do, so to **prevent that, we will have to destructure it**
+
+<br>
+
+- Go to the **user.js** and **paste this 2 lines** there, then change few things.
+
+<br>
+
+```javascript
+// copy this from the auth.js
+//
+//  REPLACE THIS:
+//2 lines
+const { password, ...others } = user._doc;
+res.status(200).json({ ...others, accessToken });
+//
+//
+//
+//      and PASTE it inside the user.js
+const { password, ...others } = user._doc;
+//._doc; will grab the user data from the object in mongoDb
+//
+res.status(200).json({ others });
+```
+
+<br>
+<br>
+
+## Now write another end point to get the user id
+
+```javascript
+//
+// before
+router.get("/:id",
+//
+// after
+router.get("/find/:id",
+```
+
+<br>
+<br>
+
+### Now lets test it
+
+- Go to postman and type the following inside the url
+
+- log in (with your last user)
+- grab the token
+- grab the user id
+- change the method from PUT to GET
+
+[<img src="img/GET-router_id_from_user.gif"/>]()

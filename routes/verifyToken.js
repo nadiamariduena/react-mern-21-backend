@@ -72,7 +72,7 @@ const verifyTokenAndAdmin = (req, res, next) => {
       // 2 we are going to continue the function
       next();
     } else {
-      res.status(403).json("Only Admin is allowed add a product");
+      res.status(403).json("You are not allowed to do that");
     }
   });
 };
