@@ -2,7 +2,11 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-//REGISTER
+//
+//---------------------------------
+//           REGISTER
+//---------------------------------
+//
 //post, because the user is going to send username, password and other information
 router.post("/register", async (req, res) => {
   const newUser = new User({
@@ -10,7 +14,7 @@ router.post("/register", async (req, res) => {
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
-      process.env.PASS_SECRETO
+      process.env.PASS_SECRET
     ).toString(),
   });
   //
@@ -19,7 +23,7 @@ router.post("/register", async (req, res) => {
   try {
     const savedUser = await newUser.save();
     //console.log(savedUser);
-    res.status(200).json(savedUser);
+    res.status(201).json(savedUser);
     //200 is successfully
     // 201 is successfully add
   } catch (err) {
@@ -32,11 +36,11 @@ router.post("/register", async (req, res) => {
 //
 //
 //
-// -------------------------------------------
 //
-//        SIGN IN/LOGIN
+//---------------------------------
+//           LOG
+//---------------------------------
 //
-// -------------------------------------------
 
 router.post("/login", async (req, res) => {
   try {
@@ -52,7 +56,7 @@ router.post("/login", async (req, res) => {
 
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
-      process.env.PASS_SECRETO
+      process.env.PASS_SECRET
     );
 
     const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
@@ -68,17 +72,13 @@ router.post("/login", async (req, res) => {
       {
         id: user._id,
         isAdmin: user.isAdmin, //if the user is admin he can delete or make
-        // CRUD operation  (create, read, update, delete)
       }, //PRIVATE KEY
       process.env.JWT_SECRET_KEY,
       { expiresIn: "3d" } //when is the token  going to expire
     );
     //
     //
-    //He we are destructuring the password + other information
-    // we do that in a way to diversify the password that we see
-    // inside the mongoDB
-    // 3
+
     const { password, ...others } = user._doc;
     //
     //
