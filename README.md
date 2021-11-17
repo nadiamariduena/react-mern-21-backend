@@ -265,3 +265,69 @@ router.get("/find/:id",
 - change the method from PUT to GET
 
 [<img src="img/GET-router_id_from_user.gif"/>]()
+
+<br>
+
+## This is what we have far:
+
+##### user.js
+
+```javascript
+// user.js
+//
+//
+//---------------------------------
+//           GET user
+//  only the Admin get the user
+//---------------------------------
+//
+router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+  //
+
+  try {
+    // Find it throught the Id
+    const user = await User.findById(req.params.id);
+
+    const { password, ...others } = user._doc;
+    //._doc; will grab the user data from the object in mongoDb
+    //
+    res.status(200).json({ others });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+//
+//
+module.exports = router;
+```
+
+##### verifyToken.js
+
+```javascript
+//
+//
+// -------------------------------------------
+//                  3
+//              VERIFY ADMIN
+//    Only the admin can create products
+//
+// -------------------------------------------
+//
+const verifyTokenAndAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    //1 if the user is admin
+    if (req.user.isAdmin) {
+      // 2 we are going to continue the function
+      next();
+    } else {
+      res.status(403).json("You are not allowed to do that");
+    }
+  });
+};
+
+module.exports = {
+  verifyToken,
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+};
+```
