@@ -171,7 +171,7 @@ module.exports = {
 <hr>
 <br>
 
-# DELETE ✋
+# DELETE ✋ METHOD
 
 <br>
 
@@ -209,7 +209,7 @@ module.exports = router;
 <hr>
 <br>
 
-# GET 🖐️
+# GET 🖐️ METHOD /VERIFY ADMIN
 
 ### Now create the GET router
 
@@ -268,7 +268,7 @@ router.get("/find/:id",
 
 <br>
 
-## This is what we have far:
+## This is what we have so far:
 
 ##### user.js
 
@@ -301,6 +301,8 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
 module.exports = router;
 ```
 
+# VERIFY ADMIN 🔑
+
 ##### verifyToken.js
 
 ```javascript
@@ -331,3 +333,67 @@ module.exports = {
   verifyTokenAndAdmin,
 };
 ```
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+
+# ADMIN TEST
+
+### Now lets make the user ADMIN, type the following in POSTMAN
+
+- Create a new user in postman using the **REGISTER**
+
+```javascript
+{
+"username": "admin1",
+"email": "admin1@gmail.com",
+"password": "blero2n2"
+ }
+```
+
+#### result:
+
+- If you notice the **"isAdmin":** is **FALSE**
+
+```javascript
+{
+    "username": "admin1",
+    "email": "admin1@gmail.com",
+    "password": "longcode",
+    "isAdmin": false,
+    "_id": "longcode",
+    "createdAt": "2021-11-17T23:59:34.499Z",
+    "updatedAt": "2021-11-17T23:59:34.499Z",
+    "__v": 0
+}
+```
+
+<br>
+
+### To make a USER an ADMIN, we will have to go to MONGO and edit the permission there:
+
+- Once we edit the Admin from **false to true**, we will see if its working.
+
+##### Here we will use the id of a "normal user or not admin", in the url
+
+<br>
+
+```javascript
+http://localhost:4000/api/users/find/61959c3f76557e19b666b95a
+// this url is from another user who is not an admin
+```
+
+<br>
+
+#### Now we will add the token of an admin, so to have 2 opposite datas
+
+[<img src="img/making-a-user-an-admin.gif"/>]()
+
+<br>
+
+<br>
+
+- As you can see, at the end of the GIF it didnt work, as the identity or user id **doesnt correspond to the admin**.
