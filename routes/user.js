@@ -72,15 +72,12 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
 //---------------------------------
 //
 router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
-  //
-
   try {
-    // Find it throught the Id
+    // Find the user(you need of specific .findById() method to find it)
     const user = await User.findById(req.params.id);
-
+    // grab the password and ...all the data exe. 'others'
     const { password, ...others } = user._doc;
     //._doc; will grab the user data from the object in mongoDb
-    //
     res.status(200).json({ others });
   } catch (err) {
     res.status(500).json(err);
@@ -88,4 +85,72 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
 });
 //
 //
+
+//---------------------------------
+//           GET all users
+//---------------------------------
+//
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  const query = req.query.new;
+
+  try {
+    // Find all the user(no need of specific .findById() method)
+    // the '_id:' operator is used to remove the document ID for a simpler output.
+    const users = query
+      ? await User.find().sort({ _id: -1 }).limit(5)
+      : await User.find();
+    //
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+//
+//
+
+//---------------------------------
+//           GET STATS
+//---------------------------------
+//
+router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
+  const date = new Date();
+  // We will use again the **-1** to return the last year today
+  const lastYear = new Date(date.setFullYear(date.getFullYear() - 2));
+  //
+  try {
+    const data = await User.aggregate([
+      //1 here we are going to try to $match the condition
+      //the condition is: createdAt, because if you see
+      // the object in mongo, every user has an update, and in the
+      // condition we are going to say less than today and 'greater $gte' than last year
+      { $match: { createdAt: { $gte: lastYear } } },
+      // 2 and I want to take months number
+      // what we are saying here below is: take the month number
+      // inside the mongo 'createdAt' date
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+        },
+      },
+
+      // AFTER the $project we can 'group' the items, the users
+      {
+        $group: {
+          _id: "$month",
+          total: { $sum: 1 },
+        },
+      },
+      //
+    ]);
+    //
+    res.status(200).json(data);
+    //
+  } catch (err) {}
+  //
+});
+//
+
+//
+//
+
 module.exports = router;
