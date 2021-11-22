@@ -661,15 +661,18 @@ router.get("/", async (req, res) => {
 
 #### So basically we can fetch all products by:
 
-- createdAt: (and just 5, we will see it soon )
+- **createdAt**: (and just 5, we will see it soon )
 
 <br>
 
-- and by their category
+- and by their **category**
 
 <br>
+<br>
 
-#### The way we are going to do this is by adding an array
+## The way we are going to do this is by adding an array.
+
+- let products;
 
 <br>
 
@@ -700,11 +703,26 @@ router.get("/", async (req, res) => {
 
 ### Focus on step 6:
 
-- You will have to add a condition, which is **({categories})** this categories inside the Product SCHEMA specifies that it should be an **array**:
+- You will have to add a condition, which is **({categories})** this categories inside the **Product SCHEMA** specifies that it should be an **array**:
+
+```javascript
+const ProductSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true, unique: true },
+    desc: { type: String, required: true },
+    img: { type: String, required: true },
+    categories: { type: Array }, //because it can have more than 1 category
+    size: { type: String },
+    color: { type: String },
+    price: { type: Number, required: true },
+  },
+  { timestamps: true }
+);
+```
 
 <br>
 
-- **categories: { type: Array },**
+#### so back to the product.js
 
 <br>
 
@@ -749,7 +767,7 @@ categories: { type: Array },
 
 Let's use the $in operator.
 We can see the $in operator is
-assigned to the breed field as an object.
+assigned to the breed (check the link below, to understand the example) field as an object.
 
 The value of the $in operator is an array
 that contains few values. The document
@@ -763,6 +781,35 @@ will be matched where the value of the
 ### What is $in in mongoose?
 
 - READ THE COMMENTED above or visit this link [The mongoose $in Operator](https://kb.objectrocket.com/mongo-db/the-mongoose-in-operator-1015)
+
+## Examples
+
+##### Use the $in Operator to Match Values
+
+- Consider the following example:
+
+```javascript
+db.inventory.find({ qty: { $in: [5, 15] } });
+//
+//
+
+/*
+
+This query selects all documents in the
+inventory collection where the qty field
+value is either 5 or 15. Although you can
+express this query using the $or operator, 
+choose the $in operator rather than the 
+$or operator when performing equality 
+checks on
+ the same field.
+
+ 
+Use the $in Operator to Match Values
+ in an Array
+
+*/
+```
 
 <br>
 
