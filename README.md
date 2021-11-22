@@ -131,11 +131,15 @@ The req. body object allows you to access data in a string or JSON object from t
 
 - Copy all the content from the **user.js** and paste it inside the **Product.js**
 
-- All the commented will stay like that until we need it, you can also delete it or save it somewhere else, I will keep it my read.
+<br>
+
+- ✋ All the commented will stay like that until we need it, you can also delete it or save it somewhere else, I will keep it my read.
 
 <br>
 
-#### Replace and hide certain things
+### Replace and hide certain things(we will need it for later)
+
+<br>
 
 ```javascript
 const Product = require("../models/Product");
@@ -393,6 +397,8 @@ router.post("/", verifyTokenAndAdmin, async (req, res) => {
 
 ### Now go to postman and test it
 
+<br>
+
 1. DONT forget to **UPDATE your token** before you add the new request. to get a new token log in in postman (presuming you have all the requests tabs at the left side).
 
 🔴 Dont forget that you have to be logged with an **ADMIN** account as only the admin can create the products, to change the permission go to mongo and replace isAdmin:**false** for **true**, then log in again
@@ -412,7 +418,11 @@ router.post("/", verifyTokenAndAdmin, async (req, res) => {
 
 <br>
 
-##### This has to match the info we added inside the SCHEMA PRODUCT:
+<br>
+
+#### This has to match the info we added inside the SCHEMA PRODUCT:
+
+<br>
 
 ```javascript
 // Product.js
@@ -453,6 +463,8 @@ Error: socket hang up
 
 - 🔴 The error was caused because I mistyped a line
 
+<br>
+
 #### RESULT
 
 ```javascript
@@ -474,7 +486,11 @@ Error: socket hang up
 }
 ```
 
-### 🔴 Possible errors
+<br>
+
+## 🔴 Possible errors
+
+<br>
 
 #### If you try to register and log in with a new admin, add the token and the user id in all the request but then you forget to delete the product inside the mongodb, a product that was created with a now deleted user, you will have something like this:
 
@@ -496,3 +512,310 @@ Error: socket hang up
 <br>
 
 [<img src="img/ADMIN_create_product1.gif"/>]()
+
+<br>
+<br>
+<br>
+
+## UPDATE product
+
+## Now that we have our first product lets implement the rest of the requests (the ones we commented )
+
+#### UNCOMMENT <u>THE UPDATE</u>
+
+- replace this: **verifyTokenAndAuthorization**
+
+- for this: **verifyTokenAndAdmin**
+
+- replace also: **updatedUser** for **updatedProduct**
+
+<br>
+
+```javascript
+//
+//---------------------------------
+//            UPDATE
+//---------------------------------
+//
+router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
+  //
+  // WE DONT NEED THE DATA BELOW,
+  // because its about passwords  ***
+  //
+  // if (req.body.password) {
+  //   req.body.password = CryptoJS.AES.encrypt(
+  //     req.body.password,
+  //     process.env.PASS_SECRET
+  //   ).toString();
+  // }
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      //
+      //
+      // admin, all to see if we have
+      // the right credentials to proceed with an update.
+      { new: true }
+    );
+    res.status(200).json(updatedProduct);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//
+```
+
+<br><br>
+
+## DELETE product
+
+```javascript
+//
+//
+//
+//---------------------------------
+//            DELETE
+//---------------------------------
+//
+//
+router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
+  //
+  // Here we will find and delete
+  //  that specific User/ and all the
+  // schema data that this User contains
+  try {
+    await Product.findByIdAndDelete(req.params.id);
+    res.status(200).json("Product has been deleted");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+//
+```
+
+<br>
+
+## GET product
+
+#### This time we will not add the 'verifyTokenAndAdmin',because any user can reach the products
+
+```javascript
+//
+//
+//---------------------------------
+//           GET product
+//---------------------------------
+//
+//
+// This time we will not add the 'verifyTokenAndAdmin' because any user can reach the products
+// router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+
+router.get("/find/:id", async (req, res) => {
+  try {
+    // Find the product(you need of specific .findById() method to find it)
+    const product = await Product.findById(req.params.id);
+    //
+    res.status(200).json({ product });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+//
+//
+```
+
+<br>
+
+# 🍦
+
+## GET all users
+
+#### Again we will not add the 'verifyTokenAndAdmin',because any user can fetch the products
+
+<br>
+
+> So here we are going to have **2 queries**, not only **NEW**
+> but we are going to fetch them also by **CATEGORIES**
+
+<br>
+
+- **qNew** stands for **queryNew**
+
+```javascript
+//---------------------------------
+//           GET all products
+//---------------------------------
+//
+router.get("/", async (req, res) => {
+  //
+  // qNew stands for queryNew
+  // const query = req.query.new;
+  const qNew = req.query.new;
+  const qCategory = req.query.category;
+```
+
+#### So basically we can fetch all products by:
+
+- createdAt: (and just 5, we will see it soon )
+
+<br>
+
+- and by their category
+
+<br>
+
+#### The way we are going to do this is by adding an array
+
+<br>
+
+```javascript
+//
+//---------------------------------
+//           GET all products
+//---------------------------------
+//
+router.get("/", async (req, res) => {
+  //
+  // qNew stands for queryNew
+  // const query = req.query.new;
+  // 1 fetching the data with this vars
+  const qNew = req.query.new;
+  const qCategory = req.query.category;
+
+  try {
+    //2 creating the array
+    let products;
+
+
+
+```
+
+<br>
+<br>
+
+### Focus on step 6:
+
+- You will have to add a condition, which is **({categories})** this categories inside the Product SCHEMA specifies that it should be an **array**:
+
+<br>
+
+- **categories: { type: Array },**
+
+<br>
+
+```javascript
+   //3
+    //if there is a query and if this 'qNew', then...
+    if (qNew) {
+      //4 my products will be ... createdAt '-1 current years' and the limit will be 5 products
+      products = await Product.find().sort({ createdAt: -1 }).limit(5);
+      //5 if the query isnt qNew, if its query category: qCategory, then
+    } else if (qCategory) {
+      //6 my products will be ({categories})
+      products = await Product.find({
+        //7
+        categories: {
+          //8
+          $in: [qCategory],
+        },
+      });
+
+```
+
+<br>
+
+### So basically we are saying: if the category 'query' which is this one:
+
+- const **qCategory = req.query.category;** is inside this query:
+
+```javascript
+categories: { type: Array },
+```
+
+### we are going to fetch this products, so the way we will do it, is by saying:
+
+```javascript
+    categories: {
+          //8
+          $in: [qCategory],
+        },
+
+/*
+
+Let's use the $in operator.
+We can see the $in operator is
+assigned to the breed field as an object.
+
+The value of the $in operator is an array
+that contains few values. The document
+will be matched where the value of the
+ breed field matches any one of the values
+ inside the array.
+
+ */
+```
+
+### What is $in in mongoose?
+
+- READ THE COMMENTED above or visit this link [The mongoose $in Operator](https://kb.objectrocket.com/mongo-db/the-mongoose-in-operator-1015)
+
+<br>
+
+<br>
+
+[<img src="img/CREATING-categories.gif"/>]()
+
+#### SO this is what we have:
+
+```javascript
+//---------------------------------
+//           GET all products
+//---------------------------------
+//
+router.get("/", async (req, res) => {
+  //
+  // qNew stands for queryNew
+  // const query = req.query.new;
+  // 1 fetching the data with this vars
+  const qNew = req.query.new;
+  const qCategory = req.query.category;
+
+  try {
+    //2 creating the array
+    let products;
+
+    //3
+    //if there is a query and if this 'qNew', then...
+    if (qNew) {
+      //4 my products will be ... createdAt '-1 current years' and the limit will be 5 products
+      products = await Product.find().sort({ createdAt: -1 }).limit(5);
+      //5 if the query isnt qNew, if its query category: qCategory, then
+    } else if (qCategory) {
+      //6 my products will be ({categories})
+      products = await Product.find({
+        //7
+        categories: {
+          //8
+          $in: [qCategory],
+        },
+      });
+      //9
+    } else {
+      //10 so if there is not specific query by the user,
+      // the outcome will be all the products
+      products = await Product.find();
+    }
+
+    //
+    //
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+```
