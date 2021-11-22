@@ -1127,4 +1127,6 @@ __v
 <br>
 <br>
 
-### In the next section we will be creating the product set up so that we can add products.
+# 🍨
+
+#### In the next section we will be creating the product set up, so that we can add products.
