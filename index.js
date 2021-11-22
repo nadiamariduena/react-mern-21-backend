@@ -30,20 +30,23 @@ app.use(express.json());
 //
 
 //
-// ROUTES
+//      ROUTES
 //
 //
 
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
-
+const productRoute = require("./routes/product");
 //
 //
+//      ENDPOINTS
 //
 app.use(express.json());
 app.use("/api/auth", authRoute);
 //if you are using a REST API this will be plural: instead of user , users
 app.use("/api/users", userRoute);
+//
+app.use("/api/products", productRoute);
 
 //
 // process.env.PORT || 5000 means: if there is not port at our .env file, then ||, use this number: 500

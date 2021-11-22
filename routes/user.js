@@ -97,7 +97,9 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
     // Find all the user(no need of specific .findById() method)
     // the '_id:' operator is used to remove the document ID for a simpler output.
     const users = query
-      ? await User.find().sort({ _id: -1 }).limit(5)
+      ? // if there is any Query, it s going to return 'await User.find().sort({ _id: -1 }).limit(5)'
+        // if there isnt : any query, its going to return all users like so: await User.find();
+        await User.find().sort({ _id: -1 }).limit(5)
       : await User.find();
     //
     res.status(200).json(users);
@@ -129,11 +131,13 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
       // inside the mongo 'createdAt' date
       {
         $project: {
+          // take the month number, inside the created update
           month: { $month: "$createdAt" },
         },
       },
 
-      // AFTER the $project we can 'group' the items, the users
+      // AFTER the $project we can 'group'
+      //  the items, the users
       {
         $group: {
           _id: "$month",

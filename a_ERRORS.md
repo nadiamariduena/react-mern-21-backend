@@ -75,6 +75,7 @@ Emitted 'error' event on Server instance at:
 keyPattern: {
   username: null;
 }
+// this error show up when you have either an item or a user with a similar data inside MONGODB or an error insid e the .env.
 ```
 
 ### the set up i have in postman
@@ -337,3 +338,29 @@ const token = authHeader.split(" ")[1];
 <br>
 
 - **careful** when adding the token as sometimes you can confuse the authorization and the headers (as they look similar), and by mistake you add the token inside the "Authorization" instead of the "Headers"
+
+<br>
+<br>
+<hr>
+<br>
+
+# 🔴 error no.5
+
+## CREATING A NEW PRODUCT
+
+#### If you try to register and log in with a new admin, a(dd the token and the user id in all the requests:POST GET etc) but then you forget to delete the product inside the mongodb, a product that was created with a now deleted user, you will have something like this:
+
+```javascript
+{
+    "index": 0,
+    "code": 11000,
+    "keyPattern": {
+        "title": 1
+    },
+    "keyValue": {
+        "title": "alexander mcqueen"
+    }
+}
+```
+
+- Just delete the product and create a new product with a new Admin user.
