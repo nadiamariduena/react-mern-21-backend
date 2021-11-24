@@ -265,7 +265,7 @@ the 2 means in 2020, you can test it by changing the year of a random user insid
 
 POST
 
-http://localhost:4000/api/users/stats
+http://localhost:4000/api/products
 
 body
 raw
@@ -295,4 +295,172 @@ value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2O
 
 ```
 
+<br>
+<br>
+
 ---
+
+#### GET ALL PRODUCTS
+
+<br>
+
+- with this you will get all the products (dont forget to replace from post to get)
+
+GET ✋
+
+http://localhost:4000/api/products
+
+```javascript
+
+
+//----------
+Header
+//----------
+
+
+key:token
+value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2OWYzNGQ5MWZhNiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNzU4MDU3NywiZXhwIjoxNjM3ODM5Nzc3fQ.7S0U12s-DlT4nxZyJ4_5oBXJe6BhbcDFrxQhkUjmpTw
+
+
+
+```
+
+<br>
+
+#### But now lets get only the new products
+
+- change this from 5 to 1, to only get 1 new product:
+
+```javascript
+// inside the product.js
+// .limit(5);
+ .limit(1);
+```
+
+- Then go back to postman and change the **url**
+
+- search for **new**
+
+```javascript
+http://localhost:4000/api/products?new=true
+```
+
+<br>
+
+#### result
+
+```javascript
+[
+  {
+    _id: "619dc149afb74752b530198f",
+    title: "kenzo W tshirt",
+    desc: "flower power summer sunshine",
+    img: "test",
+    categories: ["tshirt", "women"],
+    size: "M",
+    color: "yellow",
+    price: 200,
+    createdAt: "2021-11-24T04:36:25.013Z",
+    updatedAt: "2021-11-24T04:36:25.013Z",
+    __v: 0,
+  },
+];
+```
+
+<br>
+
+#### But now lets get only the products with certain 'categories'
+
+- I only want to show men t-shirts, for that i will go back to postman and change the **url**
+
+- search for **category=man**
+
+```javascript
+http://localhost:4000/api/products?category=man
+```
+
+<br>
+
+- change this from 1 to 5, to only get the latest 5 products:
+
+```javascript
+// inside the product.js
+
+ .limit(5);
+```
+
+<br>
+
+#### Result
+
+```javascript
+[
+  {
+    _id: "619b819b2ded069f34d91fb2",
+    title: "alexander mcqueen",
+    desc: "testo",
+    img: "test",
+    categories: ["tshirt", "man"],
+    size: "L",
+    color: "gray",
+    price: 148,
+    createdAt: "2021-11-22T11:40:11.124Z",
+    updatedAt: "2021-11-22T11:40:11.124Z",
+    __v: 0,
+  },
+  // --------------
+  {
+    _id: "619d1a316e567690376613af",
+    title: "HIGHNOBILITY thshirt",
+    desc: "testo",
+    img: "test",
+    categories: ["tshirt", "man"],
+    size: "L",
+    color: "gray",
+    price: 148,
+    createdAt: "2021-11-23T16:43:29.689Z",
+    updatedAt: "2021-11-23T16:43:29.689Z",
+    __v: 0,
+  },
+  // --------------
+  {
+    _id: "619db422a8ca6c6a8db71d8f",
+    title: "kenzo thshirt",
+    desc: "testo",
+    img: "test",
+    categories: ["tshirt", "man"],
+    size: "L",
+    color: "gray",
+    price: 148,
+    createdAt: "2021-11-24T03:40:18.317Z",
+    updatedAt: "2021-11-24T03:40:18.317Z",
+    __v: 0,
+  },
+];
+```
+
+- You can add as many categories as you want but it has to match this:
+
+```javascript
+[
+  {
+    _id: "619dc149afb74752b530198f",
+    title: "kenzo W tshirt",
+    desc: "flower power summer sunshine",
+    img: "test",
+    categories: ["tshirt", "women"], // categories
+    size: "M",
+    color: "yellow",
+    price: 200,
+    createdAt: "2021-11-24T04:36:25.013Z",
+    updatedAt: "2021-11-24T04:36:25.013Z",
+    __v: 0,
+  },
+];
+```
+
+- search tshirt for example **category=tshirt**
+
+```javascript
+http://localhost:4000/api/products?category=tshirt
+```
