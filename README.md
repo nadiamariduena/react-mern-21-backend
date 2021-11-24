@@ -1,9 +1,220 @@
  <!-- 
- styles badge, at the end i decided to custom them like in the commercejs project
- where i had to create a styles.js file and add the styles there then export it as hook
- https://stackoverflow.com/questions/55766980/custom-color-to-badge-component-not-working
- 
-  <br>
+First we will turn on the server inside VISUAL STUDIO, after this we will launch POSTMAN and log in MONGO.
+
+in Order to start testing the different HTTP REQUEST
+we will need to log in with the 'log in user' from below, but if we dont have any user, we will have 
+to register 1, we can first add a user and then go
+to mongo and change the admin from false to true, so  that we will have permissions to create products
+etc, the other user that we will create will be a normal user with no special permission
+
+
+
+
+
+REGISTER
+
+
+POST
+
+http://localhost:4000/api/auth/register
+
+body
+raw
+json
+
+{"username": "flowerzap",
+"email": "flowerzap@gmail.com",
+"password": "sohajn"
+ }
+
+click:send
+
+------------------------
+LOGIN
+
+
+METHOD: POST
+
+http://localhost:4000/api/auth/login
+
+body
+raw
+json
+
+{"username": "flowerzap",
+"password": "sohajn"
+ }
+
+click:send
+
+after that you will get a token inside the result in the pretty  on the bottom of postman
+
+{
+    "_id": "619b7ea02ded069f34d91fa6",
+    "username": "flowerzap",
+    "email": "flowerzap@gmail.com",
+    "isAdmin": true,
+    "createdAt": "2021-11-22T11:27:28.428Z",
+    "updatedAt": "2021-11-22T11:27:28.428Z",
+    "__v": 0,
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2OWYzNGQ5MWZhNiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNzY3ODAwMCwiZXhwIjoxNjM3OTM3MjAwfQ.mVnN_T3HUEW1xZip5ENI_cfyMBSHtz_irhVceUkPf9s"
+}
+
+So grab the token and use it in the following steps
+
+-------------
+
+GET USER
+
+the id in each of the following request has to match the freshly created and logged user,
+
+so use the users ID and the respective token to that user.
+
+METHOD: GET
+
+http://localhost:4000/api/users/find/619b7ea02ded069f34d91fa6
+
+
+body
+raw
+json
+
+{
+   "username": "flowerzap"
+ }
+
+Header
+
+key:token
+
+value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2OWYzNGQ5MWZhNiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNzU4MDU3NywiZXhwIjoxNjM3ODM5Nzc3fQ.7S0U12s-DlT4nxZyJ4_5oBXJe6BhbcDFrxQhkUjmpTw
+
+result
+
+{
+    "others": {
+        "_id": "619b7ea02ded069f34d91fa6",
+        "username": "flowerzap",
+        "email": "flowerzap@gmail.com",
+        "isAdmin": true,
+        "createdAt": "2021-11-22T11:27:28.428Z",
+        "updatedAt": "2021-11-22T11:27:28.428Z",
+        "__v": 0
+    }
+}
+
+
+----------------------
+
+GET ALL USERS
+
+GET
+
+http://localhost:4000/api/users?new=true
+
+body
+raw
+json
+
+{
+   "username": "flowerzap"
+ }
+
+Header
+
+key:token
+
+value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2OWYzNGQ5MWZhNiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNzU4MDU3NywiZXhwIjoxNjM3ODM5Nzc3fQ.7S0U12s-DlT4nxZyJ4_5oBXJe6BhbcDFrxQhkUjmpTw
+
+result
+
+[
+    {
+        "_id": "619b7ea02ded069f34d91fa6",
+        "username": "flowerzap",
+        "email": "flowerzap@gmail.com",
+        "password": "U2FsdGVkX1+Ys7Jmz3+Lfy3mScpwAkn7hd/wfbCtGUE=",
+        "isAdmin": true,
+        "createdAt": "2021-11-22T11:27:28.428Z",
+        "updatedAt": "2021-11-22T11:27:28.428Z",
+        "__v": 0
+    }
+]
+
+
+-----------------
+
+
+
+
+USER STATS
+
+GET
+
+http://localhost:4000/api/users/stats
+
+body
+raw
+json
+
+{
+   "username": "flowerzap"
+ }
+
+Header
+
+key:token
+
+value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2OWYzNGQ5MWZhNiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNzU4MDU3NywiZXhwIjoxNjM3ODM5Nzc3fQ.7S0U12s-DlT4nxZyJ4_5oBXJe6BhbcDFrxQhkUjmpTw
+
+result
+
+Will show you how many users in the current year but it depends if you added the following inside the user.js:
+ const lastYear = new Date(date.setFullYear(date.getFullYear() - 2));
+
+ the 2 means in 2020, you can test it by changing the year of a random user inside mongo
+
+  {
+        "_id": 11,
+        "total": 1
+    }
+
+
+
+
+
+------------------------
+
+ADD PRODUCT
+
+POST
+
+http://localhost:4000/api/users/stats
+
+body
+raw
+json
+
+{
+"title": "alexander mcqueen",
+"desc":  "testo",
+"img": "test",
+"categories": ["tshirt", "man"],
+"size": "L",
+"color": "gray",
+"price": 148
+}
+
+
+
+Header
+
+key:token
+value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2OWYzNGQ5MWZhNiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNzU4MDU3NywiZXhwIjoxNjM3ODM5Nzc3fQ.7S0U12s-DlT4nxZyJ4_5oBXJe6BhbcDFrxQhkUjmpTw
+
+
+
+ ----------------------
 
 
 Photographs for projects
@@ -749,11 +960,17 @@ const ProductSchema = new mongoose.Schema(
 
 ### So basically we are saying: if the category 'query' which is this one:
 
+<br>
+
 - const **qCategory = req.query.category;** is inside this query:
+
+<br>
 
 ```javascript
 categories: { type: Array },
 ```
+
+<br>
 
 ### we are going to fetch this products, so the way we will do it, is by saying:
 
@@ -811,6 +1028,8 @@ Use the $in Operator to Match Values
 */
 ```
 
+#### read more: [$in operator](https://docs.mongodb.com/manual/reference/operator/query/in/)
+
 <br>
 
 <br>
@@ -866,3 +1085,7 @@ router.get("/", async (req, res) => {
   }
 });
 ```
+
+<br>
+
+## Now lets go to POSTMAN, once there create a product
