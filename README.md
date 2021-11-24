@@ -332,11 +332,20 @@ The req. body object allows you to access data in a string or JSON object from t
 
 # 🐨
 
+##### Log in postman to start testing [POSTMAN]("./a_POSTMAN.md")
+
+<br>
+<br>
+
 <!-- phase 2 after, default 1 -->
 
 # PRODUCT
 
+<br>
+
 2:00:51 cors
+
+<br>
 
 #### Go to product.js
 
@@ -881,7 +890,7 @@ router.get("/", async (req, res) => {
 <br>
 <br>
 
-## The way we are going to do this is by adding an array.
+### The way we are going to do this is by adding an array.
 
 - let products;
 
@@ -1067,7 +1076,7 @@ router.get("/", async (req, res) => {
         //7
         categories: {
           //8
-          $in: [qCategory],
+          $in: [qCategory], ✋
         },
       });
       //9
@@ -1088,4 +1097,97 @@ router.get("/", async (req, res) => {
 
 <br>
 
-## Now lets go to POSTMAN, once there create a product
+#### Now lets go to POSTMAN, once there, create a new product, change the categories from man to women , so to see the differences, click send so to save the product inside mongoDB
+
+```javascript
+// this will be a new product
+{
+"title": "kenzo W tshirt",
+"desc":  "flower power summer sunshine",
+"img": "test",
+"categories": ["tshirt", "women"],
+"size": "M",
+"color": "yellow",
+"price": 200
+}
+```
+
+<br>
+
+#### ONCE You do that Duplicate the Request, and change the name from 'add product' to 'get all products'
+
+- the url stays the same http://localhost:4000/api/products
+- but change the method from **POST** to **GET**
+
+<br>
+
+body
+raw
+json
+
+```javascript
+
+{
+"title": "alexander mcqueen",
+"desc": "testo",
+"img": "test",
+"categories": ["tshirt", "man"],
+"size": "L",
+"color": "gray",
+"price": 148
+}
+
+//----------
+Header
+//----------
+
+
+key:token
+value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2OWYzNGQ5MWZhNiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNzU4MDU3NywiZXhwIjoxNjM3ODM5Nzc3fQ.7S0U12s-DlT4nxZyJ4_5oBXJe6BhbcDFrxQhkUjmpTw
+```
+
+#### result
+
+```javascript
+[
+  {
+    _id: "619b819b2ded069f34d91fb2",
+    title: "alexander mcqueen",
+    desc: "testo",
+    img: "test",
+    categories: ["tshirt", "man"],
+    size: "L",
+    color: "gray",
+    price: 148,
+    createdAt: "2021-11-22T11:40:11.124Z",
+    updatedAt: "2021-11-22T11:40:11.124Z",
+    __v: 0,
+  },
+  {
+    _id: "619d1a316e567690376613af",
+    title: "HIGHNOBILITY thshirt",
+    desc: "testo",
+    img: "test",
+    categories: ["tshirt", "man"],
+    size: "L",
+    color: "gray",
+    price: 148,
+    createdAt: "2021-11-23T16:43:29.689Z",
+    updatedAt: "2021-11-23T16:43:29.689Z",
+    __v: 0,
+  },
+  {
+    _id: "619db422a8ca6c6a8db71d8f",
+    title: "kenzo thshirt",
+    desc: "testo",
+    img: "test",
+    categories: ["tshirt", "man"],
+    size: "L",
+    color: "gray",
+    price: 148,
+    createdAt: "2021-11-24T03:40:18.317Z",
+    updatedAt: "2021-11-24T03:40:18.317Z",
+    __v: 0,
+  },
+];
+```

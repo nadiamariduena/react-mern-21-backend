@@ -93,6 +93,8 @@ json
 }
 ```
 
+##### 🔴 Dont use the tokens of this examples as they are just for testings purposes
+
 ---
 
 <br>
@@ -292,3 +294,5 @@ value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2O
 
 
 ```
+
+---

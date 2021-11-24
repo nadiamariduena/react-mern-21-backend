@@ -1,8 +1,8 @@
 # 🍦
 
-CHECK THIS SECTION AND MAKE MORE RESEARCH ABOUT THE $in operator, look for more examples
+#### CHECK THIS SECTION AND MAKE MORE RESEARCH ABOUT THE $in operator, look for more examples
 
-### What is $in in mongoose?
+##### What is $in in mongoose?
 
 - visit this link [The mongoose $in Operator](https://kb.objectrocket.com/mongo-db/the-mongoose-in-operator-1015)
 
