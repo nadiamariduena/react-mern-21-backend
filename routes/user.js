@@ -117,7 +117,7 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
 router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
   const date = new Date();
   // We will use again the **-1** to return the last year today
-  const lastYear = new Date(date.setFullYear(date.getFullYear() - 2));
+  const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
   //
   try {
     const data = await User.aggregate([
@@ -149,7 +149,9 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
     //
     res.status(200).json(data);
     //
-  } catch (err) {}
+  } catch (err) {
+    res.status(500).json(err);
+  }
   //
 });
 //

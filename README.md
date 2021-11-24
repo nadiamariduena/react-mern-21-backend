@@ -330,7 +330,7 @@ The req. body object allows you to access data in a string or JSON object from t
 
   -->
 
-# 🐨
+# 🐝
 
 ##### Log in postman to start testing [POSTMAN]("./a_POSTMAN.md")
 
@@ -339,30 +339,17 @@ The req. body object allows you to access data in a string or JSON object from t
 
 <!-- phase 2 after, default 1 -->
 
-# PRODUCT
+# CART
 
 <br>
 
-2:00:51 cors
+- Copy and paste all the data from **product.js**, paste it inside the cart.js, comment everything **but** the **CREATE**
 
-<br>
+ <br>
 
-#### Go to product.js
-
-- Copy all the content from the **user.js** and paste it inside the **Product.js**
-
-<br>
-
-- ✋ All the commented will stay like that until we need it, you can also delete it or save it somewhere else, I will keep it my read.
-
-<br>
-
-### Replace and hide certain things(we will need it for later)
-
-<br>
+ <br>
 
 ```javascript
-const Product = require("../models/Product");
 const {
   verifyToken,
   verifyTokenAndAuthorization,
@@ -372,21 +359,40 @@ const {
 const router = require("express").Router();
 //
 //---------------------------------
+//             CREATE
+//---------------------------------
+//
+//
+// Here we will require the 'verifyTokenAndAdmin', because only the ADMIN can create a product.
+//
+router.post("/", verifyTokenAndAdmin, async (req, res) => {
+  //
+  //
+  const newProduct = new Product(req.body);
+  //
+  try {
+    // Here we will save the product
+    const savedProduct = await newProduct.save();
+    // After saving the product, we can send it
+    res.status(200).json(savedProduct);
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+  //
+});
+//
+//
+//---------------------------------
 //            UPDATE
 //---------------------------------
 //
-// router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+// router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 //   //
 
-//   if (req.body.password) {
-//     req.body.password = CryptoJS.AES.encrypt(
-//       req.body.password,
-//       process.env.PASS_SECRET
-//     ).toString();
-//   }
-
 //   try {
-//     const updatedUser = await User.findByIdAndUpdate(
+//     const updatedProduct = await Product.findByIdAndUpdate(
 //       req.params.id,
 //       {
 //         $set: req.body,
@@ -397,14 +403,12 @@ const router = require("express").Router();
 //       // the right credentials to proceed with an update.
 //       { new: true }
 //     );
-//     res.status(200).json(updatedUser);
+//     res.status(200).json(updatedProduct);
 //   } catch (err) {
 //     res.status(500).json(err);
 //   }
 // });
-
 // //
-
 // //
 // //
 // //
@@ -414,363 +418,154 @@ const router = require("express").Router();
 // //
 // //
 // //
-// router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+// router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
 //   //
 //   // Here we will find and delete
-//   //  that specific User/ and all the
-//   // schema data that this User contains
+//   //  that specific Product/ and all the
+//   // schema data that this Product contains
 //   try {
-//     await User.findByIdAndDelete(req.params.id);
-//     res.status(200).json("User has been deleted");
+//     await Product.findByIdAndDelete(req.params.id);
+//     res.status(200).json("Product has been deleted");
 //   } catch (err) {
 //     res.status(500).json(err);
 //   }
 // });
+// //
+
+// //---------------------------------
+// //           GET product
+// //
+// //---------------------------------
+// //
 
 // //
-// //
-// //
-// //---------------------------------
-// //           GET user
-// //  only the Admin get the user
-// //---------------------------------
-// //
-// router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+// router.get("/find/:id", async (req, res) => {
 //   try {
 //     // Find the user(you need of specific .findById() method to find it)
-//     const user = await User.findById(req.params.id);
-//     // grab the password and ...all the data exe. 'others'
-//     const { password, ...others } = user._doc;
+//     const product = await Product.findById(req.params.id);
+
 //     //._doc; will grab the user data from the object in mongoDb
-//     res.status(200).json({ others });
+//     res.status(200).json({ product });
 //   } catch (err) {
 //     res.status(500).json(err);
 //   }
 // });
-// //
-// //
 
+// //
+// //
 // //---------------------------------
-// //           GET all users
+// //           GET all products
 // //---------------------------------
 // //
-// router.get("/", verifyTokenAndAdmin, async (req, res) => {
-//   const query = req.query.new;
+// router.get("/", async (req, res) => {
+//   //
+//   // qNew stands for queryNew
+//   // const query = req.query.new;
+//   // 1 fetching the data with this vars
+//   const qNew = req.query.new;
+//   const qCategory = req.query.category;
 
 //   try {
-//     // Find all the user(no need of specific .findById() method)
-//     // the '_id:' operator is used to remove the document ID for a simpler output.
-//     const users = query
-//       ? // if there is any Query, it s going to return 'await User.find().sort({ _id: -1 }).limit(5)'
-//         // if there isnt : any query, its going to return all users like so: await User.find();
-//         await User.find().sort({ _id: -1 }).limit(5)
-//       : await User.find();
+//     //2 creating the array
+//     let products;
+
+//     //3
+//     //if there is a query and if this 'qNew', then...
+//     if (qNew) {
+//       //4 my products will be ... createdAt '-1 current years' and the limit will be 5 products
+//       products = await Product.find().sort({ createdAt: -1 }).limit(5);
+//       //5 if the query isnt qNew, if its query category: qCategory, then
+//     } else if (qCategory) {
+//       //6 my products will be ({categories})
+//       products = await Product.find({
+//         //7
+//         categories: {
+//           //8
+//           $in: [qCategory],
+//         },
+//       });
+//       //9
+//     } else {
+//       //10 so if there is not specific query by the user,
+//       // the outcome will be all the products
+//       products = await Product.find();
+//     }
+
 //     //
-//     res.status(200).json(users);
+//     //
+//     res.status(200).json(products);
 //   } catch (err) {
 //     res.status(500).json(err);
 //   }
 // });
-// //
-// //
-
-// //---------------------------------
-// //           GET STATS
-// //---------------------------------
-// //
-// router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
-//   const date = new Date();
-//   // We will use again the **-1** to return the last year today
-//   const lastYear = new Date(date.setFullYear(date.getFullYear() - 2));
-//   //
-//   try {
-//     const data = await User.aggregate([
-//       //1 here we are going to try to $match the condition
-//       //the condition is: createdAt, because if you see
-//       // the object in mongo, every user has an update, and in the
-//       // condition we are going to say less than today and 'greater $gte' than last year
-//       { $match: { createdAt: { $gte: lastYear } } },
-//       // 2 and I want to take months number
-//       // what we are saying here below is: take the month number
-//       // inside the mongo 'createdAt' date
-//       {
-//         $project: {
-//           // take the month number, inside the created update
-//           month: { $month: "$createdAt" },
-//         },
-//       },
-
-//       // AFTER the $project we can 'group'
-//       //  the items, the users
-//       {
-//         $group: {
-//           _id: "$month",
-//           total: { $sum: 1 },
-//         },
-//       },
-//       //
-//     ]);
-//     //
-//     res.status(200).json(data);
-//     //
-//   } catch (err) {}
-//   //
-// });
-// //
-
-//
-//
-
-module.exports = router;
-```
-
-<br>
-<br>
-
-# CREATE
-
-#### If you notice, inside the user.js we created:
-
-<br>
-
-- UPDATE
-- DELETE
-- GET USERS
-- GET ALL USERS
-- GET STATS
-
-<br>
-
-#### Now we will continue with:
-
-- CREATE ✋
-
-<br>
-
-- Add the create request, inside the **product.js**
-
-```javascript
-const Product = require("../models/Product");
-const {
-  verifyToken,
-  verifyTokenAndAuthorization,
-  verifyTokenAndAdmin,
-} = require("./verifyToken");
-
-const router = require("express").Router();
-
-//
-//          CREATE
-//
-// Here we will require the 'verifyTokenAndAdmin', because only the ADMIN can create a product.
-//
-router.post("/", verifyTokenAndAdmin, async (req, res) => {});
-//
-//
-
-module.exports = router;
 ```
 
 <br>
 
-#### Now go to the index.js and add the Route there, so that we can see what we do.
+<br>
 
-```javascript
-// 1
-const productRoute = require("./routes/product");
-//
-// 2
-//
-app.use("/api/products", productRoute);
-```
+### Now lets replace a couple of things
+
+- Change all the Product data for **Cart**
+- Replace this **verifyTokenAndAdmin** for only **verifyToken**
 
 <br>
 
-#### Now go back to the product.js
-
-- SAVE THE PRODUCT
-
 ```javascript
-router.post("/", verifyTokenAndAdmin, async (req, res) => {
+const Cart = require("../models/Cart");
+//---------------------------------
+//             CREATE
+//---------------------------------
+//
+//
+// Here we will require the 'verifyToken',
+// because any user can create a cart.
+//
+router.post("/", verifyToken, async (req, res) => {
   //
-  //1
-  const newProduct = new Product(req, body);
+  //
+  const newCart = new Cart(req.body);
   //
   try {
-    // 2
-    // Here we will save the product
-    const savedProduct = await newProduct.save();
-    // 4
-    // After saving the product, we can send it
-    res.status(200).json(savedProduct);
+    // Here we will save the Cart
+    const savedCart = await newCart.save();
+    // After saving the Cart, we can send it
+    res.status(200).json(savedCart);
 
     //
   } catch (err) {
-    // 3
     res.status(500).json(err);
   }
   //
 });
-```
-
-<br>
-
-### Now go to postman and test it
-
-<br>
-
-1. DONT forget to **UPDATE your token** before you add the new request. to get a new token log in in postman (presuming you have all the requests tabs at the left side).
-
-🔴 Dont forget that you have to be logged with an **ADMIN** account as only the admin can create the products, to change the permission go to mongo and replace isAdmin:**false** for **true**, then log in again
-
-<br>
-
-#### Once you have your new token, duplicate the stats request
-
-2. change the request from GET to POST
-3. change the url to this: **http://localhost:4000/api/products**
-
-<br>
-
-[<img src="img/ADMIN_create_product.gif"/>]()
-
-4. Now create the object inside the **Body** still in postman.
-
-<br>
-
-<br>
-
-#### This has to match the info we added inside the SCHEMA PRODUCT:
-
-<br>
-
-```javascript
-// Product.js
-const ProductSchema = new mongoose.Schema(
-  {
-    title: { type: String, required: true, unique: true },
-    desc: { type: String, required: true },
-    img: { type: String, required: true },
-    categories: { type: Array }, //because it can have more than 1 category
-    size: { type: String },
-    color: { type: String },
-    price: { type: Number, required: true },
-  },
-
-
-
 //
 //
-// POSTMAN
-{
-"title": "alexander mcqueen",
-"desc":  "testo",
-"img": "test",
-"categories": ["tshirt", "man"],
-"size": "L",
-"color": "gray",
-"price": 148,
-}
-```
-
-#### After doing like in the video, i got the following error:
-
-```javascript
-Could not get response
-Error: socket hang up
-
-```
-
-- 🔴 The error was caused because I mistyped a line
-
-<br>
-
-#### RESULT
-
-```javascript
-{
-    "title": "alexander mcqueen",
-    "desc": "testo",
-    "img": "test",
-    "categories": [
-        "tshirt",
-        "man"
-    ],
-    "size": "L",
-    "color": "gray",
-    "price": 148,
-    "_id": "619b7322bf9dafa8b4e98dcd",
-    "createdAt": "2021-11-22T10:38:26.074Z",
-    "updatedAt": "2021-11-22T10:38:26.074Z",
-    "__v": 0
-}
 ```
 
 <br>
 
-## 🔴 Possible errors
+---
 
 <br>
 
-#### If you try to register and log in with a new admin, add the token and the user id in all the request but then you forget to delete the product inside the mongodb, a product that was created with a now deleted user, you will have something like this:
-
-```javascript
-{
-    "index": 0,
-    "code": 11000,
-    "keyPattern": {
-        "title": 1
-    },
-    "keyValue": {
-        "title": "alexander mcqueen"
-    }
-}
-```
-
-> - Just delete the product and create a new product with a new Admin user. 👍
+### Now uncomment the UPDATE
 
 <br>
 
-[<img src="img/ADMIN_create_product1.gif"/>]()
-
-<br>
-<br>
-<br>
-
-## UPDATE product
-
-## Now that we have our first product lets implement the rest of the requests (the ones we commented )
-
-#### UNCOMMENT <u>THE UPDATE</u>
-
-- replace this: **verifyTokenAndAuthorization**
-
-- for this: **verifyTokenAndAdmin**
-
-- replace also: **updatedUser** for **updatedProduct**
+- Change the **verifyToken** to **verifyTokenAndAuthorization**
 
 <br>
 
 ```javascript
-//
 //---------------------------------
 //            UPDATE
 //---------------------------------
 //
-router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
+router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   //
-  // WE DONT NEED THE DATA BELOW,
-  // because its about passwords  ***
-  //
-  // if (req.body.password) {
-  //   req.body.password = CryptoJS.AES.encrypt(
-  //     req.body.password,
-  //     process.env.PASS_SECRET
-  //   ).toString();
-  // }
 
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(
+    const updatedCart = await Cart.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
@@ -781,20 +576,186 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
       // the right credentials to proceed with an update.
       { new: true }
     );
-    res.status(200).json(updatedProduct);
+    res.status(200).json(updatedCart);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
-//
 ```
 
-<br><br>
+<br>
 
-## DELETE product
+### DELETE
 
 ```javascript
+//
+//
+//---------------------------------
+//            DELETE
+//---------------------------------
+//
+//
+//
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+  //
+  // Here we will find and delete
+  //  that specific Cart/ and all the
+  // schema data that this Cart contains
+  try {
+    await Cart.findByIdAndDelete(req.params.id);
+    res.status(200).json("Cart has been deleted");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+```
+
+<br>
+
+### GET CART
+
+#### Actually its going to be 'GET user Cart'
+
+<br>
+
+> ✋ Here you will have to change a couple of things\_
+
+<br>
+
+- add this: **verifyTokenAndAuthorization**
+- change this: **"/find/:id"** for this **"/find/:userId"**, since you are creating
+
+<br>
+
+> The following below has to match with the one we just modified 'above'
+
+- change this: **findById(req.params.id)** for this **findOne({ userId: req.params.userId })**, since you are creating
+
+<br>
+
+```javascript
+//---------------------------------
+//           GET user Cart
+//
+//---------------------------------
+//
+
+//
+router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    // Find the cart(you need of specific .findOne() instead of
+    // find(), because every user has just 1 cart
+    const cart = await Product.findOne({ userId: req.params.userId });
+
+    //._doc; will grab the user data from the object in mongoDb
+    res.status(200).json({ cart });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+```
+
+<br>
+
+### GET ALL
+
+```javascript
+//
+//
+//---------------------------------
+//           GET all
+//---------------------------------
+//here only admin can reach this data
+// Because we are going to see all carts of ALL users
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  //
+  //
+  //
+  try {
+    const carts = await Cart.find();
+    //response successful 200 and will send/show all carts
+    res.status(200).json(carts);
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+
+  //
+  //
+});
+```
+
+<br>
+<br>
+
+### This is what we have
+
+```javascript
+const Cart = require("../models/Cart");
+
+const {
+  verifyToken,
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
+const router = require("express").Router();
+//
+//
+
+//---------------------------------
+//             CREATE
+//---------------------------------
+//
+//
+// Here we will require the 'verifyToken',
+// because any user can create a cart.
+//
+router.post("/", verifyToken, async (req, res) => {
+  //
+  //
+  const newCart = new Cart(req.body);
+  //
+  try {
+    // Here we will save the Cart
+    const savedCart = await newCart.save();
+    // After saving the Cart, we can send it
+    res.status(200).json(savedCart);
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+  //
+});
+//
+//
+//
+//---------------------------------
+//            UPDATE
+//---------------------------------
+//
+router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+  //
+
+  try {
+    const updatedCart = await Cart.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      //
+      //
+      // admin, all to see if we have
+      // the right credentials to proceed with an update.
+      { new: true }
+    );
+    res.status(200).json(updatedCart);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+//
 //
 //
 //
@@ -803,323 +764,326 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 //---------------------------------
 //
 //
+//
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+  //
+  // Here we will find and delete
+  //  that specific Cart/ and all the
+  // schema data that this Cart contains
+  try {
+    await Cart.findByIdAndDelete(req.params.id);
+    res.status(200).json("Cart has been deleted");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+//
+
+//---------------------------------
+//           GET user Cart
+//
+//---------------------------------
+//
+
+//
+router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    // Find the cart(you need of specific .findOne() instead of
+    // find(), because every user has just 1 cart
+    const cart = await Product.findOne({ userId: req.params.userId });
+
+    //._doc; will grab the user data from the object in mongoDb
+    res.status(200).json({ cart });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//
+//
+//---------------------------------
+//           GET all
+//---------------------------------
+//here only admin can reach this data
+// Because we are going to see all carts of ALL users
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  //
+  //
+  //
+  try {
+    const carts = await Cart.find();
+    //response successful 200 and will send/show all carts
+    res.status(200).json(carts);
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+
+  //
+  //
+});
+
+module.exports = router;
+```
+
+<br>
+
+---
+
+<br>
+
+# ORDER
+
+<br>
+
+- Copy and paste all the data from **cart.js**, and replace many things, i am not going to explain this because its just like the previous file, so here is the order ready but there will be one more things to add.
+
+```javascript
+const Order = require("../models/Order");
+
+const {
+  verifyToken,
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
+const router = require("express").Router();
+//
+//
+
+//---------------------------------
+//             CREATE
+//---------------------------------
+//
+//
+// Here we will require the 'verifyToken',
+// because any user can create a cart.
+//
+router.post("/", verifyToken, async (req, res) => {
+  //
+  //
+  const newOrder = new Order(req.body);
+  //
+  try {
+    // Here we will save the Order
+    const savedOrder = await newOrder.save();
+    // After saving the Order, we can send it
+    res.status(200).json(savedOrder);
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+  //
+});
+//
+//
+//
+//---------------------------------
+//            UPDATE
+//---------------------------------
+//only admin can update order
+router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
+  //
+
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      //
+      //
+      // admin, all to see if we have
+      // the right credentials to proceed with an update.
+      { new: true }
+    );
+    res.status(200).json(updatedOrder);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+//
+//
+//
+//
+//---------------------------------
+//            DELETE
+//---------------------------------
+//
+//
+//
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   //
   // Here we will find and delete
-  //  that specific User/ and all the
-  // schema data that this User contains
+  //  that specific Order/ and all the
+  // schema data that this Order contains
   try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json("Product has been deleted");
+    await Order.findByIdAndDelete(req.params.id);
+    res.status(200).json("Order has been deleted");
   } catch (err) {
     res.status(500).json(err);
   }
 });
 //
+
+//---------------------------------
+//           GET user Orders
+//
+//---------------------------------
+//
+
+//
+router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    // Find the cart(you need of specific .find() instead of
+    // findOne(), because user can have MULTIPLE orders
+    const orders = await Order.find({ userId: req.params.userId });
+
+    //._doc; will grab the order data from the object in mongoDb
+    res.status(200).json({ orders });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//
+//
+//---------------------------------
+//           GET all orders
+//---------------------------------
+//here only admin can reach this data
+// Because we are going to see all carts of ALL users
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  //
+  //
+  //
+  try {
+    const orders = await Order.find();
+    //response successful 200 and will send/show all orders
+    res.status(200).json(orders);
+
+    //
+  } catch (err) {
+    res.status(500).json(err);
+  }
+
+  //
+  //
+});
+
+module.exports = router;
 ```
 
-<br>
+ <br>
 
-## GET product
+---
 
-#### This time we will not add the 'verifyTokenAndAdmin',because any user can reach the products
+ <br>
+
+### In more of the data we have above, we will add 'stats to the order'
+
+- In this section we will compare our income
 
 ```javascript
 //
 //
 //---------------------------------
-//           GET product
+//        GET MONTHLY INCOME
 //---------------------------------
 //
+// In this section we will compare our income
 //
-// This time we will not add the 'verifyTokenAndAdmin' because any user can reach the products
-// router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+router.get("/income", verifyTokenAndAdmin, async (req, res) => {
+  // we will compare our income depending of the month
+  //1 lets say the current is november
+  const date = new Date();
+  //2. the below is going to be October
+  const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
+  // and we also need the PREVIOUS month
+  //   3 this is going to be September
+  //and as you can see the 3 step connects to the 2 and the second to the 1
+  const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
 
-router.get("/find/:id", async (req, res) => {
+  //now lets a try and catch and AGGREGATE THE DATA
   try {
-    // Find the product(you need of specific .findById() method to find it)
-    const product = await Product.findById(req.params.id);
-    //
-    res.status(200).json({ product });
+    //4
+    const income = await Order.aggregate([
+      //the condition is: createdAt, because if you see
+      // the object in mongo, every user has an update, and in the
+      // condition we are going to say less than today and 'greater $gte' than last year
+      //gte: greater than.
+      //5
+      { $match: { createdAt: { $gte: previousMonth } } },
+      {
+        //6
+        $project: {
+          // take the month number, inside the created update
+          //7
+          month: { $month: "$createdAt" },
+          //additionally we will add sales
+          //8
+          sales: "$amount", // the amount is inside the order schema
+        },
+      },
+      {
+        $group: {
+          //group the AMOUNT of the orders
+          //9
+          _id: "$month",
+          total: { $sum: "$sales" },
+        },
+      },
+    ]);
+    res.status(200).json(income);
   } catch (err) {
     res.status(500).json(err);
   }
+  //
 });
 //
 //
 ```
 
 <br>
-
-# 🍦
-
-## GET all users
-
-#### Again we will not add the 'verifyTokenAndAdmin',because any user can fetch the products
-
 <br>
 
-> So here we are going to have **2 queries**, not only **NEW**
-> but we are going to fetch them also by **CATEGORIES**
+### Now lets add the routes inside the index.js
 
-<br>
-
-- **qNew** stands for **queryNew**
-
-```javascript
-//---------------------------------
-//           GET all products
-//---------------------------------
-//
-router.get("/", async (req, res) => {
-  //
-  // qNew stands for queryNew
-  // const query = req.query.new;
-  const qNew = req.query.new;
-  const qCategory = req.query.category;
-```
-
-#### So basically we can fetch all products by:
-
-- **createdAt**: (and just 5, we will see it soon )
-
-<br>
-
-- and by their **category**
-
-<br>
-<br>
-
-### The way we are going to do this is by adding an array.
-
-- let products;
-
-<br>
+- We will add the cart and order
 
 ```javascript
 //
-//---------------------------------
-//           GET all products
-//---------------------------------
+//      ROUTES
 //
-router.get("/", async (req, res) => {
-  //
-  // qNew stands for queryNew
-  // const query = req.query.new;
-  // 1 fetching the data with this vars
-  const qNew = req.query.new;
-  const qCategory = req.query.category;
-
-  try {
-    //2 creating the array
-    let products;
-
-
-
-```
-
-<br>
-<br>
-
-### Focus on step 6:
-
-- You will have to add a condition, which is **({categories})** this categories inside the **Product SCHEMA** specifies that it should be an **array**:
-
-```javascript
-const ProductSchema = new mongoose.Schema(
-  {
-    title: { type: String, required: true, unique: true },
-    desc: { type: String, required: true },
-    img: { type: String, required: true },
-    categories: { type: Array }, //because it can have more than 1 category
-    size: { type: String },
-    color: { type: String },
-    price: { type: Number, required: true },
-  },
-  { timestamps: true }
-);
-```
-
-<br>
-
-#### so back to the product.js
-
-<br>
-
-```javascript
-   //3
-    //if there is a query and if this 'qNew', then...
-    if (qNew) {
-      //4 my products will be ... createdAt '-1 current years' and the limit will be 5 products
-      products = await Product.find().sort({ createdAt: -1 }).limit(5);
-      //5 if the query isnt qNew, if its query category: qCategory, then
-    } else if (qCategory) {
-      //6 my products will be ({categories})
-      products = await Product.find({
-        //7
-        categories: {
-          //8
-          $in: [qCategory],
-        },
-      });
-
-```
-
-<br>
-
-### So basically we are saying: if the category 'query' which is this one:
-
-<br>
-
-- const **qCategory = req.query.category;** is inside this query:
-
-<br>
-
-```javascript
-categories: { type: Array },
-```
-
-<br>
-
-### we are going to fetch this products, so the way we will do it, is by saying:
-
-```javascript
-    categories: {
-          //8
-          $in: [qCategory],
-        },
-
-/*
-
-Let's use the $in operator.
-We can see the $in operator is
-assigned to the breed (check the link below, to understand the example) field as an object.
-
-The value of the $in operator is an array
-that contains few values. The document
-will be matched where the value of the
- breed field matches any one of the values
- inside the array.
-
- */
-```
-
-### What is $in in mongoose?
-
-- READ THE COMMENTED above or visit this link [The mongoose $in Operator](https://kb.objectrocket.com/mongo-db/the-mongoose-in-operator-1015)
-
-## Examples
-
-##### Use the $in Operator to Match Values
-
-- Consider the following example:
-
-```javascript
-db.inventory.find({ qty: { $in: [5, 15] } });
+//
+//
+const cartRoute = require("./routes/cart");
+const orderRoute = require("./routes/order");
 //
 //
 
-/*
-
-This query selects all documents in the
-inventory collection where the qty field
-value is either 5 or 15. Although you can
-express this query using the $or operator, 
-choose the $in operator rather than the 
-$or operator when performing equality 
-checks on
- the same field.
-
- 
-Use the $in Operator to Match Values
- in an Array
-
-*/
-```
-
-#### read more: [$in operator](https://docs.mongodb.com/manual/reference/operator/query/in/)
-
-<br>
-
-<br>
-
-[<img src="img/CREATING-categories.gif"/>]()
-
-#### SO this is what we have:
-
-```javascript
-//---------------------------------
-//           GET all products
-//---------------------------------
 //
-router.get("/", async (req, res) => {
-  //
-  // qNew stands for queryNew
-  // const query = req.query.new;
-  // 1 fetching the data with this vars
-  const qNew = req.query.new;
-  const qCategory = req.query.category;
-
-  try {
-    //2 creating the array
-    let products;
-
-    //3
-    //if there is a query and if this 'qNew', then...
-    if (qNew) {
-      //4 my products will be ... createdAt '-1 current years' and the limit will be 5 products
-      products = await Product.find().sort({ createdAt: -1 }).limit(5);
-      //5 if the query isnt qNew, if its query category: qCategory, then
-    } else if (qCategory) {
-      //6 my products will be ({categories})
-      products = await Product.find({
-        //7
-        categories: {
-          //8
-          $in: [qCategory], ✋
-        },
-      });
-      //9
-    } else {
-      //10 so if there is not specific query by the user,
-      // the outcome will be all the products
-      products = await Product.find();
-    }
-
-    //
-    //
-    res.status(200).json(products);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+//      ENDPOINTS
+//
+//
+app.use("/api/carts", cartRoute);
+app.use("/api/orders", orderRoute);
 ```
 
 <br>
-
-#### Now lets go to POSTMAN, once there, create a new product, change the categories from man to women , so to see the differences, click send so to save the product inside mongoDB
-
-```javascript
-// this will be a new product
-{
-"title": "kenzo W tshirt",
-"desc":  "flower power summer sunshine",
-"img": "test",
-"categories": ["tshirt", "women"],
-"size": "M",
-"color": "yellow",
-"price": 200
-}
-```
-
+<br>
 <br>
 
-#### ONCE You do that Duplicate the Request, and change the name from 'add product' to 'get all products'
+# 🍨
 
-- the url stays the same http://localhost:4000/api/products
-- but change the method from **POST** to **GET**
+### Now test it in POSTMAN
 
-<br>
+- create a new request
+
+#### POST
+
+http://localhost:4000/api/orders
 
 body
 raw
@@ -1128,13 +1092,24 @@ json
 ```javascript
 
 {
-"title": "alexander mcqueen",
-"desc": "testo",
-"img": "test",
-"categories": ["tshirt", "man"],
-"size": "L",
-"color": "gray",
-"price": 148
+"userId": "619b7ea02ded069f34d91fa6",
+"products": [
+{
+"productId": "21hehct",
+"quantity": 3
+
+},
+{
+"productId": "21enerandomeproduct",
+"quantity": 5
+
+}
+
+],
+"amount": 50,
+"address": "USA"
+
+
 }
 
 //----------
@@ -1143,213 +1118,184 @@ Header
 
 
 key:token
+
 value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2OWYzNGQ5MWZhNiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNzU4MDU3NywiZXhwIjoxNjM3ODM5Nzc3fQ.7S0U12s-DlT4nxZyJ4_5oBXJe6BhbcDFrxQhkUjmpTw
+
+
 ```
 
 <br>
+<br>
+
+### result
+
+```javascript
+
+{
+    "userId": "619b7ea02ded069f34d91fa6",
+    "products": [
+        {
+            "productId": "21hehct",
+            "quantity": 3,
+            "_id": "619e1bdb3313d8a2b73f6a05"
+        },
+        {
+            "productId": "21enerandomeproduct",
+            "quantity": 5,
+            "_id": "619e1bdb3313d8a2b73f6a06"
+        }
+    ],
+    "amount": 50,
+    "address": "USA",
+    "status": "pending",
+    "_id": "619e1bdb3313d8a2b73f6a04",
+    "createdAt": "2021-11-24T11:02:51.834Z",
+    "updatedAt": "2021-11-24T11:02:51.834Z",
+    "__v": 0
+}
+```
+
+<br>
+<br>
+
+### the pending
+
+- The pending status has to do with what we have inside the Order.js schema
+
+```javascript
+    products: [
+      {
+        productId: {
+          type: String,
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
+    amount: { type: Number, required: true },
+    //BELOW:its not going to be type:String because at that point
+    // We will be using STRIPE, and its going to give us an object with
+    // different lines/fields, similar to what i had here.
+    // CHECK the Readme:for schemas
+    address: { type: Object, required: true }, //after purchasing we will need user address
+    status: { type: String, default: "pending" },
+```
+
+<br>
+<br>
+
+### Lets create 1 more
+
+```javascript
+{
+"userId": "619b7ea02ded069f34d91fa6",
+"products": [
+{
+"productId": "21hmmmehct",
+"quantity": 10
+
+},
+{
+"productId": "21eneomeproduct",
+"quantity": 3
+
+}
+
+],
+"amount": 150,
+"address": "Belgium"
+
+
+}
+
+```
 
 #### result
 
-- As you can see, we got all the products we just added
+```javascript
+{
+    "userId": "619b7ea02ded069f34d91fa6",
+    "products": [
+        {
+            "productId": "21hmmmehct",
+            "quantity": 10,
+            "_id": "619e1db7cc1cb38cc3f47afd"
+        },
+        {
+            "productId": "21eneomeproduct",
+            "quantity": 3,
+            "_id": "619e1db7cc1cb38cc3f47afe"
+        }
+    ],
+    "amount": 150,
+    "address": "Belgium",
+    "status": "pending",
+    "_id": "619e1db7cc1cb38cc3f47afc",
+    "createdAt": "2021-11-24T11:10:47.461Z",
+    "updatedAt": "2021-11-24T11:10:47.461Z",
+    "__v": 0
+}
+```
 
 <br>
+
+- Once you have this result, go to mongo and change the data of one product
+
+<br>
+
+[<img src="img/getting_the_orders-POSTMAN.gif"/>]()
+
+<br>
+<br>
+
+### Go back to postman, duplicate the request and change the name:
+
+- create a new request
+
+#### GET
+
+http://localhost:4000/api/orders/income
+
+body
+raw
+json
+
+```javascript
+
+
+
+//----------
+Header
+//----------
+
+
+key:token
+
+value: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWI3ZWEwMmRlZDA2OWYzNGQ5MWZhNiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYzNzU4MDU3NywiZXhwIjoxNjM3ODM5Nzc3fQ.7S0U12s-DlT4nxZyJ4_5oBXJe6BhbcDFrxQhkUjmpTw
+
+
+```
+
+<br>
+<br>
+
+#### RESULT
 
 ```javascript
 [
   {
-    _id: "619b819b2ded069f34d91fb2",
-    title: "alexander mcqueen",
-    desc: "testo",
-    img: "test",
-    categories: ["tshirt", "man"],
-    size: "L",
-    color: "gray",
-    price: 148,
-    createdAt: "2021-11-22T11:40:11.124Z",
-    updatedAt: "2021-11-22T11:40:11.124Z",
-    __v: 0,
+    _id: 10, //the month
+    total: 150, //in october we earne 150
   },
-  // ------------
+  // last month we go:
   {
-    _id: "619d1a316e567690376613af",
-    title: "HIGHNOBILITY thshirt",
-    desc: "testo",
-    img: "test",
-    categories: ["tshirt", "man"],
-    size: "L",
-    color: "gray",
-    price: 148,
-    createdAt: "2021-11-23T16:43:29.689Z",
-    updatedAt: "2021-11-23T16:43:29.689Z",
-    __v: 0,
-  },
-  {
-    _id: "619db422a8ca6c6a8db71d8f",
-    title: "kenzo thshirt",
-    desc: "testo",
-    img: "test",
-    categories: ["tshirt", "man"],
-    size: "L",
-    color: "gray",
-    price: 148,
-    createdAt: "2021-11-24T03:40:18.317Z",
-    updatedAt: "2021-11-24T03:40:18.317Z",
-    __v: 0,
-  },
-  // ------------
-  {
-    _id: "619dc149afb74752b530198f",
-    title: "kenzo W tshirt",
-    desc: "flower power summer sunshine",
-    img: "test",
-    categories: ["tshirt", "women"],
-    size: "M",
-    color: "yellow",
-    price: 200,
-    createdAt: "2021-11-24T04:36:25.013Z",
-    updatedAt: "2021-11-24T04:36:25.013Z",
-    __v: 0,
+    _id: 11,
+    total: 50,
   },
 ];
 ```
 
 <br>
 <br>
-
-#### But now lets get only the new products
-
-- change this from 5 to 1, to only get 1 new product:
-
-```javascript
-// inside the product.js
-// .limit(5);
- .limit(1);
-```
-
-- Then go back to postman and change the **url**
-
-- search for **new**
-
-```javascript
-http://localhost:4000/api/products?new=true
-```
-
-<br>
-
-#### result
-
-```javascript
-[
-  {
-    _id: "619dc149afb74752b530198f",
-    title: "kenzo W tshirt",
-    desc: "flower power summer sunshine",
-    img: "test",
-    categories: ["tshirt", "women"],
-    size: "M",
-    color: "yellow",
-    price: 200,
-    createdAt: "2021-11-24T04:36:25.013Z",
-    updatedAt: "2021-11-24T04:36:25.013Z",
-    __v: 0,
-  },
-];
-```
-
-<br>
-
-#### But now lets get only the products with certain 'categories'
-
-- I only want to show men t-shirts, for that i will go back to postman and change the **url**
-
-- search for **category=man**
-
-```javascript
-http://localhost:4000/api/products?category=man
-```
-
-<br>
-
-- change this from 1 to 5, to only get the latest 5 products:
-
-```javascript
-// inside the product.js
-
- .limit(5);
-```
-
-<br>
-
-#### Result
-
-```javascript
-[
-  {
-    _id: "619b819b2ded069f34d91fb2",
-    title: "alexander mcqueen",
-    desc: "testo",
-    img: "test",
-    categories: ["tshirt", "man"],
-    size: "L",
-    color: "gray",
-    price: 148,
-    createdAt: "2021-11-22T11:40:11.124Z",
-    updatedAt: "2021-11-22T11:40:11.124Z",
-    __v: 0,
-  },
-  // --------------
-  {
-    _id: "619d1a316e567690376613af",
-    title: "HIGHNOBILITY thshirt",
-    desc: "testo",
-    img: "test",
-    categories: ["tshirt", "man"],
-    size: "L",
-    color: "gray",
-    price: 148,
-    createdAt: "2021-11-23T16:43:29.689Z",
-    updatedAt: "2021-11-23T16:43:29.689Z",
-    __v: 0,
-  },
-  // --------------
-  {
-    _id: "619db422a8ca6c6a8db71d8f",
-    title: "kenzo thshirt",
-    desc: "testo",
-    img: "test",
-    categories: ["tshirt", "man"],
-    size: "L",
-    color: "gray",
-    price: 148,
-    createdAt: "2021-11-24T03:40:18.317Z",
-    updatedAt: "2021-11-24T03:40:18.317Z",
-    __v: 0,
-  },
-];
-```
-
-- You can add as many categories as you want but it has to match this:
-
-```javascript
-[
-  {
-    _id: "619dc149afb74752b530198f",
-    title: "kenzo W tshirt",
-    desc: "flower power summer sunshine",
-    img: "test",
-    categories: ["tshirt", "women"], // categories
-    size: "M",
-    color: "yellow",
-    price: 200,
-    createdAt: "2021-11-24T04:36:25.013Z",
-    updatedAt: "2021-11-24T04:36:25.013Z",
-    __v: 0,
-  },
-];
-```
-
-- search tshirt for example **category=tshirt**
-
-```javascript
-http://localhost:4000/api/products?category=tshirt
-```

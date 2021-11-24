@@ -6,8 +6,8 @@ const ProductSchema = new mongoose.Schema(
     desc: { type: String, required: true },
     img: { type: String, required: true },
     categories: { type: Array }, //because it can have more than 1 category
-    size: { type: String },
-    color: { type: String },
+    size: { type: String }, //this will change from string to array in the 3 part of the tutorial
+    color: { type: String }, //this will change from string to array in the 3 part of the tutorial
     price: { type: Number, required: true },
   },
   { timestamps: true }

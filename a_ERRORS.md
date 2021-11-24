@@ -1,5 +1,7 @@
 # COMMON ERRORS
 
+> When you will start testing in POSTMAN, careful with the colons, brackets or any little mistake as it will create stupid errors that have nothing to do with the code
+
 <br>
 <br>
 <br>
