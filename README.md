@@ -334,9 +334,138 @@ The req. body object allows you to access data in a string or JSON object from t
 
 ##### Log in postman to start testing [POSTMAN]("./a_POSTMAN.md")
 
+###### 1:47:01 [Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT](https://youtu.be/rMiRZ1iRC0A)
+
 <br>
 <br>
 
 <!-- phase 2 after, default 1 -->
 
-# STRIPE
+# <u>STRIPE</u>
+
+<br><br>
+
+#### INSTALL STRIPE
+
+```javascript
+@stripe/react-stripe-js @stripe/stripe-js
+```
+
+<br>
+<br>
+
+### Start by opening an account there:
+
+<br>
+
+1.  Open an account [STRIPE](https://dashboard.stripe.com/)
+
+2.  Once you got verified (after filling all the required, bank account details etc), click on the developers
+
+[<img src="/img/developers-stripe.jpg"/>]()
+
+<br>
+
+3. Look for the API keys **(in the left side column)**
+
+🔴 Also dont forget to click on **test Mode** before you grab the API keys.
+
+<br>
+
+[<img src="/img/developers-stripe_api.jpg"/>]()
+
+<br>
+
+# 🐒
+
+##### We are going to grab the <u>PUBLISHABLE KEY</u> inside the frontend side and the <u>SECRET KEY</u> inside the backend side
+
+<br>
+
+---
+
+<br>
+
+#### 4. Right now we are going to grab the API key that says: <u>SECRET key</u> copy this copy and bring it to out project.
+
+<br>
+
+> ###### ⚠️ You should never ever Publish this type of sensitive data (keys) or the data that is inside the .env folder, thats why I decided to make this repository private until the project was ready, so that i could replace the sensitive data that i already "commited to git".<br> <br> You can either hide the repo and publish just the code **(without the keys of course)** but by doing that you will lose all the commitments.
+
+<br>
+
+#### [Should I add .env to .gitignore?](https://salferrarello.com/add-env-to-gitignore/)
+
+- Yes there is a **way to replace it but it s hard, in case you already pushed in several branches**, it s easier to just create a new shop in commercejs and stripe to obtain **new keys** to use in a new repo (**of course you will have to delete the old shop so to make the old keys obsolete**)
+
+<br>
+<br>
+
+<br>
+
+### Now that we have the key, we are going to add the key inside the .env
+
+```javascript
+// related to stripe
+STRIPE_KEY = sk_verylongcodeee;
+```
+
+<br>
+
+### After you do that
+
+- CLOSE THE TERMINAL /strg+c
+- and **relaunch** it /npm start
+
+<br>
+
+---
+
+<br>
+
+# 🍌
+
+### CREATE A NEW ROUTE
+
+> this route will handle the **STRIPE data**
+
+- Once the file has been created, we are going to import **stripe** through the SECRET KEY.
+
+<br>
+
+```javascript
+const router = require("express").Router();
+//Here we will grab the secret key 'related to stripe' from the .env and pass it inside the 'stripe' variable here below:
+const stripe = require("stripe")(process.env.STRIPE_KEY);
+
+module, (exports = router);
+```
+
+<br>
+
+### Lets create the first function
+
+- This function will be handling
+
+```javascript
+
+```
+
+<br>
+
+#### Create a [.Charge](https://stripe.com/docs/api/charges/create)
+
+##### what is .charge in Stripe?
+
+- Create a charge 🍨
+
+> To charge a credit card or other payment source, **you create a Charge object**. <u>If your API key is in test mode, the supplied payment source (e.g., card) won’t actually be charged, although everything else will occur as if in live mode.</u> (Stripe assumes that the charge would have completed successfully).
+
+<br>
+
+<br>
+<br>
+ 
+<br>
+
+<!-- ### Now that we connected stripe to our project, we can finally create that handleSubmit function -->
