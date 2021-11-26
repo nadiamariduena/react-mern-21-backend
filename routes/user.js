@@ -78,7 +78,7 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
     // grab the password and ...all the data exe. 'others'
     const { password, ...others } = user._doc;
     //._doc; will grab the user data from the object in mongoDb
-    res.status(200).json({ others });
+    res.status(200).json(others);
   } catch (err) {
     res.status(500).json(err);
   }

@@ -351,6 +351,12 @@ The req. body object allows you to access data in a string or JSON object from t
 @stripe/react-stripe-js @stripe/stripe-js
 ```
 
+> Stripe is a pay-as-you-go payment processing platform with flat-rate, transaction-based fees. Overall, you'll pay 2.9% plus 30 cents per transaction to accept card payments online and 2.7% plus 5 cents to accept in-person payments with Stripe. ... Because it's a payment service provider, it's also fast to set up.
+
+### 🍌
+
+<u>**If your API key is in test mode**, the supplied payment source (e.g., card) won’t actually be charged, although everything else will occur as if in live mode.</u> (Stripe assumes that the charge would have completed successfully).
+
 <br>
 <br>
 
@@ -376,7 +382,7 @@ The req. body object allows you to access data in a string or JSON object from t
 
 <br>
 
-# 🐒
+# 🔑
 
 ##### We are going to grab the <u>PUBLISHABLE KEY</u> inside the frontend side and the <u>SECRET KEY</u> inside the backend side
 
@@ -443,12 +449,42 @@ module, (exports = router);
 
 <br>
 
-### Lets create the first function
+### Let's create the first function
 
 - This function will be handling
 
 ```javascript
+const router = require("express").Router();
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 
+//
+//
+//
+router.post("/payment", (req, res) => {
+  //How i am going to charge my clients?
+  stripe.charges.create(
+    {
+      //
+      source: req.body.tokenId,
+      amount: req.body.amount,
+      currency: "usd",
+      //https://stripe.com/docs/currencies
+    },
+    //
+    //
+    (stripeErr, stripeRes) => {
+      if (stripeErr) {
+        //error
+        res.status(500).json(stripeErr);
+      } else {
+        //success
+        res.status(200).json(stripeRes);
+      }
+    }
+  );
+});
+
+module, (exports = router);
 ```
 
 <br>
@@ -463,9 +499,49 @@ module, (exports = router);
 
 <br>
 
-<br>
-<br>
- 
+<!-- ### Now that we connected stripe to our project, we can finally create that handleSubmit function -->
+
+---
+
 <br>
 
-<!-- ### Now that we connected stripe to our project, we can finally create that handleSubmit function -->
+# How to test it?
+
+- Since we are not going to test it in **POSTMAN** anymore we will have to test it in a **REACT APP**
+
+<br>
+
+### CREATE A NEW APP WITH NPX
+
+- We will use this little app to test the transactions
+
+```javascript
+npx create-react-app test-transaction-mern-21
+
+```
+
+<br>
+
+### After the app has been created add 3 files
+
+- Inside the **App.js** you will add the following:
+
+```javascript
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/pay">
+          <Pay />
+        </Route>
+        {/*  */}
+        <Route path="/success">
+          <Success />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
+```
+
+<br>

@@ -1,71 +1,119 @@
 const express = require("express");
 const app = express();
-// Mongoose
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+
+const cors = require("cors");
+
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGO_RAINBOW_URL)
+  .then(() => console.log("DB Connection Successfull!"))
+  .catch((err) => {
+    console.log(err);
+  });
+
+app.use(express.json());
+app.use(cors());
+
+// ROUTES
+//
+const userRoute = require("./routes/user");
+const authRoute = require("./routes/auth");
+const productRoute = require("./routes/product");
+const cartRoute = require("./routes/cart");
+const orderRoute = require("./routes/order");
+const stripeRoute = require("./routes/stripe");
+
+// LISTEN
+//
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
+app.use("/api/carts", cartRoute);
+app.use("/api/orders", orderRoute);
+app.use("/api/checkout", stripeRoute);
+
+// app.listen(process.env.PORT || 5000, () => {
+//   console.log("Backend server is running!");
+// });
+app.listen(9000, () => {
+  console.log("Backend server is running! port 9000");
+});
+
+//
+
+/*
+
+
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const cors = require("cors");
+//
 //
 
 //
-//dotenv
-dotenv.config();
+//---------------------
+//      ROUTES
+//---------------------
 //
+//
+//
+const userRoute = require("./routes/user");
+const authRoute = require("./routes/auth");
+const productRoute = require("./routes/product");
+const cartRoute = require("./routes/cart");
+const orderRoute = require("./routes/order");
+const stripeRoute = require("./routes/stripe");
+
+dotenv.config();
+
 mongoose
   .connect(process.env.MONGO_RAINBOW_URL)
   .then(() => console.log("DBConnection Successful"))
   .catch((err) => console.log("error"));
-/*
-
-
-
-
-*/
-
+//
 //
 //---------------------
-//   BODY PARSER
-//---------------------
-// ALWAYS add the BODY PARSER before the routes
-//
-app.use(express.json());
-//
-
-//
 //      ROUTES
+//---------------------
+//
 //
 //
 
-const authRoute = require("./routes/auth");
-const userRoute = require("./routes/user");
-const productRoute = require("./routes/product");
-//
-const cartRoute = require("./routes/cart");
-const orderRoute = require("./routes/order");
-//
-//
-//      ENDPOINTS
-//
+app.use(cors({ origin: true }));
 app.use(express.json());
+//
+//
 app.use("/api/auth", authRoute);
-//if you are using a REST API this will be plural: instead of user , users
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
-//
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
+app.use("/api/checkout", stripeRoute);
 //
+//---------------------
+//      SERVER
+//---------------------
 //
-//
-// process.env.PORT || 5000 means: if there is not port at our .env file, then ||, use this number: 500
-app.listen(process.env.PORT || 4000, () => {
+app.listen(9000, () => {
   console.log("Backend server is running!");
 });
 
-/*
+
+
+
+
+
+
+
+
+
+
+
  
-What does body parser do in Express?
-body-parser extract the entire body portion of an incoming request 
-stream and exposes it on req. body . The middleware was a part of Express. 
-js earlier but now you have to install it separately. This body-parser module parses
- the JSON, buffer, string and URL encoded data submitted using HTTP POST request.
- 
+
 */
