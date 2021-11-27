@@ -431,7 +431,7 @@ STRIPE_KEY = sk_verylongcodeee;
 
 # 🍌
 
-### CREATE A NEW ROUTE
+## CREATE A NEW ROUTE
 
 > this route will handle the **STRIPE data**
 
@@ -505,6 +505,8 @@ module, (exports = router);
 
 <br>
 
+# 🍌
+
 # How to test it?
 
 - Since we are not going to test it in **POSTMAN** anymore we will have to test it in a **REACT APP**
@@ -522,7 +524,62 @@ npx create-react-app test-transaction-mern-21
 
 <br>
 
-### After the app has been created add 3 files
+### After the app has been created add the following dependencies
+
+```javascript
+ "dependencies": {
+//other dependencies tha come with the installation ...
+//
+//
+//the dependencies you will need
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "react-stripe-checkout": "^2.6.3",
+    "stripe": "^8.191.0",
+    "web-vitals": "^1.1.2"
+  },
+  //
+  //
+  //
+```
+
+<br>
+
+#### type: nom install
+
+- to install the new dependencies
+
+<br>
+
+##### After the dependencies are installed, add 3 components.
+
+- one to handle the routes **App,js**
+- one to handle the button to pay **Pay.js**
+- and one to handle the **Success.js**
+
+<br>
+<br>
+
+---
+
+# 👾
+
+#### If you want to follow step by step, click [here](https://github.com/nadiamariduena/test-transaction-mern2021)
+
+---
+
+<br>
+<br>
+
+# 🍌
+
+## Lets continue
+
+<br>
 
 - Inside the **App.js** you will add the following:
 
@@ -545,3 +602,115 @@ const App = () => {
 ```
 
 <br>
+
+- Inside the **Pay.js** you will add the following:
+
+```javascript
+import { useState, useEffect } from "react";
+
+import StripeCheckout from "react-stripe-checkout";
+
+const axios = require("axios");
+
+const KEY =
+  "pk_test_51JrMq0CdM1Odk0RJfHsJPW4taGQUROuQ6g9u3fCch9QU8eHNfuSrh0mGh89PF5g3IO3SPaJBsV2qzHo5Yo6An1qo00zicCUq2p";
+
+const Pay = () => {
+  //
+  //
+  const [stripeToken, setStripeToken] = useState(null);
+  // set to (null) because we dont have a token in the beginning
+  //
+  //
+  const onToken = (token) => {
+    // console.log(token);
+
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await axios.post(
+          // this is really important
+          // its the connection to our server
+          "http://localhost:9000/api/checkout/payment",
+
+          {
+            // this is linked to the stripe.js in our routes
+            tokenId: stripeToken.id,
+            amount: 2000,
+          }
+        );
+
+        console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    //if there is a stripe token then show the makeRequest function
+    stripeToken && makeRequest();
+    //
+  }, [stripeToken]);
+
+  //
+  return (
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {/* 
+      
+              STRIPE BUTTON 
+      
+       amount={1000} the 2 last ceros are cents
+
+         token={this.onToken}
+         this above is linked to the function we 
+         are going to create
+      */}
+
+      <StripeCheckout
+        name="NOVE shop"
+        image="https://avatars.githubusercontent.com/u/1486366?v=4"
+        shippingAddress
+        billingAddress
+        description="Your total is 20 euros"
+        //allowRememberMe={false}
+        data-allow-remember-me="false"
+        //
+        //has to be the same amount inside the makeRequest function
+        amount={2000}
+        token={onToken}
+        //the public key pk, coming from stripe, placed on top of the file
+        stripeKey={KEY}
+      >
+        <button
+          style={{
+            border: "none",
+            width: "120",
+            borderRadius: "5",
+            padding: "20px",
+            backgroundColor: "black",
+            color: "white",
+            fontWeight: "500",
+            cursor: "pointer",
+          }}
+        >
+          PAY NOW
+        </button>
+      </StripeCheckout>
+    </div>
+  );
+};
+
+export default Pay;
+```
+
+### We will encounter some errors
+
+- In my case i had a server error (the solution is not shown in the video tutorial | this error has to do with your server set up)
