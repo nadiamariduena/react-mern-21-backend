@@ -711,6 +711,10 @@ const Pay = () => {
 export default Pay;
 ```
 
-### We will encounter some errors
+<br>
+
+### We will encounter some errors ✋
 
 - In my case i had a server error (the solution is not shown in the video tutorial | this error has to do with your server set up)
+
+###### read about the error and the solution [here](./a_ERRORS.md)
