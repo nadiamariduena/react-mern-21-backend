@@ -631,6 +631,7 @@ const Pay = () => {
   useEffect(() => {
     const makeRequest = async () => {
       try {
+        //THE BACKEND REQUEST
         const res = await axios.post(
           // this is really important
           // its the connection to our server
@@ -642,6 +643,7 @@ const Pay = () => {
             amount: 2000,
           }
         );
+        //AFTER THE BACKEND REQUEST IS ANALIZED WE WILL RETURN THE RES.DATA
 
         console.log(res.data);
       } catch (err) {
@@ -715,6 +717,16 @@ export default Pay;
 
 ### We will encounter some errors ✋
 
-- In my case i had a server error (the solution is not shown in the video tutorial | this error has to do with your server set up)
+- In my case I had a server error (the solution is not shown in the video tutorial | this error has to do with your server set up)
 
-###### read about the error and the solution [here](./a_ERRORS.md)
+###### Read about the error and the solution [here](./a_ERRORS.md)
+
+<br>
+
+---
+
+### The end of this phase
+
+- In this link you will find the little app I created to test if the server we created with node worked.
+
+### [Lest go and see if it worked :)](https://github.com/nadiamariduena/test-transaction-mern2021)
