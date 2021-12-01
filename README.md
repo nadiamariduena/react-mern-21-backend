@@ -335,7 +335,7 @@ The req. body object allows you to access data in a string or JSON object from t
 
 # NOVE
 
-#### This is the Backend related to the <u>NOVE* e-commerce store</u>* that you can find here: [NOVE frontend](https://github.com/nadiamariduena/react-mern-21-frontend)
+#### This is the _Backend_ related to the <u>NOVE e-commerce store</u> that you can find here: [NOVE frontend](https://github.com/nadiamariduena/react-mern-21-frontend)
 
 <br>
 
@@ -347,7 +347,7 @@ The req. body object allows you to access data in a string or JSON object from t
 
 <br>
 
-[<img src="img/nove-store1.gif"/>]()
+[<img src="img/nove-store1.gif"/>](https://react-mern-21-frontend-custom-router1.vercel.app/)
 
 <br><br>
 
