@@ -330,13 +330,16 @@ The req. body object allows you to access data in a string or JSON object from t
 
   -->
 
+  <br>
+  <br>
+
 # NOVE
 
-#### This is Backend related to the _NOVE_ e-commerce store that you can find here: [NOVE frontend](https://github.com/nadiamariduena/react-mern-21-frontend)
+#### This is the Backend related to the <u>NOVE* e-commerce store</u>* that you can find here: [NOVE frontend](https://github.com/nadiamariduena/react-mern-21-frontend)
 
 <br>
 
-- **Before merging** the front and the backend, I had to create a test application to check **stripe payments** connection. You can see the test app **[here](#stripe)**
+- **Before merging** the front and the backend, I had to create a **test application** to check **stripe payments** connection. You can see the test app **[here](#stripe)**
 
 <br>
 
@@ -422,7 +425,7 @@ The req. body object allows you to access data in a string or JSON object from t
 
 #### To test this project, I created a test App that you can see here: [Test transaction | stripe](https://github.com/nadiamariduena/test-transaction-mern2021)
 
-[<img src="img/history-success.gif"/>]()
+[<img src="img/history-success.gif"/>](https://github.com/nadiamariduena/test-transaction-mern2021)
 
 <br>
 
