@@ -394,9 +394,11 @@ The req. body object allows you to access data in a string or JSON object from t
 <hr>
 <br>
 
-### THE TEST APP
+## THE TEST APP
 
-##### To test this project, I created a test App that you can see here: [Test transaction | stripe](https://github.com/nadiamariduena/test-transaction-mern2021)
+#### To test this project, I created a test App that you can see here: [Test transaction | stripe](https://github.com/nadiamariduena/test-transaction-mern2021)
+
+[<img src="img/history-success.gif"/>]()
 
 <br>
 
