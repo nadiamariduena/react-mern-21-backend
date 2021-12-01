@@ -332,401 +332,88 @@ The req. body object allows you to access data in a string or JSON object from t
 
 # 🍨
 
-##### Log in postman to start testing [POSTMAN]("./a_POSTMAN.md")
-
-###### 1:47:01 [Node.js E-Commerce App REST API with MongoDB | Shopping API with Stripe & JWT](https://youtu.be/rMiRZ1iRC0A)
+# INDEX
 
 <br>
+
+- All the Branches containing the process:
+
 <br>
 
-<!-- phase 2 after, default 1 -->
+##### [Default / installation](https://github.com/nadiamariduena/react-mern-21-backend/tree/default-1)
 
-# <u>STRIPE</u>
+##### [express / Server](https://github.com/nadiamariduena/react-mern-21-backend/tree/default2-express)
+
+##### [MongoDb / connection](https://github.com/nadiamariduena/react-mern-21-backend/tree/default3-mongoDB-init)
+
+##### [POSTMAN / routes ](https://github.com/nadiamariduena/react-mern-21-backend/tree/routes-4-default)
+
+##### [POSTMAN / routes ](https://github.com/nadiamariduena/react-mern-21-backend/tree/shemas-5)
+
+##### [ROUTES / Schemas ](https://github.com/nadiamariduena/react-mern-21-backend/tree/6-register-and-logout)
+
+##### [SON Web Token (JWT) ](https://github.com/nadiamariduena/react-mern-21-backend/tree/7token-integration-secret-key)
+
+##### [UPDATE /DELETE / (JWT) ](https://github.com/nadiamariduena/react-mern-21-backend/tree/8-update-router-and-middleware-token-bearerr)
+
+##### [ADMIN /verify admin / get all users ](https://github.com/nadiamariduena/react-mern-21-backend/tree/9-admin-permissions-verify-admin-delete-update)
+
+##### [PRODUCT /create / update ... ](https://github.com/nadiamariduena/react-mern-21-backend/tree/10-products-categories)
+
+##### [CART /create / update / order ](https://github.com/nadiamariduena/react-mern-21-backend/tree/11-cart-and-order)
+
+##### [STRIPE ](https://github.com/nadiamariduena/react-mern-21-backend/tree/12-STRIPE-END)
 
 <br><br>
 
-#### INSTALL STRIPE
-
-```javascript
-@stripe/react-stripe-js @stripe/stripe-js
-```
-
-> Stripe is a pay-as-you-go payment processing platform with flat-rate, transaction-based fees. Overall, you'll pay 2.9% plus 30 cents per transaction to accept card payments online and 2.7% plus 5 cents to accept in-person payments with Stripe. ... Because it's a payment service provider, it's also fast to set up.
-
-### 🍌
-
-<u>**If your API key is in test mode**, the supplied payment source (e.g., card) won’t actually be charged, although everything else will occur as if in live mode.</u> (Stripe assumes that the charge would have completed successfully).
-
-<br>
-<br>
-
-### Start by opening an account there:
-
-<br>
-
-1.  Open an account [STRIPE](https://dashboard.stripe.com/)
-
-2.  Once you got verified (after filling all the required, bank account details etc), click on the developers
-
-[<img src="/img/developers-stripe.jpg"/>]()
-
-<br>
-
-3. Look for the API keys **(in the left side column)**
-
-🔴 Also dont forget to click on **test Mode** before you grab the API keys.
-
-<br>
-
-[<img src="/img/developers-stripe_api.jpg"/>]()
-
-<br>
-
-# 🔑
-
-##### We are going to grab the <u>PUBLISHABLE KEY</u> inside the frontend side and the <u>SECRET KEY</u> inside the backend side
-
-<br>
-
 ---
 
 <br>
 
-#### 4. Right now we are going to grab the API key that says: <u>SECRET key</u> copy this copy and bring it to out project.
+<br>
+
+## 📓 NOTES:
 
 <br>
 
-> ###### ⚠️ You should never ever Publish this type of sensitive data (keys) or the data that is inside the .env folder, thats why I decided to make this repository private until the project was ready, so that i could replace the sensitive data that i already "commited to git".<br> <br> You can either hide the repo and publish just the code **(without the keys of course)** but by doing that you will lose all the commitments.
+##### [All the errors](https://github.com/nadiamariduena/react-mern-21-backend/blob/master/a_ERRORS.md)
+
+##### [Mongo](https://github.com/nadiamariduena/react-mern-21-backend/blob/master/a_MONGO-TOPICS.md)
+
+##### [Testing POSTMAN](https://github.com/nadiamariduena/react-mern-21-backend/blob/master/a_POSTMAN.md)
+
+#### [Refreshing ](https://github.com/nadiamariduena/react-mern-21-backend/blob/master/a_REFRESH.md)
+
+#### [To Read ](https://github.com/nadiamariduena/react-mern-21-backend/blob/master/a_TOREAD_.md)
+
+#### [To Review](https://github.com/nadiamariduena/react-mern-21-backend/blob/master/a_To-REVIEW.md)
 
 <br>
 
-#### [Should I add .env to .gitignore?](https://salferrarello.com/add-env-to-gitignore/)
-
-- Yes there is a **way to replace it but it s hard, in case you already pushed in several branches**, it s easier to just create a new shop in commercejs and stripe to obtain **new keys** to use in a new repo (**of course you will have to delete the old shop so to make the old keys obsolete**)
-
 <br>
+<hr>
 <br>
 
-<br>
+### THE TEST APP
 
-### Now that we have the key, we are going to add the key inside the .env
-
-```javascript
-// related to stripe
-STRIPE_KEY = sk_verylongcodeee;
-```
+##### To test this project, I created a test App that you can see here: [Test transaction | stripe](https://github.com/nadiamariduena/test-transaction-mern2021)
 
 <br>
 
-### After you do that
+<br>
+<hr>
+<br>
 
-- CLOSE THE TERMINAL /strg+c
-- and **relaunch** it /npm start
+## CREDITS > TEACHER:
+
+Big thanks to **[Lama Dev](https://www.youtube.com/channel/UCOxWrX5MIdXIeRNaXC3sqIg)** , for sharing this **Great tutorial** on how to set up an E-commerce store using: **MERN e-commerce App with STRIPE**.
+
+##### [Official project repository](https://github.com/safak/youtube/tree/mern-ecommerce-app)
 
 <br>
 
----
+##### [React Node.js E-Commerce App Full Tutorial (REDUX - Stripe - JWT ) - MERN Stack Shopping App](https://youtu.be/y66RgYMAgSo)
 
 <br>
-
-# 🍌
-
-## CREATE A NEW ROUTE
-
-> this route will handle the **STRIPE data**
-
-- Once the file has been created, we are going to import **stripe** through the SECRET KEY.
-
+<hr>
 <br>
-
-```javascript
-const router = require("express").Router();
-//Here we will grab the secret key 'related to stripe' from the .env and pass it inside the 'stripe' variable here below:
-const stripe = require("stripe")(process.env.STRIPE_KEY);
-
-module, (exports = router);
-```
-
-<br>
-
-### Let's create the first function
-
-- This function will be handling
-
-```javascript
-const router = require("express").Router();
-const stripe = require("stripe")(process.env.STRIPE_KEY);
-
-//
-//
-//
-router.post("/payment", (req, res) => {
-  //How i am going to charge my clients?
-  stripe.charges.create(
-    {
-      //
-      source: req.body.tokenId,
-      amount: req.body.amount,
-      currency: "usd",
-      //https://stripe.com/docs/currencies
-    },
-    //
-    //
-    (stripeErr, stripeRes) => {
-      if (stripeErr) {
-        //error
-        res.status(500).json(stripeErr);
-      } else {
-        //success
-        res.status(200).json(stripeRes);
-      }
-    }
-  );
-});
-
-module, (exports = router);
-```
-
-<br>
-
-#### Create a [.Charge](https://stripe.com/docs/api/charges/create)
-
-##### what is .charge in Stripe?
-
-- Create a charge 🍨
-
-> To charge a credit card or other payment source, **you create a Charge object**. <u>If your API key is in test mode, the supplied payment source (e.g., card) won’t actually be charged, although everything else will occur as if in live mode.</u> (Stripe assumes that the charge would have completed successfully).
-
-<br>
-
-<!-- ### Now that we connected stripe to our project, we can finally create that handleSubmit function -->
-
----
-
-<br>
-
-# 🍌
-
-# How to test it?
-
-- Since we are not going to test it in **POSTMAN** anymore we will have to test it in a **REACT APP**
-
-<br>
-
-### CREATE A NEW APP WITH NPX
-
-- We will use this little app to test the transactions
-
-```javascript
-npx create-react-app test-transaction-mern-21
-
-```
-
-<br>
-
-### After the app has been created add the following dependencies
-
-```javascript
- "dependencies": {
-//other dependencies tha come with the installation ...
-//
-//
-//the dependencies you will need
-    "axios": "^0.24.0",
-    "dotenv": "^10.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.3.0",
-    "react-scripts": "4.0.3",
-    "react-stripe-checkout": "^2.6.3",
-    "stripe": "^8.191.0",
-    "web-vitals": "^1.1.2"
-  },
-  //
-  //
-  //
-```
-
-<br>
-
-#### type: nom install
-
-- to install the new dependencies
-
-<br>
-
-##### After the dependencies are installed, add 3 components.
-
-- one to handle the routes **App,js**
-- one to handle the button to pay **Pay.js**
-- and one to handle the **Success.js**
-
-<br>
-<br>
-
----
-
-# 👾
-
-#### If you want to follow step by step, click [here](https://github.com/nadiamariduena/test-transaction-mern2021)
-
----
-
-<br>
-<br>
-
-# 🍌
-
-## Lets continue
-
-<br>
-
-- Inside the **App.js** you will add the following:
-
-```javascript
-const App = () => {
-  return (
-    <Router>
-      <Switch>
-        <Route path="/pay">
-          <Pay />
-        </Route>
-        {/*  */}
-        <Route path="/success">
-          <Success />
-        </Route>
-      </Switch>
-    </Router>
-  );
-};
-```
-
-<br>
-
-- Inside the **Pay.js** you will add the following:
-
-```javascript
-import { useState, useEffect } from "react";
-
-import StripeCheckout from "react-stripe-checkout";
-
-const axios = require("axios");
-
-const KEY =
-  "pk_test_51JrMq0CdM1Odk0RJfHsJPW4taGQUROuQ6g9u3fCch9QU8eHNfuSrh0mGh89PF5g3IO3SPaJBsV2qzHo5Yo6An1qo00zicCUq2p";
-
-const Pay = () => {
-  //
-  //
-  const [stripeToken, setStripeToken] = useState(null);
-  // set to (null) because we dont have a token in the beginning
-  //
-  //
-  const onToken = (token) => {
-    // console.log(token);
-
-    setStripeToken(token);
-  };
-
-  useEffect(() => {
-    const makeRequest = async () => {
-      try {
-        //THE BACKEND REQUEST
-        const res = await axios.post(
-          // this is really important
-          // its the connection to our server
-          "http://localhost:9000/api/checkout/payment",
-
-          {
-            // this is linked to the stripe.js in our routes
-            tokenId: stripeToken.id,
-            amount: 2000,
-          }
-        );
-        //AFTER THE BACKEND REQUEST IS ANALIZED WE WILL RETURN THE RES.DATA
-
-        console.log(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    //if there is a stripe token then show the makeRequest function
-    stripeToken && makeRequest();
-    //
-  }, [stripeToken]);
-
-  //
-  return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {/* 
-      
-              STRIPE BUTTON 
-      
-       amount={1000} the 2 last ceros are cents
-
-         token={this.onToken}
-         this above is linked to the function we 
-         are going to create
-      */}
-
-      <StripeCheckout
-        name="NOVE shop"
-        image="https://avatars.githubusercontent.com/u/1486366?v=4"
-        shippingAddress
-        billingAddress
-        description="Your total is 20 euros"
-        //allowRememberMe={false}
-        data-allow-remember-me="false"
-        //
-        //has to be the same amount inside the makeRequest function
-        amount={2000}
-        token={onToken}
-        //the public key pk, coming from stripe, placed on top of the file
-        stripeKey={KEY}
-      >
-        <button
-          style={{
-            border: "none",
-            width: "120",
-            borderRadius: "5",
-            padding: "20px",
-            backgroundColor: "black",
-            color: "white",
-            fontWeight: "500",
-            cursor: "pointer",
-          }}
-        >
-          PAY NOW
-        </button>
-      </StripeCheckout>
-    </div>
-  );
-};
-
-export default Pay;
-```
-
-<br>
-
-### We will encounter some errors ✋
-
-- In my case I had a server error (the solution is not shown in the video tutorial | this error has to do with your server set up)
-
-###### Read about the error and the solution [here](./a_ERRORS.md)
-
-<br>
-
----
-
-### The end of this phase
-
-- In this link you will find the little app I created to test if the server we created with node worked.
-
-### [Lest go and see if it worked :)](https://github.com/nadiamariduena/test-transaction-mern2021)
