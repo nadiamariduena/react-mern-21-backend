@@ -377,7 +377,7 @@ The req. body object allows you to access data in a string or JSON object from t
 
 ##### [ROUTES / Schemas ](https://github.com/nadiamariduena/react-mern-21-backend/tree/6-register-and-logout)
 
-##### [SON Web Token (JWT) ](https://github.com/nadiamariduena/react-mern-21-backend/tree/7token-integration-secret-key)
+##### [JSON Web Token (JWT) ](https://github.com/nadiamariduena/react-mern-21-backend/tree/7token-integration-secret-key)
 
 ##### [UPDATE /DELETE / (JWT) ](https://github.com/nadiamariduena/react-mern-21-backend/tree/8-update-router-and-middleware-token-bearerr)
 
