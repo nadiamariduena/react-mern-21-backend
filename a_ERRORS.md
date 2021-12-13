@@ -1024,3 +1024,5 @@ MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefin
 <br>
 
 First it didnt want to let me create a second product with the same user, So that was the reason why I did all that, at the end (after checking the route product and the model Product), I give it a last try, I created a new user, I loged the user, changed the permission to admin, added the token to the product POST method in POSTMAN, i checked the object, everything was fine....but then I dont know why i decided to check the api/products url in POSTMAN.. and the damn error was the **white space**, so now it works and i can finally create all the products I want with a single user.
+
+[<img src="img/rollingeyes.gif"/>]()
