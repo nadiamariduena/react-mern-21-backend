@@ -1018,3 +1018,5 @@ MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefin
 # 🔴 Error white space
 
 #### POSTMAN
+
+- After trying to figure out the problem with axios for a day, I decided to leave this app for 5 days in order to learn more with other tutorials, So today I returned to see if I missed something, while trying to find a solution, Postman started to make things difficult, I started to check if I had made some errors inside the object but nothing, i checked the white spaces as well, Then I checked the indexes inside mongo, i deleted 2 i didnt notice before, at this point I didnt have nothing to lose so i said whatever (after all i am learning) and I delete it just to see what a mess it would cause, after that I repeated all the steps again (to create a product), checked if the server wasn't causing any issue "just in case" I added a proxy 'just in case', I shut down postman, i deleted the products and all the users in mongo, i created a new user and give it 'permission true' I tried to create a product because the error came from "creating a product" first it didnt want to let me create a second product with the same user
