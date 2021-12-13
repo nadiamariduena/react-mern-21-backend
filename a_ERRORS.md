@@ -1026,3 +1026,27 @@ MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefin
 First it didnt want to let me create a second product with the same user, So that was the reason why I did all that, at the end (after checking the route product and the model Product), I give it a last try, I created a new user, I loged the user, changed the permission to admin, added the token to the product POST method in POSTMAN, i checked the object, everything was fine....but then I dont know why i decided to check the api/products url in POSTMAN.. and the damn error was the **white space**, so now it works and i can finally create all the products I want with a single user.
 
 [<img src="img/rollingeyes.gif"/>]()
+
+#### Yesterday I had a similar error with another tutorial that I am working on right now, but this error took me a minute to figure out because Its easy to notice in the code
+
+### I could see the image in the url after saving it to VS
+
+> http://localhost:2000/public/image-1635350261306.png
+
+- Even if we are getting the image in the folder in VS, if you copy and paste the url above inside browser, it s going to send an error
+
+> Cannot GET /public/image-1635350261306.png
+
+### The problem in my case is that i had a white space, and it came from here:
+
+```javascript
+//            before
+cb(null, `${file.fieldname}-${Date.now()}.png `);
+
+//
+//        after
+cb(null, `${file.fieldname}-${Date.now()}.png`);
+```
+
+<br>
+<br>
