@@ -1009,3 +1009,12 @@ dotenv.config();
 ```javascript
 MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
 ```
+
+<br>
+<br>
+
+---
+
+# 🔴 Error white space
+
+#### POSTMAN
